@@ -20,20 +20,13 @@
                         <td>{{ $department->manager }}</td>
                         <td>{{ $department->address }}</td>
                         <td>
-                            <div class="dropdown">
-                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                    data-bs-toggle="dropdown">
-                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{{ route('department.edit', $department->id) }}"><i
-                                            class=" bx bx-edit-alt me-1"></i>
-                                        Edit</a>
-                                    <a class="dropdown-item" href="{{ route('department.delete', $department->id) }}"><i
-                                            class="bx bx-trash me-1"></i>
-                                        Delete</a>
-                                </div>
-                            </div>
+                            <a href="{{ route('department.edit', $department->id) }}">
+                                <i class=" bx bx-edit-alt me-1"></i>
+                                Edit</a>
+                        </td>
+                        <td>
+                            <a href="{{ route('department.delete', $department->id) }}"><i class="bx bx-trash me-1"></i>
+                                Delete</a>
                         </td>
                     </tr>
                     @endforeach
@@ -43,4 +36,4 @@
     </div>
 
 </div>
-@stop
+@endsection

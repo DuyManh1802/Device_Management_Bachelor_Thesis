@@ -59,6 +59,7 @@ class DepartmentController extends Controller
     {
         try {
             $result = $this->departmentService->updateDepartment($request, $id);
+            dd($result);
 
             if ($result){
                 return redirect()->route('department.list')->with('success', 'Sửa thành công.');
