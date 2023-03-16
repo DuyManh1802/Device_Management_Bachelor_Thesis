@@ -62,7 +62,7 @@
 
         public function allClassroom()
         {
-            return Department::all();
+            return Department::with('department')->get();
         }
     }
 ?>

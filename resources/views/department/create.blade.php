@@ -3,7 +3,7 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="card">
         <h5 class="card-header">Sửa thông tin phòng ban</h5>
-        <form action="{{ route('department.store') }}" method="POST">
+        <form method="POST" action="{{ route('department.store') }}">
             @csrf
             <div class="card-body">
                 <div>
@@ -19,8 +19,8 @@
                     <input type="text" class="form-control" id="defaultFormControlInput" placeholder="Address"
                         aria-describedby="defaultFormControlHelp" name="address" />
                 </div>
+                <button type="submit" class="btn btn-primary">Thêm</button>
             </div>
-            <button type="submit" class="btn btn-primary">Thêm</button>
         </form>
     </div>
 </div>

@@ -8,6 +8,7 @@ use App\Models\Device;
 use App\Models\Department;
 use App\Models\User;
 use App\Models\Request;
+use App\Models\UsageCount;
 
 class UseHistory extends Model
 {
@@ -33,5 +34,10 @@ class UseHistory extends Model
     public function request()
     {
         return $this->belongsTo(Request::class);
+    }
+
+    public function usageCount()
+    {
+        return $this->hasOne(UsageCount::class);
     }
 }

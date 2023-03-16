@@ -6,7 +6,7 @@
 
     class DepartmentService
     {
-        public function allDepartment(Request $request)
+        public function allDepartment()
         {
             $department = Department::all();
 
@@ -15,13 +15,17 @@
 
         public function storeDepartment(Request $request)
         {
-            $department = Department::create([
+            // $department = Department::create([
+            //     'name' => $request->name,
+            //     'manager' => $request->manager,
+            //     'address' => $request->address,
+            // ]);
+
+            return Department::create([
                 'name' => $request->name,
                 'manager' => $request->manager,
                 'address' => $request->address,
             ]);
-
-            return $department;
         }
 
         public function findId($id)
