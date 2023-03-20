@@ -9,7 +9,7 @@ use App\Models\Request;
 use App\Models\UseHistory;
 use App\Models\User;
 use App\Models\Department;
-use App\Models\SubCategory;
+use App\Models\Category;
 use App\Models\RepairDetail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\WarrantyDetail;
@@ -55,9 +55,9 @@ class Device extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function subCategory()
+    public function category()
     {
-        return $this->belongsTo(SubCategory::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function repairDetail()

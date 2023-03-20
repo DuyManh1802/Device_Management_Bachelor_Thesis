@@ -181,12 +181,12 @@
 
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="layouts-without-menu.html" class="menu-link">
+                    <a href="{{ route('user.index') }}" class="menu-link">
                         <div data-i18n="Without menu">Danh sách người dùng</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="layouts-without-navbar.html" class="menu-link">
+                    <a href="{{ route('user.create') }}" class="menu-link">
                         <div data-i18n="Without navbar">Thêm người dùng</div>
                     </a>
                 </li>

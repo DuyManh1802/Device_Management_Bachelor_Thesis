@@ -24,7 +24,9 @@ class EditDepartmentRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'id' => 'integer',
+            'user_id' => 'required|exists:users,id',
+            'name' => 'required|string|max:255',
         ];
     }
 }

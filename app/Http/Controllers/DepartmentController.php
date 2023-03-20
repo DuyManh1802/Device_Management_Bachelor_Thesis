@@ -39,7 +39,7 @@ class DepartmentController extends Controller
             $result = $this->departmentService->storeDepartment($request);
 
             if ($result){
-                return redirect()->route('department.list')->with('success', 'Thêm mới thành công.');
+                return redirect()->route('department.index')->with('success', 'Thêm mới thành công.');
             } else {
                 return back()->with('error', 'Thêm mới k thành công.');
             }
@@ -76,7 +76,7 @@ class DepartmentController extends Controller
             $result = $this->departmentService->deleteDepartment($id);
 
             if ($result){
-                return redirect()->route('department.list')->with('success', 'Xóa thành công.');
+                return redirect()->route('department.index')->with('success', 'Xóa thành công.');
             } else {
                 return back()->with('error', 'Xóa k thành công.');
             }

@@ -15,13 +15,8 @@ class Category extends Model
     protected $table = 'categories';
     protected $fillable = ['name'];
 
-    public function subCategories()
-    {
-        return $this->hasMany(SubCategory::class);
-    }
-
     public function devices()
     {
-        return $this->hasManyThrough(Device::class, SubCategory::class);
+        return $this->hasMany(Device::class);
     }
 }

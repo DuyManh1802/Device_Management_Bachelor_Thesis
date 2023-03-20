@@ -2,7 +2,6 @@
     namespace App\Services;
 
     use App\Models\User;
-    use App\Models\Department;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Hash;
     use Exception;
@@ -10,20 +9,19 @@
     use App\Mail\WelcomeEmail;
     use Illuminate\Support\Facades\Mail;
     use App\Events\CreatedUser;
+    use App\Models\Department;
 
     class UserService
     {
         public function allUser(Request $request)
         {
-            $user = User::orderBy('email');
-
-            return $user;
+            return User::orderBy('email')->paginate(10);
         }
 
         public function storeUser(Request $request)
         {
-            $user = User::create([
-                'classroom_id' => $request->classroom_id,
+            return User::create([
+                'department_id' => $request->department_id,
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
@@ -31,8 +29,6 @@
                 'phone' => $request->phone,
                 'role' => $request->role
             ]);
-
-            return $user;
         }
 
         public function findId($id)
@@ -42,27 +38,24 @@
 
         public function updateUser(Request $request, $id)
         {
-            $user = User::find($id)->update([
+            return User::find($id)->update([
                 'name' => $request->name,
+                'department_id' => $request->department_id,
                 'email' => $request->email,
                 'address' => $request->address,
                 'phone' => $request->phone,
                 'role' => $request->role
             ]);
-
-            return $user;
         }
 
         public function deleteUser($id)
         {
-            $user = User::find($id)->delete();
-
-            return $user;
+            return User::find($id)->delete();
         }
 
-        public function allClassroom()
+        public function allDepartment()
         {
-            return Department::with('department')->get();
+            return Department::all();
         }
     }
 ?>

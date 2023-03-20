@@ -1,9 +1,21 @@
 @extends('layouts.app')
 @section('content')
+
 <div class="container-xxl flex-grow-1 container-p-y">
+@if (session('success'))
+<div class="alert alert-success">
+    <h5>{{ session('success') }}</h5>
+</div>
+@endif
+@if (session('error'))
+<div class="alert alert-danger text-center">{{ session('error') }}</div>
+@endif
+@if (session('alert'))
+<div class="alert alert-danger text-center">{{ session('alert') }}</div>
+@endif
     <div class="card">
         <div class="table-responsive text-nowrap">
-            <table class="table table-hover">
+            <table class="table table-hover table-striped">
                 <thead>
                     <tr>
                         <th>STT</th>
@@ -20,6 +32,21 @@
                         <td>{{ $department->manager }}</td>
                         <td>{{ $department->address }}</td>
                         <td>
+                            <div class="dropdown">
+                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                    data-bs-toggle="dropdown">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{{ route('department.edit', $department->id) }}"><i
+                                            class="bx bx-edit-alt me-1"></i> Edit</a>
+                                    <a class="dropdown-item" href="{{ route('department.delete', $department->id) }}"
+                                        onclick="return myFunction();"><i class="bx bx-trash me-1"></i>
+                                        Delete</a>
+                                </div>
+                            </div>
+                        </td>
+                        {{-- <td>
                             <a href="{{ route('department.edit', $department->id) }}">
                                 <i class=" bx bx-edit-alt me-1"></i>
                                 Edit</a>
@@ -27,7 +54,7 @@
                         <td>
                             <a href="{{ route('department.delete', $department->id) }}"><i class="bx bx-trash me-1"></i>
                                 Delete</a>
-                        </td>
+                        </td> --}}
                     </tr>
                     @endforeach
                 </tbody>
