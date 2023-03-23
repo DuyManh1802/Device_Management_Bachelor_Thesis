@@ -12,7 +12,9 @@ class UsageCount extends Model
 
     protected $table = 'usage_counts';
     protected $fillable = [
-        'usage_count'
+        'usage_count',
+        'resale_price',
+        'use_hitory_id'
     ];
 
     public function useHistory()

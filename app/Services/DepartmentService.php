@@ -8,19 +8,11 @@
     {
         public function allDepartment()
         {
-            $department = Department::all();
-
-            return $department;
+            return Department::paginate(10);
         }
 
         public function storeDepartment(Request $request)
         {
-            // $department = Department::create([
-            //     'name' => $request->name,
-            //     'manager' => $request->manager,
-            //     'address' => $request->address,
-            // ]);
-
             return Department::create([
                 'name' => $request->name,
                 'manager' => $request->manager,
@@ -35,21 +27,16 @@
 
         public function updateDepartment(Request $request, $id)
         {
-            $department = Department::find($id)->update([
+            return Department::find($id)->update([
                 'name' => $request->name,
                 'manager' => $request->manager,
                 'address' => $request->address
             ]);
-
-            return $department;
         }
 
         public function deleteDepartment($id)
         {
-            $department = Department::find($id)->delete();
-
-            return $department;
+            return Department::find($id)->delete();
         }
-
     }
 ?>

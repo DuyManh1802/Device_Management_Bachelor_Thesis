@@ -13,7 +13,8 @@ class WarrantyDetail extends Model
     protected $table = 'warranty_details';
     protected $fillable = [
         'content',
-        'result'
+        'result',
+        'warranty_id'
     ];
 
     public function waranty()

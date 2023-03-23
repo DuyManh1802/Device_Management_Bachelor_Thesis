@@ -11,7 +11,11 @@ class RepairDetail extends Model
     use HasFactory;
 
     protected $table = 'repair_details';
-    protected $fillable = ['content', 'cost', 'result'];
+    protected $fillable = ['content',
+        'cost',
+        'result',
+        'repair_id'
+    ];
 
     public function repair()
     {

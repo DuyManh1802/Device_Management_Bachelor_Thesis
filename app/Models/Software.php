@@ -4,22 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Warranty;
+use App\Models\Device;
 
-class WarrantyType extends Model
+class Software extends Model
 {
     use HasFactory;
 
-    protected $table = 'usage_counts';
+    protected $table = 'softwares';
     protected $fillable = [
-        'type',
+        'name',
+        'version',
         'start',
         'end',
-        'warranty_id'
+        'device_id'
     ];
 
-    public function waranty()
+    public function device()
     {
-        return $this->belongsTo(Warranty::class);
+        return $this->belongsTo(Device::class);
     }
 }

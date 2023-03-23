@@ -24,7 +24,13 @@ class CreateDeviceRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'id' => 'integer',
+            'category_id' => 'required|integer|exists:categories,id',
+            'name' => 'required|string|max:255',
+            'image' => 'required|string',
+            'status' => 'required|integer',
+            'color' => 'required|string',
+            'configuration' => 'required'
         ];
     }
 }

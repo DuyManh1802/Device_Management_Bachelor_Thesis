@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\WarrantyDetail;
 use App\Models\Warranty;
 use App\Models\UsageCount;
+use App\Models\Software;
 
 class Device extends Model
 {
@@ -26,8 +27,10 @@ class Device extends Model
         'configuration',
         'image',
         'status',
-        'quantity',
-        'color'
+        'color',
+        'configuration',
+        'category_id',
+        'purchase_price'
     ];
 
     public function repairs()
@@ -78,5 +81,10 @@ class Device extends Model
     public function usageCount()
     {
         return $this->hasOneThrough(UsageCount::class, UseHistory::class);
+    }
+
+    public function softwares()
+    {
+        return $this->hasMany(Software::class);
     }
 }

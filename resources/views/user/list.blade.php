@@ -2,15 +2,19 @@
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
     @if (session('success'))
-    <div class="alert alert-success">
-        <h5>{{ session('success') }}</h5>
+    <div class="text-center" role="alert">
+        <h4 class="alert alert-success">{{ session('success') }}</h4>
     </div>
     @endif
     @if (session('error'))
-    <div class="alert alert-danger text-center">{{ session('error') }}</div>
+    <div class="text-center" role="alert">
+        <h4 class="alert alert-danger">{{ session('error') }}</h4>
+    </div>
     @endif
     @if (session('alert'))
-    <div class="alert alert-danger text-center">{{ session('alert') }}</div>
+    <div class="text-center" role="alert">
+        <h4 class="alert alert-danger">{{ session('alert') }}</h4>
+    </div>
     @endif
     <div class="card">
         <div class="table-responsive text-nowrap">
@@ -44,10 +48,10 @@
                                 </button>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="{{ route('user.edit', $user->id) }}"><i
-                                            class="bx bx-edit-alt me-1"></i> Edit</a>
+                                            class="bx bx-edit-alt me-1"></i> Sửa</a>
                                     <a class="dropdown-item" href="{{ route('user.delete', $user->id) }}"
                                         onclick="return myFunction();"><i class="bx bx-trash me-1"></i>
-                                        Delete</a>
+                                        Xóa</a>
                                 </div>
                             </div>
                         </td>
@@ -57,7 +61,8 @@
             </table>
         </div>
     </div>
-
-    {{ $users->links() }}
+    <div class="d-flex justify-content-center mt-2">
+        {{ $users->links() }}
+    </div>
 </div>
 @endsection

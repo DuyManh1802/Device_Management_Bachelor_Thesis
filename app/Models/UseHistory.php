@@ -15,6 +15,12 @@ class UseHistory extends Model
     use HasFactory;
 
     protected $table = 'use_histories';
+    protected $fillable = [
+        'user_id',
+        'department_id',
+        'device_id',
+        'request_id'
+    ];
 
     public function device()
     {
