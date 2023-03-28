@@ -25,8 +25,9 @@ class EditDepartmentRequest extends FormRequest
     {
         return [
             'id' => 'integer',
-            'user_id' => 'required|exists:users,id',
-            'name' => 'required|string|max:255',
+            'name' => 'required',
+            'manager' => 'required',
+            'address' => 'required'
         ];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditDeviceRequest extends FormRequest
+class EditSoftwareRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,17 +19,14 @@ class EditDeviceRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return array
      */
     public function rules()
     {
         return [
             'id' => 'integer',
-            'category_id' => 'required|integer|exists:categories,id',
-            'name' => 'required|string|max:255',
-            'image' => 'required',
-            'color' => 'required|string',
-            'configuration' => 'required',
+            'name' => 'required|string',
+            'version' => 'required|string',
         ];
     }
 }

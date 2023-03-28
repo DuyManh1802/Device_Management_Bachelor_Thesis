@@ -91,7 +91,7 @@
 
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="layouts-without-navbar.html" class="menu-link">
+                    <a href="{{ route('device.index') }}" class="menu-link">
                         <div data-i18n="Without navbar">Tất cả thiết bị</div>
                     </a>
                 </li>
@@ -103,7 +103,7 @@
                 </li>
 
                 <li class="menu-item">
-                    <a href="layouts-without-navbar.html" class="menu-link">
+                    <a href="{{ route('device.create') }}" class="menu-link">
                         <div data-i18n="Without navbar">Thêm thiết bị mới</div>
                     </a>
                 </li>
@@ -134,33 +134,18 @@
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
-                <div data-i18n="Layouts">Layouts</div>
+                <div data-i18n="Layouts">Quản lý phần mềm</div>
             </a>
 
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="layouts-without-menu.html" class="menu-link">
-                        <div data-i18n="Without menu">Without menu</div>
+                    <a href="{{ route('software.index') }}" class="menu-link">
+                        <div data-i18n="Without menu">Tất cả phần mềm</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="layouts-without-navbar.html" class="menu-link">
-                        <div data-i18n="Without navbar">Without navbar</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="layouts-container.html" class="menu-link">
-                        <div data-i18n="Container">Container</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="layouts-fluid.html" class="menu-link">
-                        <div data-i18n="Fluid">Fluid</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="layouts-blank.html" class="menu-link">
-                        <div data-i18n="Blank">Blank</div>
+                    <a href="{{ route('software.create') }}" class="menu-link">
+                        <div data-i18n="Container">Thêm phần mềm mới</div>
                     </a>
                 </li>
             </ul>

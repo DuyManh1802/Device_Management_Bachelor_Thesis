@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SoftwareController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +26,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('department')->group(function(){
     Route::get('/', [DepartmentController::class, 'index'])->name('department.index');
@@ -47,6 +50,24 @@ Route::prefix('category')->group(function(){
     Route::get('edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
     Route::put('update/{id}', [CategoryController::class, 'update'])->name('category.update');
     Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
+});
+
+Route::prefix('device')->group(function(){
+    Route::get('/', [DeviceController::class, 'index'])->name('device.index');
+    Route::get('create', [DeviceController::class, 'create'])->name('device.create');
+    Route::post('store', [DeviceController::class, 'store'])->name('device.store');
+    Route::get('edit/{id}', [DeviceController::class, 'edit'])->name('device.edit');
+    Route::put('update/{id}', [DeviceController::class, 'update'])->name('device.update');
+    Route::get('delete/{id}', [DeviceController::class, 'delete'])->name('device.delete');
+});
+
+Route::prefix('software')->group(function(){
+    Route::get('/', [SoftwareController::class, 'index'])->name('software.index');
+    Route::get('create', [SoftwareController::class, 'create'])->name('software.create');
+    Route::post('store', [SoftwareController::class, 'store'])->name('software.store');
+    Route::get('edit/{id}', [SoftwareController::class, 'edit'])->name('software.edit');
+    Route::put('update/{id}', [SoftwareController::class, 'update'])->name('software.update');
+    Route::get('delete/{id}', [SoftwareController::class, 'delete'])->name('software.delete');
 });
 
 Route::prefix('user')->group(function(){

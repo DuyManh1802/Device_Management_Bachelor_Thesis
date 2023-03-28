@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Device;
 use App\Models\WarrantyDetail;
-use App\Models\WarrantyType;
 
 class Warranty extends Model
 {
@@ -16,7 +15,10 @@ class Warranty extends Model
 
     protected $fillable = [
         'warranty_count',
-        'device_id'
+        'device_id',
+        'type',
+        'start',
+        'end'
     ];
 
     public function device()
@@ -29,8 +31,4 @@ class Warranty extends Model
         return $this->hasOne(WarrantyDetail::class);
     }
 
-    public function warrantyTypes()
-    {
-        return $this->hasMany(WarrantyType::class);
-    }
 }

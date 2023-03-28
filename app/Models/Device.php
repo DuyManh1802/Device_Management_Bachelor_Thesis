@@ -33,6 +33,9 @@ class Device extends Model
         'purchase_price'
     ];
 
+    public function imageUrl(){
+        return 'public/image/device/' .$this->image;
+    }
     public function repairs()
     {
         return $this->hasMany(Repair::class);

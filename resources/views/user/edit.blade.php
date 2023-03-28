@@ -14,12 +14,17 @@
                         <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">{{ __('Tên') }}</label>
                         <div class="col-sm-10">
                             <div class="input-group input-group-merge">
-                                <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                        class="bx bx-user"></i></span>
+                                <span id="basic-icon-default-fullname2" class="input-group-text">
+                                    <i class="bx bx-user"></i></span>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
                                     id="basic-icon-default-fullname" placeholder="Name" aria-label="John Doe"
                                     aria-describedby="basic-icon-default-fullname2" name="name"
                                     value="{{ $users->name }}" required autocomplete="name" autofocus />
+                                @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -50,6 +55,11 @@
                                 <span id="basic-icon-default-email2" class="input-group-text">@gmail.com</span>
                             </div>
                             <div class="form-text">có thể sử dụng chữ, số & dấu chấm</div>
+                            @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -64,6 +74,11 @@
                                     placeholder="0xx xxx xxxx" aria-label="0xx xxx xxxx"
                                     aria-describedby="basic-icon-default-phone2" name="phone"
                                     value="{{ $users->phone }}" required autocomplete="phone" />
+                                @error('phone')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -80,6 +95,11 @@
                                     placeholder="address" aria-label="address"
                                     aria-describedby="basic-icon-default-phone2" name="address"
                                     value="{{ $users->address }}" required autocomplete="address" />
+                                @error('address')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                     </div>

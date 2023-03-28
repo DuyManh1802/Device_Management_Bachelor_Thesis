@@ -7,6 +7,7 @@ use App\Services\DeviceService;
 use Exception;
 use App\Http\Requests\CreateDeviceRequest;
 use App\Http\Requests\EditDeviceRequest;
+use App\Http\Requests\CreateWarrantyRequest;
 
 class DeviceController extends Controller
 {
@@ -20,24 +21,25 @@ class DeviceController extends Controller
     public function index()
     {
         try {
-            $device = $this->deviceService->allDevice();
+            $devices = $this->deviceService->allDevice();
         } catch (Exception $exception) {
             return back()->with('error', 'Lỗi');
         }
 
-        return view('device.list', compact('device'));
+        return view('device.list', compact('devices'));
     }
 
     public function create()
     {
-        return view('device.create');
+        $categories = $this->deviceService->allCategory();
+
+        return view('device.create', compact('categories'));
     }
 
-    public function store(CreateDeviceRequest $request)
+    public function store(CreateDeviceRequest $request, CreateWarrantyRequest $req)
     {
         try {
-            $result = $this->deviceService->storeDevice($request);
-
+            $result = $this->deviceService->storeDevice($request, $req);
             if ($result){
                 return redirect()->route('device.index')->with('success', 'Thêm mới thành công.');
             } else {
@@ -50,9 +52,10 @@ class DeviceController extends Controller
 
     public function edit($id)
     {
-        $device = $this->deviceService->findId($id);
+        $devices = $this->deviceService->findId($id);
+        $categories = $this->deviceService->allCategory();
 
-        return view('device.edit', compact('device'));
+        return view('device.edit', compact('devices', 'categories'));
     }
 
     public function update(EditDeviceRequest $request, $id)

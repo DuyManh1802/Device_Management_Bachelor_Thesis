@@ -28,6 +28,7 @@
                         <th>Màu sắc</th>
                         <th>Cấu hình</th>
                         <th>Trạng thái</th>
+                        <th>Giá nhập</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -36,10 +37,13 @@
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $device->category->name }}</td>
                         <td><strong>{{ $device->name }}</strong></td>
-                        <td>{{ $device->image }}</td>
+                        <td><img src="{{ asset('public/image/device/' . $device->image) }}" alt="" width="40px"
+                                height="40px">
+                        </td>
                         <td>{{ $device->color }}</td>
                         <td>{{ $device->configuration }}</td>
                         <td>{{ $device->status }}</td>
+                        <td>{{ $device->purchase_price }}</td>
                         <td>
                             <div class="dropdown">
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
