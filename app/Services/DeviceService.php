@@ -28,9 +28,9 @@
                 $name_file = $file->getClientOriginalName();
                 $extension = $file->getClientOriginalExtension();
 
-                if(strcasecmp($extension, 'jpg') || strcasecmp($extension, 'png') || strcasecmp($extension, 'jepg')){
+                if (strcasecmp($extension, 'jpg') || strcasecmp($extension, 'png') || strcasecmp($extension, 'jepg')){
                     $image = Str::random(5) ."_". $name_file;
-                    while(file_exists("image/device/" .$image)){
+                    while (file_exists("image/device/" .$image)){
                         $image = Str::random(5) ."_". $name_file;
                     }
                     $file->move('image/device', $image);
@@ -70,6 +70,21 @@
 
         public function updateDevice(Request $request, $id)
         {
+            $image = $request->image;
+            if ($request->hasFile('image')){
+                $file = $request->file('image');
+                $name_file = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+
+                if (strcasecmp($extension, 'jpg') || strcasecmp($extension, 'png') || strcasecmp($extension, 'jepg')){
+                    $image = Str::random(5) ."_". $name_file;
+                    while (file_exists("image/device/" .$image)){
+                        $image = Str::random(5) ."_". $name_file;
+                    }
+                    $file->move('image/device', $image);
+                }
+            }
+
             try {
                 DB::beginTransaction();
                 $device = Device::find($id)->update([
@@ -79,20 +94,6 @@
                     'image' => $request->image,
                     'color' => $request->color,
                 ]);
-
-                if ($request->hasFile('image')){
-                    $file = $request->file('image');
-                    $name_file = $file->getClientOriginalName();
-                    $extension = $file->getClientOriginalExtension();
-
-                    if(strcasecmp($extension, 'jpg') || strcasecmp($extension, 'png') || strcasecmp($extension, 'jepg')){
-                        $image = Str::random(5) ."_". $name_file;
-                        while(file_exists("image/device/" .$image)){
-                            $image = Str::random(5) ."_". $name_file;
-                        }
-                        $file->move('image/device', $image);
-                    }
-                }
 
                 DB::commit();
             } catch (Exception $ex){
@@ -117,5 +118,13 @@
 
             return $device;
         }
+
+        // public public function showByCategory()
+        // {
+        //     $category = new Category;
+        //     $devices = $category->devices;
+
+        //     return $devices;
+        // }
     }
 ?>

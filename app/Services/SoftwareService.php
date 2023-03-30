@@ -5,6 +5,7 @@
     use App\Models\Software;
     use Illuminate\Http\Request;
     use Exception;
+    use Illuminate\Support\Str;
 
     class SoftwareService
     {
@@ -15,8 +16,24 @@
 
         public function storeSoftware(Request $request)
         {
+            $image = $request->image;
+            if ($request->hasFile('image')){
+                $file = $request->file('image');
+                $name_file = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+
+                if (strcasecmp($extension, 'jpg') || strcasecmp($extension, 'png') || strcasecmp($extension, 'jepg')){
+                    $image = Str::random(5) . '_' . $name_file;
+                    while (file_exists('image/software/' .$image)){
+                        $image = Str::random(5) . '_' . $name_file;
+                    }
+                    $file->move('image/software', $image);
+                }
+            }
+
             return Software::create([
                 'name' => $request->name,
+                'image' => $image,
                 'device_id' => $request->device_id,
                 'version' => $request->version,
                 'start' => $request->start,
@@ -32,9 +49,25 @@
 
         public function updateSoftware(Request $request, $id)
         {
+            $image = $request->image;
+            if ($request->hasFile('image')){
+                $file = $request->file('image');
+                $name_file = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+
+                if (strcasecmp($extension, 'jpg') || strcasecmp($extension, 'png') || strcasecmp($extension, 'jepg')){
+                    $image = Str::random(5) . '_' . $name_file;
+                    while (file_exists('image/software/' .$image)){
+                        $image = Str::random(5) . '_' . $name_file;
+                    }
+                    $file->move('image/software', $image);
+                }
+            }
+
             return Software::find($id)->update([
                 'name' => $request->name,
-                'version' =>$request->version
+                'version' =>$request->version,
+                'image' => $image
             ]);
         }
 

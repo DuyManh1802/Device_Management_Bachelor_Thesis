@@ -24,6 +24,7 @@
                         <th>STT</th>
                         <th>Thiết bị</th>
                         <th>Tên phần mềm</th>
+                        <th>Ảnh</th>
                         <th>Phiên bản</th>
                         <th>Ngày bắt đầu</th>
                         <th>Ngày hết hạn</th>
@@ -36,6 +37,7 @@
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $software->device->name }}</td>
                         <td><strong>{{ $software->name }}</strong></td>
+                        <td><img src="{{ $software->image }}" alt=""></td>
                         <td>{{ $software->version }}</td>
                         <td>{{ $software->start }}</td>
                         <td>{{ $software->end }}</td>

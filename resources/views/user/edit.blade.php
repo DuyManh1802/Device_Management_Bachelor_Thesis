@@ -43,6 +43,23 @@
                         </div>
                     </div>
                     <div class="row mb-3">
+                        <label class="col-sm-2 form-label" for="basic-icon-default-phone">{{ __('Hình ảnh')
+                            }}</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <input type="file" id="basic-icon-default-phone"
+                                    class="form-control phone-mask @error('image') is-invalid @enderror"
+                                    placeholder="image" aria-label="image" aria-describedby="basic-icon-default-phone2"
+                                    name="image" value="{{ old('image') }}" required autocomplete="image" />
+                                @error('image')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                         <label class="col-sm-2 col-form-label" for="basic-icon-default-email">{{ __('Email')
                             }}</label>
                         <div class="col-sm-10">

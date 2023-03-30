@@ -8,6 +8,7 @@ use Exception;
 use App\Http\Requests\CreateDeviceRequest;
 use App\Http\Requests\EditDeviceRequest;
 use App\Http\Requests\CreateWarrantyRequest;
+use App\Models\Category;
 
 class DeviceController extends Controller
 {
@@ -22,6 +23,7 @@ class DeviceController extends Controller
     {
         try {
             $devices = $this->deviceService->allDevice();
+
         } catch (Exception $exception) {
             return back()->with('error', 'Lỗi');
         }
@@ -86,5 +88,13 @@ class DeviceController extends Controller
         } catch (Exception $exception) {
             return back()->with('error', 'Lỗi');
         }
+    }
+
+    public function showByCategory(Category $category)
+    {
+        // $devices = $this->deviceService->showByCategory();
+        $devices = $category->devices()->paginate(10);
+
+        return view('device.list', compact('devices'));
     }
 }

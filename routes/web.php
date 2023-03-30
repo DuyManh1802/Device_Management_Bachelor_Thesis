@@ -59,6 +59,8 @@ Route::prefix('device')->group(function(){
     Route::get('edit/{id}', [DeviceController::class, 'edit'])->name('device.edit');
     Route::put('update/{id}', [DeviceController::class, 'update'])->name('device.update');
     Route::get('delete/{id}', [DeviceController::class, 'delete'])->name('device.delete');
+    Route::get('/category/{category}', [DeviceController::class, 'showByCategory'])->name('device.showByCategory');
+
 });
 
 Route::prefix('software')->group(function(){

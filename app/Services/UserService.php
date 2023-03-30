@@ -10,6 +10,7 @@
     use Illuminate\Support\Facades\Mail;
     use App\Events\CreatedUser;
     use App\Models\Department;
+    use Illuminate\Support\Str;
 
     class UserService
     {
@@ -20,6 +21,21 @@
 
         public function storeUser(Request $request)
         {
+            $image = $request->image;
+            if ($request->hasFile('image')){
+                $file = $request->file('image');
+                $name_file = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+
+                if (strcasecmp($extension, 'jpg') || strcasecmp($extension, 'png') || strcasecmp($extension, 'jepg')){
+                    $image = Str::random(5) . '_' . $name_file;
+                    while (file_exists('image/user/' .$image)){
+                        $image = Str::random(5) . '_' . $name_file;
+                    }
+                    $file->move('image/user', $image);
+                }
+            }
+
             return User::create([
                 'department_id' => $request->department_id,
                 'name' => $request->name,
@@ -27,7 +43,8 @@
                 'password' => Hash::make($request->password),
                 'address' => $request->address,
                 'phone' => $request->phone,
-                'role' => $request->role
+                'role' => $request->role,
+                'image' => $image
             ]);
         }
 
@@ -38,13 +55,29 @@
 
         public function updateUser(Request $request, $id)
         {
+            $image = $request->image;
+            if ($request->hasFile('image')){
+                $file = $request->file('image');
+                $name_file = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+
+                if (strcasecmp($extension, 'jpg') || strcasecmp($extension, 'png') || strcasecmp($extension, 'jepg')){
+                    $image = Str::random(5) . '_' . $name_file;
+                    while (file_exists('image/user/' .$image)){
+                        $image = Str::random(5) . '_' . $name_file;
+                    }
+                    $file->move('image/user', $image);
+                }
+            }
+
             return User::find($id)->update([
                 'name' => $request->name,
                 'department_id' => $request->department_id,
                 'email' => $request->email,
                 'address' => $request->address,
                 'phone' => $request->phone,
-                'role' => $request->role
+                'role' => $request->role,
+                'image' => $image
             ]);
         }
 

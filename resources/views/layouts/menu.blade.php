@@ -1,3 +1,6 @@
+@php
+$categories = App\Models\category::all();
+@endphp
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
         <a href="{{ route('home') }}" class="app-brand-link">
@@ -96,11 +99,13 @@
                     </a>
                 </li>
 
+                @foreach ($categories as $category)
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <div data-i18n="Without menu">Danh mục thiết bị</div>
+                    <a href="{{ route('device.showByCategory', $category->id) }}" class="menu-link">
+                        <div data-i18n="Without menu">{{ $category->name }}</div>
                     </a>
                 </li>
+                @endforeach
 
                 <li class="menu-item">
                     <a href="{{ route('device.create') }}" class="menu-link">

@@ -24,6 +24,7 @@
                         <th>STT</th>
                         <th>Tên</th>
                         <th>Email</th>
+                        <th>Ảnh</th>
                         <th>Số điện thoại</th>
                         <th>Địa chỉ</th>
                         <th>Quyền</th>
@@ -36,6 +37,7 @@
                         <td>{{ $key + 1 }}</td>
                         <td><strong>{{ $user->name }}</strong></td>
                         <td>{{ $user->email }}</td>
+                        <td><img src="{{ $user->image }}" alt=""></td>
                         <td>{{ $user->phone }}</td>
                         <td>{{ $user->address }}</td>
                         <td>{{ $user->role }}</td>

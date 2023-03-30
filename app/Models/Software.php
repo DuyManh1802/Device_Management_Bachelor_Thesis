@@ -17,7 +17,8 @@ class Software extends Model
         'start',
         'end',
         'device_id',
-        'license_price'
+        'license_price',
+        'image'
     ];
 
     public function device()

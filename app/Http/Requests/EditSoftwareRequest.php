@@ -27,6 +27,7 @@ class EditSoftwareRequest extends FormRequest
             'id' => 'integer',
             'name' => 'required|string',
             'version' => 'required|string',
+            'image' => 'required'
         ];
     }
 }

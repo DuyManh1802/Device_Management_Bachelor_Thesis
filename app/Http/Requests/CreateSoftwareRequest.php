@@ -30,7 +30,8 @@ class CreateSoftwareRequest extends FormRequest
             'version' => 'required|string',
             'start' => 'required|date',
             'end' => 'required|date',
-            'license_price' => 'required'
+            'license_price' => 'required',
+            'image' => 'required'
         ];
     }
 }

@@ -45,7 +45,7 @@
                         </div>
                     </div>
 
-                    {{-- <div class="row mb-3">
+                    <div class="row mb-3">
                         <label class="col-sm-2 form-label" for="basic-icon-default-phone">{{ __('Hình ảnh')
                             }}</label>
                         <div class="col-sm-10">
@@ -61,7 +61,7 @@
                                 @enderror
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 form-label" for="basic-icon-default-phone">{{ __('Phiên bản')
