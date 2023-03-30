@@ -13,7 +13,7 @@ class CreateDepartmentRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,9 +24,10 @@ class CreateDepartmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'manager' => 'required|string|max:100',
-            'address' => 'required|string|max:255',
+            'id' => 'integer',
+            'name' => 'required',
+            'manager' => 'required',
+            'address' => 'required'
         ];
     }
 }

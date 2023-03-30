@@ -13,7 +13,7 @@ class CreateCategoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,6 +24,7 @@ class CreateCategoryRequest extends FormRequest
     public function rules()
     {
         return [
+            'id' => 'integer',
             'name' => 'required|string|max:255',
         ];
     }

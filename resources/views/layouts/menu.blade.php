@@ -1,3 +1,6 @@
+@php
+$categories = App\Models\category::all();
+@endphp
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
         <a href="{{ route('home') }}" class="app-brand-link">
@@ -91,13 +94,43 @@
 
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="layouts-without-menu.html" class="menu-link">
-                        <div data-i18n="Without menu">Danh mục thiết bị</div>
+                    <a href="{{ route('device.index') }}" class="menu-link">
+                        <div data-i18n="Without navbar">Tất cả thiết bị</div>
+                    </a>
+                </li>
+
+                @foreach ($categories as $category)
+                <li class="menu-item">
+                    <a href="{{ route('device.showByCategory', $category->id) }}" class="menu-link">
+                        <div data-i18n="Without menu">{{ $category->name }}</div>
+                    </a>
+                </li>
+                @endforeach
+
+                <li class="menu-item">
+                    <a href="{{ route('device.create') }}" class="menu-link">
+                        <div data-i18n="Without navbar">Thêm thiết bị mới</div>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon far fa-list-alt"></i>
+                <div data-i18n="Layouts">Quản lý danh mục</div>
+            </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ route('category.index') }}" class="menu-link">
+                        <div data-i18n="Without menu">Danh sách danh mục</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="layouts-without-navbar.html" class="menu-link">
-                        <div data-i18n="Without navbar">Without navbar</div>
+                    <a href="{{ route('category.create') }}" class="menu-link">
+                        <div data-i18n="Without navbar">Thêm danh mục mới</div>
                     </a>
                 </li>
             </ul>
@@ -106,68 +139,18 @@
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
-                <div data-i18n="Layouts">Layouts</div>
+                <div data-i18n="Layouts">Quản lý phần mềm</div>
             </a>
 
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="layouts-without-menu.html" class="menu-link">
-                        <div data-i18n="Without menu">Without menu</div>
+                    <a href="{{ route('software.index') }}" class="menu-link">
+                        <div data-i18n="Without menu">Tất cả phần mềm</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="layouts-without-navbar.html" class="menu-link">
-                        <div data-i18n="Without navbar">Without navbar</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="layouts-container.html" class="menu-link">
-                        <div data-i18n="Container">Container</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="layouts-fluid.html" class="menu-link">
-                        <div data-i18n="Fluid">Fluid</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="layouts-blank.html" class="menu-link">
-                        <div data-i18n="Blank">Blank</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
-        <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-layout"></i>
-                <div data-i18n="Layouts">Layouts</div>
-            </a>
-
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="layouts-without-menu.html" class="menu-link">
-                        <div data-i18n="Without menu">Without menu</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="layouts-without-navbar.html" class="menu-link">
-                        <div data-i18n="Without navbar">Without navbar</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="layouts-container.html" class="menu-link">
-                        <div data-i18n="Container">Container</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="layouts-fluid.html" class="menu-link">
-                        <div data-i18n="Fluid">Fluid</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="layouts-blank.html" class="menu-link">
-                        <div data-i18n="Blank">Blank</div>
+                    <a href="{{ route('software.create') }}" class="menu-link">
+                        <div data-i18n="Container">Thêm phần mềm mới</div>
                     </a>
                 </li>
             </ul>
@@ -181,12 +164,12 @@
 
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="layouts-without-menu.html" class="menu-link">
+                    <a href="{{ route('user.index') }}" class="menu-link">
                         <div data-i18n="Without menu">Danh sách người dùng</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="layouts-without-navbar.html" class="menu-link">
+                    <a href="{{ route('user.create') }}" class="menu-link">
                         <div data-i18n="Without navbar">Thêm người dùng</div>
                     </a>
                 </li>

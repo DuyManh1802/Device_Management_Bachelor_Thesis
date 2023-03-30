@@ -8,12 +8,19 @@ use App\Models\Device;
 use App\Models\Department;
 use App\Models\User;
 use App\Models\Request;
+use App\Models\UsageCount;
 
 class UseHistory extends Model
 {
     use HasFactory;
 
     protected $table = 'use_histories';
+    protected $fillable = [
+        'user_id',
+        'department_id',
+        'device_id',
+        'request_id'
+    ];
 
     public function device()
     {
@@ -33,5 +40,10 @@ class UseHistory extends Model
     public function request()
     {
         return $this->belongsTo(Request::class);
+    }
+
+    public function usageCount()
+    {
+        return $this->hasOne(UsageCount::class);
     }
 }

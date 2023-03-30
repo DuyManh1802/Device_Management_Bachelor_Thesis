@@ -13,7 +13,7 @@ class EditDepartmentRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class EditDepartmentRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'id' => 'integer',
+            'name' => 'required',
+            'manager' => 'required',
+            'address' => 'required'
         ];
     }
 }

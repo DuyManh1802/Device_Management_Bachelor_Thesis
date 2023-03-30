@@ -14,7 +14,9 @@ class Repair extends Model
 
     protected $table = 'repairs';
 
-    protected $fillable = ['repair_count'];
+    protected $fillable = ['repair_count',
+        'device_id'
+    ];
 
     public function repairDetail()
     {

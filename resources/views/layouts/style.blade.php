@@ -1,5 +1,5 @@
 <!-- Favicon -->
-<link rel="icon" type="image/x-icon" href="../template/assets/img/favicon/favicon.ico" />
+<link rel="icon" type="image/x-icon" href="/template/assets/img/favicon/favicon.ico" />
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -9,17 +9,17 @@
     rel="stylesheet" />
 
 <!-- Icons. Uncomment required icon fonts -->
-<link rel="stylesheet" href="../template/assets/vendor/fonts/boxicons.css" />
+<link rel="stylesheet" href="/template/assets/vendor/fonts/boxicons.css" />
 
 <!-- Core CSS -->
-<link rel="stylesheet" href="../template/assets/vendor/css/core.css" class="template-customizer-core-css" />
-<link rel="stylesheet" href="../template/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-<link rel="stylesheet" href="../template/assets/css/demo.css" />
+<link rel="stylesheet" href="/template/assets/vendor/css/core.css" class="template-customizer-core-css" />
+<link rel="stylesheet" href="/template/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+<link rel="stylesheet" href="/template/assets/css/demo.css" />
 
 <!-- Vendors CSS -->
-<link rel="stylesheet" href="../template/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+<link rel="stylesheet" href="/template/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-<link rel="stylesheet" href="../template/assets/vendor/libs/apex-charts/apex-charts.css" />
+<link rel="stylesheet" href="/template/assets/vendor/libs/apex-charts/apex-charts.css" />
 
 <!-- Page CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css

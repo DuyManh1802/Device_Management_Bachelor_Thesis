@@ -1,9 +1,26 @@
 @extends('layouts.app')
 @section('content')
+
 <div class="container-xxl flex-grow-1 container-p-y">
+    @if (session('success'))
+    <div class="text-center" role="alert">
+        <h4 class="alert alert-success">{{ session('success') }}</h4>
+    </div>
+    @endif
+    @if (session('error'))
+    <div class="text-center" role="alert">
+        <h4 class="alert alert-danger">{{ session('error') }}</h4>
+    </div>
+    @endif
+    @if (session('alert'))
+    <div class="text-center" role="alert">
+        <h4 class="alert alert-danger">{{ session('alert') }}</h4>
+    </div>
+    @endif
     <div class="card">
+        <h5 class="card-header">Dánh sách phòng ban</h5>
         <div class="table-responsive text-nowrap">
-            <table class="table table-hover">
+            <table class="table table-hover table-striped">
                 <thead>
                     <tr>
                         <th>STT</th>
@@ -27,11 +44,10 @@
                                 </button>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="{{ route('department.edit', $department->id) }}"><i
-                                            class=" bx bx-edit-alt me-1"></i>
-                                        Edit</a>
-                                    <a class="dropdown-item" href="{{ route('department.delete', $department->id) }}"><i
-                                            class="bx bx-trash me-1"></i>
-                                        Delete</a>
+                                            class="bx bx-edit-alt me-1"></i> Sửa</a>
+                                    <a class="dropdown-item" href="{{ route('department.delete', $department->id) }}"
+                                        onclick="return myFunction();"><i class="bx bx-trash me-1"></i>
+                                        Xóa</a>
                                 </div>
                             </div>
                         </td>
@@ -41,6 +57,8 @@
             </table>
         </div>
     </div>
-
+    <div class="d-flex justify-content-center mt-2">
+        {{ $departments->links() }}
+    </div>
 </div>
-@stop
+@endsection

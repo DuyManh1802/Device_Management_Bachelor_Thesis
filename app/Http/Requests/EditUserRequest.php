@@ -13,7 +13,7 @@ class EditUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class EditUserRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'department_id' => 'required|exists:departments,id',
+            'name' => 'required|string|max:255',
+            'email' => "required|email|unique:users,email|max:100, {$this->user->id}",
+            'address' => 'required|string|max:255',
+            'phone' => 'required|regex:/(0)[0-9]{0,10}/',
+            'role' => 'required|integer|max:2',
+            'image' => 'required'
         ];
     }
 }

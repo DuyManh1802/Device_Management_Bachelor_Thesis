@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateSubCategoryRequest extends FormRequest
+class EditWarrantyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,18 +13,21 @@ class CreateSubCategoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return array
      */
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
+            'id' => 'integer',
+            'type' => 'required',
+            'start' => 'required|date',
+            'end' => 'required|date'
         ];
     }
 }

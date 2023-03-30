@@ -14,7 +14,13 @@ class Request extends Model
     use HasFactory;
 
     protected $table = 'requests';
-    protected $fillable = ['status', 'description'];
+    protected $fillable = ['status',
+        'description',
+        'result',
+        'user_id',
+        'device_id',
+        'department_id'
+    ];
 
     public function device()
     {
