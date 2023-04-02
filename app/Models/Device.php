@@ -30,7 +30,8 @@ class Device extends Model
         'color',
         'configuration',
         'category_id',
-        'purchase_price'
+        'purchase_price',
+        'condition'
     ];
 
     public function imageUrl(){
