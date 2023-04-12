@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Phần mềm /</span> Thêm phần mềm</h4>
     <div class="card">
-        <h5 class="card-header">Thêm mới phần mềm</h5>
         <form method="POST" action="{{ route('software.store') }}" enctype="multipart/form-data">
             @csrf
             <div class=" card-body">
@@ -140,7 +140,7 @@
                     </div>
 
                 </div>
-                <button type="submit" class="btn btn-primary">Thêm</button>
+                <button type="submit" class="btn btn-outline-primary">Thêm</button>
             </div>
         </form>
     </div>

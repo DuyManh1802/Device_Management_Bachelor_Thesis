@@ -37,7 +37,17 @@
                                 </div>
                                 <div class="flex-grow-1">
                                     <span class="fw-semibold d-block">{{ Auth::user()->name }}</span>
-                                    <small class="text-muted">{{ Auth::user()->role }}</small>
+                                    <small class="text-muted">
+                                        @if (Auth::user()->role == 0)
+                                        Nhân viên
+                                        @elseif (Auth::user()->role == 1)
+                                        Quản lý
+                                        @elseif (Auth::user()->role == 2)
+                                        Giám đốc
+                                        @else
+                                        Không xác định
+                                        @endif
+                                    </small>
                                 </div>
                             </div>
                         </a>
@@ -48,13 +58,13 @@
                     <li>
                         <a class="dropdown-item" href="#">
                             <i class="bx bx-user me-2"></i>
-                            <span class="align-middle">My Profile</span>
+                            <span class="align-middle">Thông tin cá nhân</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" href="#">
                             <i class="bx bx-cog me-2"></i>
-                            <span class="align-middle">Settings</span>
+                            <span class="align-middle">Cài đặt</span>
                         </a>
                     </li>
                     <li>
@@ -67,7 +77,7 @@
                             <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 <i class="bx bx-power-off me-2"></i>
-                                <span class="align-middle">{{ __('Log Out') }}</span>
+                                <span class="align-middle">{{ __('Đăng xuất') }}</span>
                             </x-responsive-nav-link>
                         </form>
                     </li>

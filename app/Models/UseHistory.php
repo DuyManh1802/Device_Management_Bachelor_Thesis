@@ -9,17 +9,21 @@ use App\Models\Department;
 use App\Models\User;
 use App\Models\Request;
 use App\Models\UsageCount;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UseHistory extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'use_histories';
     protected $fillable = [
         'user_id',
         'department_id',
         'device_id',
-        'request_id'
+        'request_id',
+        'status',
+        'borrowed_date',
+        'return_date'
     ];
 
     public function device()

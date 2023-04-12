@@ -4,23 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Device;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\DeviceSoftware;
+use App\Models\Device;
+use App\Models\Software;
 
-class Software extends Model
+class DeviceSoftware extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'softwares';
+    protected $table = 'device_softwares';
     protected $fillable = [
-        'name',
-        'version',
-        'start',
-        'end',
         'device_id',
-        'license_price',
-        'image'
+        'software_id'
     ];
 
     public function device()
@@ -28,8 +23,8 @@ class Software extends Model
         return $this->belongsTo(Device::class);
     }
 
-    public function device_softwares()
+    public function software()
     {
-        return $this->hasMany(DeviceSoftware::class);
+        return $this->belongsTo(Software::class);
     }
 }

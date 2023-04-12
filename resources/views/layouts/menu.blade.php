@@ -113,6 +113,12 @@ $categories = App\Models\category::all();
                     </a>
                 </li>
 
+                <li class="menu-item">
+                    <a href="{{ route('request.showBorrowForm') }}" class="menu-link">
+                        <div data-i18n="Without navbar">Mượn thiết bị</div>
+                    </a>
+                </li>
+
             </ul>
         </li>
 
@@ -138,7 +144,68 @@ $categories = App\Models\category::all();
 
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-layout"></i>
+                <i class="menu-icon far fa-share-square"></i>
+                <div data-i18n="Layouts">Quản lý yêu cầu</div>
+            </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{route('request.listRequest')}}" class="menu-link">
+                        <div data-i18n="Container">Danh sách yêu cầu</div>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="{{route('request.listRequestBorrow')}}" class="menu-link">
+                        <div data-i18n="Container">Yêu cầu mượn thiết bị</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon fas fa-laptop-code"></i>
+                <div data-i18n="Layouts">Quản lý thiết bị</div>
+            </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Container">Thiết bị đang rảnh</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Container">Thiết bị đang cho mượn</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Without menu">Thiết bị đang hỏng</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Container">Thiết bị đang sửa chữa</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Container">Thiết bị đang bảo hành</div>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Container">Thiết bị đã thanh lý</div>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon fab fa-app-store"></i>
                 <div data-i18n="Layouts">Quản lý phần mềm</div>
             </a>
 
@@ -146,6 +213,11 @@ $categories = App\Models\category::all();
                 <li class="menu-item">
                     <a href="{{ route('software.index') }}" class="menu-link">
                         <div data-i18n="Without menu">Tất cả phần mềm</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Container">Phần mềm sắp hết hạn</div>
                     </a>
                 </li>
                 <li class="menu-item">

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Thiết bị /</span> Danh sách thiết bị</h4>
     @if (session('success'))
     <div class="text-center" role="alert">
         <h4 class="alert alert-success">{{ session('success') }}</h4>
@@ -37,8 +38,7 @@
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $device->category->name }}</td>
                         <td><strong>{{ $device->name }}</strong></td>
-                        <td><img src="{{ asset('public/image/device/' . $device->image) }}" alt="" width="40px"
-                                height="40px">
+                        <td><img src="{{ asset('image/device/' . $device->image) }}" alt="" width="40px" height="40px">
                         </td>
                         <td>{{ $device->color }}</td>
                         <td>{{ $device->configuration }}</td>

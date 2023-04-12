@@ -12,7 +12,8 @@ class TypeRepair extends Model
 
     protected $table = 'type_repairs';
 
-    protected $fillable = ['type',
+    protected $fillable = [
+        'type',
         'repair_id'
     ];
 

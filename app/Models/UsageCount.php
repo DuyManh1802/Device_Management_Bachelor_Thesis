@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\UseHistory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UsageCount extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'usage_counts';
     protected $fillable = [

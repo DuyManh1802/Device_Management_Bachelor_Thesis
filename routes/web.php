@@ -8,6 +8,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SoftwareController;
+use App\Http\Controllers\RequestController;
+use App\Models\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,4 +81,21 @@ Route::prefix('user')->group(function(){
     Route::get('edit/{id}', [UserController::class, 'edit'])->name('user.edit');
     Route::put('update/{id}', [UserController::class, 'update'])->name('user.update');
     Route::get('delete/{id}', [UserController::class, 'delete'])->name('user.delete');
+});
+
+Route::prefix('request')->group(function(){
+    Route::get('/borrow-device', [RequestController::class, 'showBorrowForm'])->name('request.showBorrowForm');
+    Route::post('/store', [RequestController::class, 'sendBorrorRequest'])->name('request.sendBorrowRequest');
+    Route::put('/update/{id}', [RequestController::class, 'sendReturnRequest'])->name('request.sendReturnRequest');
+    Route::put('/notify/{id}', [RequestController::class, 'notify'])->name('request.notify');
+
+    Route::get('/list-request', [RequestController::class, 'listRequest'])->name('request.listRequest');
+    Route::get('/list-request-borrow', [RequestController::class, 'listRequestBorrow'])->name('request.listRequestBorrow');
+    Route::get('/approve/{id}', [RequestController::class, 'approveRequest'])->name('request.approveRequest');
+    Route::get('/refuse/{id}', [RequestController::class, 'refuseRequest'])->name('request.refuseRequest');
+    Route::get('/provide/{id}', [RequestController::class, 'provideDeviceForm'])->name('request.provideDeviceForm');
+    Route::post('/provide', [RequestController::class, 'provideDevice'])->name('request.provideDevice');
+    // Route::put('/provide/{id}', [RequestController::class, 'provideDeviceConfirm'])->name('request.provideDeviceConfirm');
+    Route::put('/recall/department{id}/user{id}', [RequestController::class, 'recallDevice'])->name('request.recallDevice');
+
 });

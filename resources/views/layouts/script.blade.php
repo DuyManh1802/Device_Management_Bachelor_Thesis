@@ -31,3 +31,10 @@
         event.preventDefault();
     }
 </script>
+
+<script>
+    function sendRequest() {
+        if(!confirm("Bạn có chắc chắn muốn gửi yêu cầu ?"))
+        event.preventDefault();
+    }
+</script>

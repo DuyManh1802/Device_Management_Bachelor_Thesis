@@ -19,6 +19,9 @@ class DeviceController extends Controller
         $this->deviceService = new DeviceService();
     }
 
+    //status: 0 đang hỏng, 1: bình thường
+    //condition: 0: đang sử dụng, 1: đang rảnh
+
     public function index()
     {
         try {

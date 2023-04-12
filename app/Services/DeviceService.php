@@ -91,7 +91,7 @@
                     'category_id' => $request->category_id,
                     'name' => $request->name,
                     'configuration' => $request->configuration,
-                    'image' => $request->image,
+                    'image' => $image,
                     'color' => $request->color,
                 ]);
 

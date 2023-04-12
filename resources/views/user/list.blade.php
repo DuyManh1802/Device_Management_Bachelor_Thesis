@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Người dùng /</span> Danh sách người dùng</h4>
     @if (session('success'))
     <div class="text-center" role="alert">
         <h4 class="alert alert-success">{{ session('success') }}</h4>
@@ -40,7 +41,17 @@
                         <td><img src="{{ $user->image }}" alt=""></td>
                         <td>{{ $user->phone }}</td>
                         <td>{{ $user->address }}</td>
-                        <td>{{ $user->role }}</td>
+                        <td>
+                            @if ($user->role == 0)
+                            <span class="badge bg-label-primary me-1">Nhân viên</span>
+                            @elseif ($user->role == 1)
+                            <span class="badge bg-label-success me-1">Quản lý</span>
+                            @elseif ($user->role == 2)
+                            <span class="badge bg-label-info me-1">Giám đốc</span>
+                            @else
+                            <span class="badge bg-label-warning me-1">Không xác định</span>
+                            @endif
+                        </td>
                         <td>{{ $user->department->name ?? '' }}</td>
                         <td>
                             <div class="dropdown">

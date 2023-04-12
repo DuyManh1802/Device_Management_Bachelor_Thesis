@@ -16,6 +16,7 @@ use App\Models\WarrantyDetail;
 use App\Models\Warranty;
 use App\Models\UsageCount;
 use App\Models\Software;
+use App\Models\DeviceSoftware;
 
 class Device extends Model
 {
@@ -34,9 +35,6 @@ class Device extends Model
         'condition'
     ];
 
-    public function imageUrl(){
-        return 'public/image/device/' .$this->image;
-    }
     public function repairs()
     {
         return $this->hasMany(Repair::class);
@@ -90,5 +88,10 @@ class Device extends Model
     public function softwares()
     {
         return $this->hasMany(Software::class);
+    }
+
+    public function device_softwares()
+    {
+        return $this->hasMany(DeviceSoftware::class);
     }
 }

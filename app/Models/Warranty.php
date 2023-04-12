@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Device;
 use App\Models\WarrantyDetail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Warranty extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'warranties';
 
