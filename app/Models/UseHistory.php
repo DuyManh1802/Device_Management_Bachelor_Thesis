@@ -45,9 +45,4 @@ class UseHistory extends Model
     {
         return $this->belongsTo(Request::class);
     }
-
-    public function usageCount()
-    {
-        return $this->hasOne(UsageCount::class);
-    }
 }

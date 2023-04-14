@@ -60,6 +60,8 @@
                             <span class="badge bg-label-warning me-1">Báo hỏng</span>
                             @elseif ($req->type == 3)
                             <span class="badge bg-label-info me-1">Gia hạn phần mềm</span>
+                            @elseif ($req->type == 4)
+                            <span class="badge bg-label-info me-1">Cấp thiết bị</span>
                             @else
                             <span class="badge bg-label-warning me-1">Không xác định</span>
                             @endif
@@ -96,6 +98,19 @@
                                     <a class="dropdown-item" href="{{ route('request.refuseRequest', $req->id) }}"
                                         onclick="return myFunction();"><i class="far fa-times-circle me-1"></i>
                                         Từ chối</a>
+
+                                    @if ($req->result == 1 && $req->status == 1)
+                                    <a class="dropdown-item"
+                                        href="{{ route('request.formDelivered', $req->user_id) }}"><i
+                                            class="far fa-check-circle me-1"></i> Đã lấy
+                                        thiết
+                                        bị</a>
+                                    <a class="dropdown-item"
+                                        href="{{ route('request.provideDeviceForm', $req->id) }}"><i
+                                            class="fas fa-check-double me-1"></i>
+                                        Cấp thiết bị</a>
+
+                                    @endif
                                 </div>
                             </div>
                         </td>
@@ -105,7 +120,7 @@
             </table>
         </div>
     </div>
-    <div class="d-flex justify-content-center mt-2">
+    <div class="d-flex justify-content-center mt-4">
         {{ $requests->links() }}
     </div>
 </div>

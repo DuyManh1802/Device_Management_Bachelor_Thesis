@@ -85,9 +85,9 @@ Route::prefix('user')->group(function(){
 
 Route::prefix('request')->group(function(){
     Route::get('/borrow-device', [RequestController::class, 'showBorrowForm'])->name('request.showBorrowForm');
-    Route::post('/store', [RequestController::class, 'sendBorrorRequest'])->name('request.sendBorrowRequest');
-    Route::put('/update/{id}', [RequestController::class, 'sendReturnRequest'])->name('request.sendReturnRequest');
-    Route::put('/notify/{id}', [RequestController::class, 'notify'])->name('request.notify');
+    Route::post('/send-borrow-request', [RequestController::class, 'sendBorrorRequest'])->name('request.sendBorrowRequest');
+    Route::get('/return-device/{id}', [RequestController::class, 'sendReturnRequest'])->name('request.sendReturnRequest');
+    Route::get('/roport-device-broken/{id}', [RequestController::class, 'reportDeviceBroken'])->name('request.reportDeviceBroken');
 
     Route::get('/list-request', [RequestController::class, 'listRequest'])->name('request.listRequest');
     Route::get('/list-request-borrow', [RequestController::class, 'listRequestBorrow'])->name('request.listRequestBorrow');
@@ -97,5 +97,7 @@ Route::prefix('request')->group(function(){
     Route::post('/provide', [RequestController::class, 'provideDevice'])->name('request.provideDevice');
     // Route::put('/provide/{id}', [RequestController::class, 'provideDeviceConfirm'])->name('request.provideDeviceConfirm');
     Route::put('/recall/department{id}/user{id}', [RequestController::class, 'recallDevice'])->name('request.recallDevice');
-
+    Route::get('/delivered/{user_id}', [RequestController::class, 'formDelivered'])->name('request.formDelivered');
+    Route::post('/delivered/{user_id}', [RequestController::class, 'delivered'])->name('request.delivered');
+    Route::get('list-device-borrow', [RequestController::class, 'listDeviceBorrow'])->name('request.listDeviceBorrow');
 });

@@ -27,10 +27,6 @@ class Request extends Model
         'confirm'
     ];
 
-    // protected $device_ = [
-    //     'device_id' => 'array'
-    // ];
-
     public function device()
     {
         return $this->belongsTo(Device::class);

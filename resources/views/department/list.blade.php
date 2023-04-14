@@ -59,7 +59,7 @@
             </table>
         </div>
     </div>
-    <div class="d-flex justify-content-center mt-2">
+    <div class="d-flex justify-content-center mt-4">
         {{ $departments->links() }}
     </div>
 </div>

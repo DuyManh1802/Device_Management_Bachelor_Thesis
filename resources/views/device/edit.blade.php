@@ -4,12 +4,12 @@
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Thiết bị /</span> Sửa thông tin thiết bị</h4>
 
     <div class="card">
-        <form method="POST" action="{{ route('device.update', $devices->id) }}" enctype="multipart/form-data>
-            @csrf
-            @method('PUT')
-            <div class=" card-body">
-            <div>
-                <div class="row mb-3">
+        <div class=" card-body">
+            <form method="POST" action="{{ route('device.update', $devices->id) }}" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+
+                <div class=" row mb-3">
                     <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">{{ __('Danh mục')
                         }}</label>
                     <div class="col-sm-10">
@@ -123,10 +123,10 @@
                     </div>
                 </div>
 
-            </div>
-            <button type="submit" class="btn btn-primary">Sửa</button>
+                <button type="submit" class="btn btn-primary">Sửa</button>
+            </form>
+
+        </div>
+
     </div>
-    </form>
-</div>
-</div>
-@endsection
+    @endsection

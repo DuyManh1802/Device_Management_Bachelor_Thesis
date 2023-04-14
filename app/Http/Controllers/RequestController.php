@@ -10,6 +10,7 @@ use App\Models\Device;
 use App\Models\Request as RequestModel;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ConfirmProvideRequest;
+use App\Http\Requests\DeliveredRequest;
 
 class RequestController extends Controller
 {
@@ -21,7 +22,7 @@ class RequestController extends Controller
     }
 
     //status: 0: chua duoc xu ly, 1: da xu ly
-    //description: 0: tra thiet bi, 1:muon thiet bi, 2: bao hong
+    //type: 0: tra thiet bi, 1:muon thiet bi, 2: bao hong 3 gia han pm, 4 admin cap thiet bi
     //result: 0: tu choi cho muon, 1:dong y cho muon
     //message co the dung send mail ly do tu choi....
 
@@ -53,9 +54,18 @@ class RequestController extends Controller
 
     }
 
-    public function notify()
+    public function reportDeviceBroken($device_id)
     {
-
+        try {
+            $result = $this->requestService->reportDeviceBroken($device_id);
+            if ($result){
+                return redirect()->route('request.listDeviceBorrow')->with('success', 'Gửi yêu cầu thành công.');
+            } else {
+                return back()->with('error', 'Gửi yêu cầu k thành công.');
+            }
+        } catch (Exception $exception) {
+            return back()->with('error', 'Lỗi');
+        }
     }
 
     public function listRequest()
@@ -115,12 +125,42 @@ class RequestController extends Controller
             $result = $this->requestService->provideDevice($request);
 
             if ($result){
-                return redirect()->route('request.listRequestBorrow')->with('success', 'Cấp thiết bị thành công.');
+                return back()->with('success', 'Cấp thiết bị thành công.');
             } else {
                 return back()->with('error', 'Cấp thiết bị k thành công.');
             }
         } catch (Exception $exception) {
             return back()->with('error', 'Lỗi');
         }
+    }
+
+    public function formDelivered($user_id)
+    {
+        $users = $this->requestService->findUserId($user_id);
+
+        return view('request.delivered', compact('users'));
+    }
+
+    public function delivered(DeliveredRequest $request, $user_id)
+    {
+        try {
+            $result = $this->requestService->delivered($request, $user_id);
+
+            if ($result){
+                return redirect()->route('request.listRequestBorrow')->with('success', 'Xác nhận thành công.');
+            } else {
+                return back()->with('error', 'Xác nhận k thành công.');
+            }
+        } catch (Exception $exception) {
+            dd($exception);
+            return back()->with('error', 'Lỗi');
+        }
+    }
+
+    public function listDeviceBorrow()
+    {
+        $devices = $this->requestService->listDeviceBorrow();
+
+        return view('device.listDeviceBorrowByUser', compact('devices'));
     }
 }

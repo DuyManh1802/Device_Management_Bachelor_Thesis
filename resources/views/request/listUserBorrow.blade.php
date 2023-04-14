@@ -49,6 +49,8 @@
                             <span class="badge bg-label-warning me-1">Báo hỏng</span>
                             @elseif ($req->type == 3)
                             <span class="badge bg-label-info me-1">Gia hạn phần mềm</span>
+                            @elseif ($req->type == 4)
+                            <span class="badge bg-label-info me-1">Cấp thiết bị</span>
                             @else
                             <span class="badge bg-label-warning me-1">Không xác định</span>
                             @endif
@@ -72,9 +74,9 @@
                             @endif
                         </td>
                         </td>
-                        <td>@if ($req->confirm == 0)
+                        <td>@if ($req->confirm === 0)
                             <span class="badge bg-label-warning me-1">Chưa lấy</span>
-                            @elseif ($req->confirm == 1)
+                            @elseif ($req->confirm === 1)
                             <span class="badge bg-label-success me-1">Đã lấy</span>
                             @else
                             <span class="badge bg-label-warning me-1">Không xác định</span>
@@ -89,7 +91,8 @@
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="" onclick="return myFunction();"><i
+                                    <a class="dropdown-item"
+                                        href="{{ route('request.formDelivered', $req->user_id) }}"><i
                                             class="far fa-check-circle me-1"></i> Đã lấy
                                         thiết
                                         bị</a>
@@ -97,18 +100,103 @@
                                         href="{{ route('request.provideDeviceForm', $req->id) }}"><i
                                             class="fas fa-check-double me-1"></i>
                                         Cấp thiết bị</a>
+
                                 </div>
                             </div>
                             @endif
                         </td>
+                        {{-- <div class="col-lg-4 col-md-6">
+
+                            <div class="mt-3">
+                                <!-- Button trigger modal -->
+                                <!-- Modal -->
+
+                                <form action="{{ route('request.delivered', $req->user_id) }}" method="POST">
+                                    @csrf
+                                    <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel1">Xác nhận
+                                                        đã lấy thiết bị</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col mb-3">
+                                                            <label for="dobBasic" class="form-label">Ngày
+                                                                lấy thiết bị</label>
+                                                            <input type="date" id="dobBasic" class="form-control"
+                                                                name="borrowed_date" placeholder="DD / MM / YY" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col mb-3">
+                                                            <label for="dobBasic" class="form-label">Ngày dự
+                                                                kiến trả</label>
+                                                            <input type="date" id="dobBasic" class="form-control"
+                                                                name="return_date" placeholder="DD / MM / YY" />
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Xác
+                                                        nhận</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div> --}}
                     </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="d-flex justify-content-center mt-2">
+    <div class="d-flex justify-content-center mt-4">
         {{ $requests->links() }}
     </div>
 </div>
 @endsection
+{{-- <div class="col-lg-4 col-md-6">
+
+    <div class="mt-3">
+        <!-- Button trigger modal -->
+        <!-- Modal -->
+        <form action="" method="POST">
+            @csrf
+            <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1">Xác nhận đã lấy thiết bị</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="dobBasic" class="form-label">Ngày lấy thiết bị</label>
+                                    <input type="date" id="dobBasic" class="form-control" placeholder="DD / MM / YY" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="dobBasic" class="form-label">Ngày dự kiến trả</label>
+                                    <input type="date" id="dobBasic" class="form-control" placeholder="DD / MM / YY" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div> --}}

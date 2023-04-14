@@ -16,26 +16,44 @@
 
             return $user->requests()->create([
                 'department_id' => $request->department_id,
-                'type' => $request->type,
+                'type' => 1,
                 'start_date' => $request->start_date,
                 'note' => $request->note
             ]);
         }
-            // try {
-            //     DB::beginTransaction();
-            //     DB::commit();
-            // } catch (Exception $exception){
-            //     DB::rollBack();
-            // }
+
+        // try {
+        //     DB::beginTransaction();
+        //     DB::commit();
+        // } catch (Exception $exception){
+        //     DB::rollBack();
+        // }
 
         public function sendReturnRequest()
         {
 
         }
 
-        public function notify()
+        public function reportDeviceBroken($device_id)
         {
+            try {
+                DB::beginTransaction();
+                $user = Auth::user();
+                $user->requests()->create([
+                    'department_id' => (int)$user->department->id,
+                    'device_id' => (int)$device_id,
+                    'type' => 2,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+                Device::where('id', $device_id)->update(['condition' => 0]);
 
+                DB::commit();
+            } catch (Exception $exception){
+                DB::rollBack();
+            }
+
+            return $user;
         }
 
         public function listRequest()
@@ -79,7 +97,7 @@
                         'user_id' => (int)$user_id,
                         'device_id' => (int)$device_id,
                         'status' => 1,
-                        'type' => 1,
+                        'type' => 4,
                         'result' => 1,
                         'note' => 'admin cấp thiết bị',
                         'user_confirm' => Auth::user()->id,
@@ -119,6 +137,52 @@
         public function findIdRequest($id)
         {
             return RequestModel::find($id);
+        }
+
+        public function findUserId($user_id)
+        {
+            return RequestModel::where('user_id', $user_id)->get();
+        }
+
+        public function delivered(Request $request, $user_id)
+        {
+            try {
+                DB::beginTransaction();
+                $requests = RequestModel::where('user_id', $user_id)->where('type', 4)->get();
+
+                foreach ($requests as $req) {
+                    RequestModel::where('confirm', $req->confirm)->update([
+                        'confirm' => 1,
+                    ]);
+                    $req->device()->update([
+                        'status' => 0
+                    ]);
+                    $req->useHistory()->create([
+                        'status' => 1,
+                        'borrowed_date' => $request->borrowed_date,
+                        'return_date' => $request->return_date
+                    ]);
+                }
+                DB::commit();
+            } catch (Exception $exception){
+                DB::rollBack();
+            }
+
+            return $requests;
+        }
+
+        public function listDeviceBorrow()
+        {
+            return RequestModel::where('user_id', Auth::user()->id)
+            ->where('type', 4)
+            ->where('status', 1)
+            ->where('result', 1)
+            ->where('confirm', 1)
+            ->with(['device', 'useHistory'])
+            ->whereHas('device', function($query){
+                $query->where('status', 0);
+            })
+            ->paginate(10);
         }
     }
 ?>
