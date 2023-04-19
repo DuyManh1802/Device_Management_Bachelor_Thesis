@@ -121,4 +121,11 @@ class DeviceController extends Controller
 
         return view('device.listDeviceWarranting', compact('devices'));
     }
+
+    public function listSoftwareByDevice()
+    {
+        $softwares = $this->deviceService->listSoftwareByDevice();
+
+        return view('software.listSoftwareByDevice', compact('softwares'));
+    }
 }

@@ -23,9 +23,9 @@ class Software extends Model
         'image'
     ];
 
-    public function device()
+    public function devices()
     {
-        return $this->belongsTo(Device::class);
+        return $this->hasManyThrough(Device::class, DeviceSoftware::class);
     }
 
     public function device_softwares()

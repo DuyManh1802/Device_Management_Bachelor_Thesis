@@ -87,7 +87,7 @@ class Device extends Model
 
     public function softwares()
     {
-        return $this->hasMany(Software::class);
+        return $this->hasManyThrough(Software::class, DeviceSoftware::class);
     }
 
     public function device_softwares()

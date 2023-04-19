@@ -141,5 +141,10 @@
         {
             return Device::where('condition', 3)->get();
         }
+
+        public function listSoftwareByDevice($device_id)
+        {
+            return Device::with('softwares')->paginate(10);
+        }
     }
 ?>

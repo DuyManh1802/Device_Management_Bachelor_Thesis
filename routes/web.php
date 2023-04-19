@@ -75,6 +75,7 @@ Route::prefix('software')->group(function(){
     Route::get('edit/{id}', [SoftwareController::class, 'edit'])->name('software.edit');
     Route::put('update/{id}', [SoftwareController::class, 'update'])->name('software.update');
     Route::get('delete/{id}', [SoftwareController::class, 'delete'])->name('software.delete');
+    Route::get('software-device', [SoftwareController::class, 'listSoftwareByDevice'])->name('software.listSoftwareByDevice');
 });
 
 Route::prefix('user')->group(function(){
