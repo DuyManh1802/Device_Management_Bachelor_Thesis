@@ -29,9 +29,25 @@
         //     DB::rollBack();
         // }
 
-        public function sendReturnRequest()
+        public function sendReturnRequest($device_id)
         {
+            try {
+                DB::beginTransaction();
+                $user = Auth::user();
+                $user->requests()->create([
+                    'device_id' => (int)$device_id,
+                    'type' => 0,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+                Device::where('id', $device_id)->update(['status' => 1]);
 
+                DB::commit();
+            } catch (Exception $exception){
+                DB::rollBack();
+            }
+
+            return $user;
         }
 
         public function reportDeviceBroken($device_id)
@@ -40,7 +56,6 @@
                 DB::beginTransaction();
                 $user = Auth::user();
                 $user->requests()->create([
-                    'department_id' => (int)$user->department->id,
                     'device_id' => (int)$device_id,
                     'type' => 2,
                     'created_at' => now(),
@@ -129,6 +144,20 @@
             })->paginate(10);
         }
 
+        public function listRequestReturn()
+        {
+            return RequestModel::with(['department', 'user', 'device'])->where('type', 0)->whereHas('user', function($query){
+                $query->where('role', 0);
+            })->paginate(10);
+        }
+
+        public function listRequestBroken()
+        {
+            return RequestModel::with(['department', 'user', 'device'])->where('type', 2)->whereHas('user', function($query){
+                $query->where('role', 0);
+            })->paginate(10);
+        }
+
         public function listDeviceAvailable()
         {
             return Device::where('status', 1)->where('condition', 1)->get();
@@ -179,6 +208,19 @@
             ->where('result', 1)
             ->where('confirm', 1)
             ->with(['device', 'useHistory'])
+            ->whereHas('device', function($query){
+                $query->where('status', 0);
+            })
+            ->paginate(10);
+        }
+
+        public function listDeviceBorrowed()
+        {
+            return RequestModel::where('type', 4)
+            ->where('status', 1)
+            ->where('result', 1)
+            ->where('confirm', 1)
+            ->with(['device', 'useHistory', 'department', 'user'])
             ->whereHas('device', function($query){
                 $query->where('status', 0);
             })

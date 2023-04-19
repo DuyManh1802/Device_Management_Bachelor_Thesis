@@ -91,16 +91,40 @@
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <div class="dropdown-menu">
+
+                                    @if($req->status == 0)
+                                    <a class="dropdown-item" href="{{ route('request.approveRequest', $req->id) }}"
+                                        onclick="return myFunction();"><i class="fas fa-check-double me-1"></i>
+                                        Đồng ý</a>
+                                    <a class="dropdown-item" href="{{ route('request.refuseRequest', $req->id) }}"
+                                        onclick="return myFunction();"><i class="far fa-times-circle me-1"></i>
+                                        Từ chối</a>
+                                    @endif
+
+                                    @if($req->status == 1 || $req->result == 1)
+                                    @if ($req->result == 1 && $req->status == 1 && $req->type == 4 || $req->type == 1)
+
+                                    <a class="dropdown-item"
+                                        href="{{ route('request.provideDeviceForm', $req->id) }}"><i
+                                            class="fas fa-check-double me-1"></i>
+                                        Cấp thiết bị</a>
+                                    @if($req->confirm == 1)
                                     <a class="dropdown-item"
                                         href="{{ route('request.formDelivered', $req->user_id) }}"><i
                                             class="far fa-check-circle me-1"></i> Đã lấy
                                         thiết
                                         bị</a>
-                                    <a class="dropdown-item"
-                                        href="{{ route('request.provideDeviceForm', $req->id) }}"><i
-                                            class="fas fa-check-double me-1"></i>
-                                        Cấp thiết bị</a>
+                                    @endif
+                                    @endif
 
+                                    @if ($req->result == 1 && $req->status == 1 && $req->type == 0)
+                                    <a class="dropdown-item"
+                                        href="{{ route('request.formDelivered', $req->user_id) }}"><i
+                                            class="far fa-check-circle me-1"></i> Đã trả
+                                        thiết
+                                        bị</a>
+                                    @endif
+                                    @endif
                                 </div>
                             </div>
                             @endif

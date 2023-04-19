@@ -10,7 +10,7 @@ use App\Models\DeviceSoftware;
 
 class Software extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $table = 'softwares';
     protected $fillable = [

@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Thiết bị /</span> Danh sách thiết bị</h4>
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Thiết bị /</span> Danh sách thiết bị đang bảo hành
+    </h4>
     @if (session('success'))
     <div class="text-center" role="alert">
         <h4 class="alert alert-success">{{ session('success') }}</h4>
@@ -28,7 +29,6 @@
                         <th>Ảnh</th>
                         <th>Màu sắc</th>
                         <th>Cấu hình</th>
-                        <th>Trạng thái</th>
                         <th>Tình trạng</th>
                         <th>Giá nhập</th>
                     </tr>
@@ -44,13 +44,6 @@
                         <td>{{ $device->color }}</td>
                         <td>{{ $device->configuration }}</td>
                         <td>
-                            @if ($device->status === 0)
-                            <span class="badge bg-label-warning me-1">Không có sẵn</span>
-                            @else
-                            <span class="badge bg-label-success me-1">Có sẵn</span>
-                            @endif
-                        </td>
-                        <td>
                             @if ($device->condition === 1)
                             <span class="badge bg-label-success me-1">Bình thường</span>
                             @elseif ($device->condition === 0)
@@ -65,7 +58,7 @@
                         </td>
                         <td>{{ $device->purchase_price }}</td>
                         <td>
-                            <div class="dropdown">
+                            {{-- <div class="dropdown">
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
                                     data-bs-toggle="dropdown">
                                     <i class="bx bx-dots-vertical-rounded"></i>
@@ -77,16 +70,13 @@
                                         onclick="return myFunction();"><i class="bx bx-trash me-1"></i>
                                         Xóa</a>
                                 </div>
-                            </div>
+                            </div> --}}
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-    </div>
-    <div class="d-flex justify-content-center mt-4">
-        {{ $devices->links() }}
     </div>
 </div>
 @endsection

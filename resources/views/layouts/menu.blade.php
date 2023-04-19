@@ -161,6 +161,23 @@ $categories = App\Models\category::all();
                         <div data-i18n="Container">Yêu cầu mượn thiết bị</div>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a href="{{route('request.listRequestReturn')}}" class="menu-link">
+                        <div data-i18n="Container">Yêu cầu trả thiết bị</div>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="{{route('request.listRequestBroken')}}" class="menu-link">
+                        <div data-i18n="Container">Báo hỏng thiết bị</div>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="{{route('request.listRequestLicenseKey')}}" class="menu-link">
+                        <div data-i18n="Container">Yêu cầu gia hạn license key</div>
+                    </a>
+                </li>
             </ul>
         </li>
         <li id="menuItem" class="menu-item">
@@ -171,28 +188,34 @@ $categories = App\Models\category::all();
 
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <div data-i18n="Container">Thiết bị đang rảnh</div>
+                    <a href="{{ route('request.listDeviceAvailabale') }}" class="menu-link">
+                        <div data-i18n="Container">Thiết bị có sẵn</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="{{ route('request.listDeviceBorrowed') }}" class="menu-link">
                         <div data-i18n="Container">Thiết bị đang cho mượn</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="{{ route('device.listDeviceBrokening') }}" class="menu-link">
                         <div data-i18n="Without menu">Thiết bị đang hỏng</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="{{ route('device.listDeviceRepairing') }}" class="menu-link">
                         <div data-i18n="Container">Thiết bị đang sửa chữa</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="{{ route('device.listDeviceWarranting') }}" class="menu-link">
                         <div data-i18n="Container">Thiết bị đang bảo hành</div>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Container">Thiết bị đã sửa chữa / bảo hành</div>
                     </a>
                 </li>
 

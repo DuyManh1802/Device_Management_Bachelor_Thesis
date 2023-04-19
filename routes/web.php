@@ -62,6 +62,9 @@ Route::prefix('device')->group(function(){
     Route::put('update/{id}', [DeviceController::class, 'update'])->name('device.update');
     Route::get('delete/{id}', [DeviceController::class, 'delete'])->name('device.delete');
     Route::get('/category/{category}', [DeviceController::class, 'showByCategory'])->name('device.showByCategory');
+    Route::get('device-repairing', [DeviceController::class, 'listDeviceRepairing'])->name('device.listDeviceRepairing');
+    Route::get('device-brokening', [DeviceController::class, 'listDeviceBrokening'])->name('device.listDeviceBrokening');
+    Route::get('device-warranting', [DeviceController::class, 'listDeviceWarranting'])->name('device.listDeviceWarranting');
 
 });
 
@@ -87,10 +90,13 @@ Route::prefix('request')->group(function(){
     Route::get('/borrow-device', [RequestController::class, 'showBorrowForm'])->name('request.showBorrowForm');
     Route::post('/send-borrow-request', [RequestController::class, 'sendBorrorRequest'])->name('request.sendBorrowRequest');
     Route::get('/return-device/{id}', [RequestController::class, 'sendReturnRequest'])->name('request.sendReturnRequest');
-    Route::get('/roport-device-broken/{id}', [RequestController::class, 'reportDeviceBroken'])->name('request.reportDeviceBroken');
+    Route::get('/report-device-broken/{id}', [RequestController::class, 'reportDeviceBroken'])->name('request.reportDeviceBroken');
 
     Route::get('/list-request', [RequestController::class, 'listRequest'])->name('request.listRequest');
     Route::get('/list-request-borrow', [RequestController::class, 'listRequestBorrow'])->name('request.listRequestBorrow');
+    Route::get('/list-request-return', [RequestController::class, 'listRequestReturn'])->name('request.listRequestReturn');
+    Route::get('/list-request-broken', [RequestController::class, 'listRequestBroken'])->name('request.listRequestBroken');
+    Route::get('/list-request-license-key', [RequestController::class, 'listRequestLicenseKey'])->name('request.listRequestLicenseKey');
     Route::get('/approve/{id}', [RequestController::class, 'approveRequest'])->name('request.approveRequest');
     Route::get('/refuse/{id}', [RequestController::class, 'refuseRequest'])->name('request.refuseRequest');
     Route::get('/provide/{id}', [RequestController::class, 'provideDeviceForm'])->name('request.provideDeviceForm');
@@ -100,4 +106,6 @@ Route::prefix('request')->group(function(){
     Route::get('/delivered/{user_id}', [RequestController::class, 'formDelivered'])->name('request.formDelivered');
     Route::post('/delivered/{user_id}', [RequestController::class, 'delivered'])->name('request.delivered');
     Route::get('list-device-borrow', [RequestController::class, 'listDeviceBorrow'])->name('request.listDeviceBorrow');
+    Route::get('list-device-borrowed', [RequestController::class, 'listDeviceBorrowed'])->name('request.listDeviceBorrowed');
+    Route::get('list-device-available', [RequestController::class, 'listDeviceAvailabale'])->name('request.listDeviceAvailabale');
 });

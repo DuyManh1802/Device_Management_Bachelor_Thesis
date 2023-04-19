@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\RequestService;
 use Exception;
-use App\Http\Requests\SendBorrorRequest;
-use Symfony\Component\HttpFoundation\Request;
-use App\Models\Device;
-use App\Models\Request as RequestModel;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\SendBorrorRequest;;
 use App\Http\Requests\ConfirmProvideRequest;
 use App\Http\Requests\DeliveredRequest;
 
@@ -49,9 +45,18 @@ class RequestController extends Controller
         }
     }
 
-    public function sendReturnRequest()
+    public function sendReturnRequest($device_id)
     {
-
+        try {
+            $result = $this->requestService->sendReturnRequest($device_id);
+            if ($result){
+                return redirect()->route('request.listDeviceBorrow')->with('success', 'Gửi yêu cầu thành công.');
+            } else {
+                return back()->with('error', 'Gửi yêu cầu k thành công.');
+            }
+        } catch (Exception $exception) {
+            return back()->with('error', 'Lỗi');
+        }
     }
 
     public function reportDeviceBroken($device_id)
@@ -80,6 +85,20 @@ class RequestController extends Controller
         $requests = $this->requestService->listRequestBorrow();
 
         return view('request.listUserBorrow', compact('requests'));
+    }
+
+    public function listRequestReturn()
+    {
+        $requests = $this->requestService->listRequestReturn();
+
+        return view('request.listRequestReturn', compact('requests'));
+    }
+
+    public function listRequestBroken()
+    {
+        $requests = $this->requestService->listRequestBroken();
+
+        return view('request.listRequestBroken', compact('requests'));
     }
 
     public function refuseRequest($id)
@@ -152,7 +171,6 @@ class RequestController extends Controller
                 return back()->with('error', 'Xác nhận k thành công.');
             }
         } catch (Exception $exception) {
-            dd($exception);
             return back()->with('error', 'Lỗi');
         }
     }
@@ -162,5 +180,19 @@ class RequestController extends Controller
         $devices = $this->requestService->listDeviceBorrow();
 
         return view('device.listDeviceBorrowByUser', compact('devices'));
+    }
+
+    public function listDeviceAvailabale()
+    {
+        $devices = $this->requestService->listDeviceAvailable();
+
+        return view('device.listDeviceAvailable', compact('devices'));
+    }
+
+    public function listDeviceBorrowed()
+    {
+        $devices = $this->requestService->listDeviceBorrowed();
+
+        return view('device.listDeviceBorrowed', compact('devices'));
     }
 }

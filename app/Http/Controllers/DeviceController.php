@@ -100,4 +100,25 @@ class DeviceController extends Controller
 
         return view('device.list', compact('devices'));
     }
+
+    public function listDeviceRepairing()
+    {
+        $devices = $this->deviceService->listDeviceRepairing();
+
+        return view('device.listDeviceRepairing', compact('devices'));
+    }
+
+    public function listDeviceBrokening()
+    {
+        $devices = $this->deviceService->listDeviceBrokening();
+
+        return view('device.listDeviceBrokening', compact('devices'));
+    }
+
+    public function listDeviceWarranting()
+    {
+        $devices = $this->deviceService->listDeviceWarranting();
+
+        return view('device.listDeviceWarranting', compact('devices'));
+    }
 }

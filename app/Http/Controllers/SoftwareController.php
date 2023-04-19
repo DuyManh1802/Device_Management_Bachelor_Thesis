@@ -19,11 +19,7 @@ class SoftwareController extends Controller
 
     public function index()
     {
-        try {
-            $softwares = $this->softwareService->allSoftware();
-        } catch (Exception $exception) {
-            return back()->with('error', 'Lỗi');
-        }
+        $softwares = $this->softwareService->allSoftware();
 
         return view('software.list', compact('softwares'));
     }

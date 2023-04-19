@@ -40,6 +40,13 @@
 </script>
 
 <script>
+    function confirmAction() {
+        if(!confirm("Bạn có chắc chắn muốn thực hiện hành động này ?"))
+        event.preventDefault();
+    }
+</script>
+
+<script>
     const menuItems = document.querySelectorAll('#menuItem');
     let activeMenuItemIndex = localStorage.getItem('activeMenuItemIndex');
 

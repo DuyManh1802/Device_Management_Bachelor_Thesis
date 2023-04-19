@@ -126,5 +126,20 @@
 
         //     return $devices;
         // }
+
+        public function listDeviceRepairing()
+        {
+            return Device::where('condition', 2)->get();
+        }
+
+        public function listDeviceBrokening()
+        {
+            return Device::where('condition', 0)->get();
+        }
+
+        public function listDeviceWarranting()
+        {
+            return Device::where('condition', 3)->get();
+        }
     }
 ?>

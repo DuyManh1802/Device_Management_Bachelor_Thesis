@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Thiết bị /</span> Danh sách thiết bị</h4>
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Thiết bị /</span> Danh sách thiết bị đang cho mượn
+    </h4>
     @if (session('success'))
     <div class="text-center" role="alert">
         <h4 class="alert alert-success">{{ session('success') }}</h4>
@@ -24,14 +25,15 @@
                     <tr>
                         <th>STT</th>
                         <th>Tên thiết bị</th>
+                        <th>Phòng</th>
+                        <th>Người mượn</th>
+                        <th>Ngày mượn</th>
+                        <th>Ngày dự kiến trả</th>
                         <th>Ảnh</th>
                         <th>Màu sắc</th>
                         <th>Cấu hình</th>
-                        <th>Trạng thái</th>
                         <th>Tình trạng</th>
-                        <th>Giá trị</th>
-                        <th>Ngày mượn</th>
-                        <th>Ngày dự kiến trả</th>
+                        <th>Giá nhập</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -39,21 +41,15 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td><strong>{{ $device->device->name }}</strong></td>
+                        <td>{{ $device->department->name }}</td>
+                        <td>{{ $device->user->name }}</td>
+                        <td>{{ $device->useHistory->borrowed_date ?? '' }}</td>
+                        <td>{{ $device->useHistory->return_date ?? ''}}</td>
                         <td><img src="{{ asset('image/device/' . $device->device->image) }}" alt="" width="40px"
                                 height="40px">
                         </td>
                         <td>{{ $device->device->color }}</td>
                         <td>{{ $device->device->configuration }}</td>
-                        <td>
-                            {{ $device->useHistory->status ?? '' }}
-                            {{-- @if ($device->useHistory->status === 1)
-                            <span class="badge bg-label-warning me-1">Đang mượn</span>
-                            @elseif ($device->useHistory->status === 0)
-                            <span class="badge bg-label-success me-1">Đã trả</span>
-                            @else
-                            <span class="badge bg-label-success me-1"> </span>
-                            @endif --}}
-                        </td>
                         <td>
                             @if ($device->device->condition === 1)
                             <span class="badge bg-label-success me-1">Bình thường</span>
@@ -68,26 +64,21 @@
                             @endif
                         </td>
                         <td>{{ $device->device->purchase_price }}</td>
-                        <td>{{ $device->useHistory->borrowed_date ?? '' }}</td>
-                        <td>{{ $device->useHistory->return_date ?? '' }}</td>
-                        <td>
+                        {{-- <td>
                             <div class="dropdown">
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
                                     data-bs-toggle="dropdown">
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item"
-                                        href="{{ route('request.reportDeviceBroken', $device->device->id) }}"
-                                        onclick="return confirmAction();"><i class="bx bx-edit-alt me-1"></i> Báo
-                                        hỏng</a>
-                                    <a class="dropdown-item"
-                                        href="{{ route('request.sendReturnRequest', $device->device->id) }}"
-                                        onclick="return confirmAction();"><i class="bx bx-trash me-1"></i>
-                                        Trả thiết bị</a>
+                                    <a class="dropdown-item" href="{{ route('device.edit', $device->id) }}"><i
+                                            class="bx bx-edit-alt me-1"></i> Sửa</a>
+                                    <a class="dropdown-item" href="{{ route('device.delete', $device->id) }}"
+                                        onclick="return myFunction();"><i class="bx bx-trash me-1"></i>
+                                        Xóa</a>
                                 </div>
                             </div>
-                        </td>
+                        </td> --}}
                     </tr>
                     @endforeach
                 </tbody>
