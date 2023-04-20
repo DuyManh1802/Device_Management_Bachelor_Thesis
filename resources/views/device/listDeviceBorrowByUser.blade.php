@@ -78,6 +78,10 @@
                                 </button>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item"
+                                        href="{{ route('request.showBorrowFormLicensekey', $device->device->id) }}"><i
+                                            class="bx bx-edit-alt me-1"></i> Yêu cầu
+                                        cấp license key</a>
+                                    <a class="dropdown-item"
                                         href="{{ route('request.reportDeviceBroken', $device->device->id) }}"
                                         onclick="return confirmAction();"><i class="bx bx-edit-alt me-1"></i> Báo
                                         hỏng</a>

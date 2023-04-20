@@ -7,6 +7,7 @@ use Exception;
 use App\Http\Requests\SendBorrorRequest;;
 use App\Http\Requests\ConfirmProvideRequest;
 use App\Http\Requests\DeliveredRequest;
+use App\Http\Requests\sendBorrorRequestLicensekeyRequest;
 
 class RequestController extends Controller
 {
@@ -99,6 +100,13 @@ class RequestController extends Controller
         $requests = $this->requestService->listRequestBroken();
 
         return view('request.listRequestBroken', compact('requests'));
+    }
+
+    public function listRequestLicensekey()
+    {
+        $requests = $this->requestService->listRequestLicensekey();
+
+        return view('request.listRequestLicensekey', compact('requests'));
     }
 
     public function refuseRequest($id)
@@ -194,5 +202,34 @@ class RequestController extends Controller
         $devices = $this->requestService->listDeviceBorrowed();
 
         return view('device.listDeviceBorrowed', compact('devices'));
+    }
+
+    public function showBorrowFormLicensekey($device_id)
+    {
+        $devices = $this->requestService->findDevice($device_id);
+
+        return view('request.borrowLicenseKeyForm', compact('devices'));
+    }
+
+    public function sendBorrorRequestLicensekey(sendBorrorRequestLicensekeyRequest $request, $device_id)
+    {
+        try {
+            $result = $this->requestService->sendBorrorRequestLicensekey($request, $device_id);
+
+            if ($result){
+                return back()->with('success', 'Gửi yêu cầu thành công.');
+            } else {
+                return back()->with('error', 'Xác nhận k thành công.');
+            }
+        } catch (Exception $exception) {
+            return back()->with('error', 'Lỗi');
+        }
+    }
+
+    public function listRequestByUser()
+    {
+        $requests = $this->requestService->listRequestByUser();
+
+        return view('request.listRequestByUser', compact('requests'));
     }
 }

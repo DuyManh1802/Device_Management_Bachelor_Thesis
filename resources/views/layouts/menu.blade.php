@@ -175,7 +175,7 @@ $categories = App\Models\category::all();
 
                 <li class="menu-item">
                     <a href="{{route('request.listRequestLicenseKey')}}" class="menu-link">
-                        <div data-i18n="Container">Yêu cầu gia hạn license key</div>
+                        <div data-i18n="Container">Yêu cầu cấp license key</div>
                     </a>
                 </li>
             </ul>
@@ -245,6 +245,11 @@ $categories = App\Models\category::all();
                     </a>
                 </li>
                 <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Container">Phần mềm đã hết lượt dùng license key</div>
+                    </a>
+                </li>
+                <li class="menu-item">
                     <a href="{{ route('software.create') }}" class="menu-link">
                         <div data-i18n="Container">Thêm phần mềm mới</div>
                     </a>
@@ -274,6 +279,12 @@ $categories = App\Models\category::all();
         </li>
         @endif
         @else
+        <div id="menuItem" class="menu-item">
+            <a href="{{ route('request.listRequestByUser') }}" class="menu-link">
+                <i class="menu-icon fas fa-stream"></i>
+                <div data-i18n="Without navbar">Yêu cầu đã gửi</div>
+            </a>
+        </div>
         <div id="menuItem" class="menu-item">
             <a href="{{ route('request.listDeviceBorrow') }}" class="menu-link">
                 <i class="menu-icon fas fa-stream"></i>

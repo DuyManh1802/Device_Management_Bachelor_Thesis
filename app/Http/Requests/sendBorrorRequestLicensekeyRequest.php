@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateSoftwareRequest extends FormRequest
+class sendBorrorRequestLicensekeyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,14 +25,10 @@ class CreateSoftwareRequest extends FormRequest
     {
         return [
             'id' => 'integer',
-            'name' => 'required|string',
-            'version' => 'required|string',
-            'license_key' => 'required|string',
-            'usage_count' => 'required|integer|min:1',
-            'start' => 'required|date',
-            'end' => 'required|date',
-            'license_price' => 'required',
-            'image' => 'required'
+            'user_id' => 'integer|exists:users,id',
+            'type' => 'required|integer',
+            'note' => 'required|string',
+            'start_date' => 'required'
         ];
     }
 }

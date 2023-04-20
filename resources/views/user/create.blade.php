@@ -5,7 +5,7 @@
 
     <div class="col-xxl">
         <div class="card mb-4">
-            <form action="{{ route('user.store') }}" method="POST">
+            <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
                     <div class="row mb-3">

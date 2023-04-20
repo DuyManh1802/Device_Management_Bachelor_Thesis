@@ -23,7 +23,6 @@
                 <thead>
                     <tr>
                         <th>STT</th>
-                        <th>Thiết bị</th>
                         <th>Tên phần mềm</th>
                         <th>Ảnh</th>
                         <th>Phiên bản</th>
@@ -36,10 +35,11 @@
                     @foreach ( $softwares as $key => $software )
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td>{{ $software->device->name }}</td>
                         <td><strong>{{ $software->name }}</strong></td>
-                        <td><img src="{{ $software->image }}" alt=""></td>
-                        <td>{{ $software->version }}</td>
+                        <td><img src="{{ asset('image/software' . $software->image) }}" alt="" width="40px"
+                                height="40px"></td>
+                        <td>{{ $software->version }}
+                        </td>
                         <td>{{ $software->start }}</td>
                         <td>{{ $software->end }}</td>
                         <td>{{ $software->license_price }}</td>

@@ -18,8 +18,9 @@ class Software extends Model
         'version',
         'start',
         'end',
-        'device_id',
         'license_price',
+        'license_key',
+        'usage_count',
         'image'
     ];
 

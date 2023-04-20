@@ -90,6 +90,8 @@ Route::prefix('user')->group(function(){
 Route::prefix('request')->group(function(){
     Route::get('/borrow-device', [RequestController::class, 'showBorrowForm'])->name('request.showBorrowForm');
     Route::post('/send-borrow-request', [RequestController::class, 'sendBorrorRequest'])->name('request.sendBorrowRequest');
+    Route::get('/borrow-licensekey/{device_id}', [RequestController::class, 'showBorrowFormLicensekey'])->name('request.showBorrowFormLicensekey');
+    Route::post('/send-borrow-licensekey/{device_id}', [RequestController::class, 'sendBorrorRequestLicensekey'])->name('request.sendBorrowRequestLicensekey');
     Route::get('/return-device/{id}', [RequestController::class, 'sendReturnRequest'])->name('request.sendReturnRequest');
     Route::get('/report-device-broken/{id}', [RequestController::class, 'reportDeviceBroken'])->name('request.reportDeviceBroken');
 
@@ -97,6 +99,7 @@ Route::prefix('request')->group(function(){
     Route::get('/list-request-borrow', [RequestController::class, 'listRequestBorrow'])->name('request.listRequestBorrow');
     Route::get('/list-request-return', [RequestController::class, 'listRequestReturn'])->name('request.listRequestReturn');
     Route::get('/list-request-broken', [RequestController::class, 'listRequestBroken'])->name('request.listRequestBroken');
+    Route::get('/list-request-user', [RequestController::class, 'listRequestByUser'])->name('request.listRequestByUser');
     Route::get('/list-request-license-key', [RequestController::class, 'listRequestLicenseKey'])->name('request.listRequestLicenseKey');
     Route::get('/approve/{id}', [RequestController::class, 'approveRequest'])->name('request.approveRequest');
     Route::get('/refuse/{id}', [RequestController::class, 'refuseRequest'])->name('request.refuseRequest');

@@ -173,6 +173,11 @@
             return RequestModel::where('user_id', $user_id)->get();
         }
 
+        public function findDevice($device_id)
+        {
+            return Device::where('id', $device_id)->get();
+        }
+
         public function delivered(Request $request, $user_id)
         {
             try {
@@ -225,6 +230,31 @@
                 $query->where('status', 0);
             })
             ->paginate(10);
+        }
+
+        public function sendBorrorRequestLicensekey(Request $request, $device_id)
+        {
+            $user = Auth::user();
+            $user->requests()->create([
+                'device_id' => (int)$device_id,
+                'type' => $request->type,
+                'start_date' => $request->start_date,
+                'note' => $request->note,
+            ]);
+
+            return $user;
+        }
+
+        public function listRequestByUser()
+        {
+            return RequestModel::where('user_id', Auth::user()->id)->paginate(10);
+        }
+
+        public function listRequestLicensekey()
+        {
+            return RequestModel::with(['department', 'user', 'device'])->where('type', 3)->whereHas('user', function($query){
+                $query->where('role', 0);
+            })->paginate(10);
         }
     }
 ?>

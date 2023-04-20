@@ -1,14 +1,20 @@
 @extends('layouts.app')
 @section('content')
+@php
+foreach ($devices as $device) {
+$device_id = $device->device_id;
+}
+
+@endphp
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Yêu cầu /</span> Gửi yêu cầu mượn thiết bị</h4>
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Yêu cầu /</span> Gửi yêu cầu cấp license key</h4>
+
     <div class="col-xxl">
         <div class="card mb-4">
-
-            <form action="{{ route('request.sendBorrowRequest') }}" method="POST">
+            <form action="{{ route('request.sendBorrowRequestLicensekey', $device->id) }}" method="POST">
                 @csrf
                 <div class="card-body">
-                    <div class="row mb-3">
+                    {{-- <div class="row mb-3">
                         <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">{{ __('Phòng ban')
                             }}</label>
                         <div class="col-sm-10">
@@ -27,16 +33,16 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="row mb-3">
                         <label class="col-sm-2 form-label" for="basic-icon-default-phone">{{ __('Kiểu yêu cầu')
                             }}</label>
                         <div class="col-sm-10">
                             <div class="form-check mt-3">
-                                <input class="form-check-input" type="radio" id="defaultCheck1" name="type" value="1"
+                                <input class="form-check-input" type="radio" id="defaultCheck1" name="type" value="3"
                                     checked readonly />
-                                <label class="form-check-label" for="defaultCheck1"> Mượn thiết bị </label>
+                                <label class="form-check-label" for="defaultCheck1"> Cấp license key </label>
                             </div>
 
                             @error('type')

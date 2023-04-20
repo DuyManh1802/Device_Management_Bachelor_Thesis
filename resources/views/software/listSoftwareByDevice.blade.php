@@ -37,12 +37,12 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $software->devices->name }}</td>
-                        <td><strong>{{ $software->name }}</strong></td>
-                        <td><img src="{{ $software->image }}" alt=""></td>
-                        <td>{{ $software->version }}</td>
-                        <td>{{ $software->start }}</td>
-                        <td>{{ $software->end }}</td>
-                        <td>{{ $software->license_price }}</td>
+                        <td><strong>{{ $software->softwares->name }}</strong></td>
+                        <td><img src="{{ $software->softwares->image }}" alt=""></td>
+                        <td>{{ $software->softwares->version }}</td>
+                        <td>{{ $software->softwares->start }}</td>
+                        <td>{{ $software->softwares->end }}</td>
+                        <td>{{ $software->softwares->license_price }}</td>
                         <td>
                             <div class="dropdown">
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"

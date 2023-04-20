@@ -6,7 +6,7 @@
     <div class="col-xxl">
         <div class="card mb-4">
             <div class="card-body">
-                <form action="{{ route('user.update', $users->id) }}" method="POST">
+                <form action="{{ route('user.update', $users->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row mb-3">
