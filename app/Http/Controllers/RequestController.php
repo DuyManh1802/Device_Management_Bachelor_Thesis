@@ -8,6 +8,7 @@ use App\Http\Requests\SendBorrorRequest;;
 use App\Http\Requests\ConfirmProvideRequest;
 use App\Http\Requests\DeliveredRequest;
 use App\Http\Requests\sendBorrorRequestLicensekeyRequest;
+use App\Http\Requests\SendLicenseRequest;
 
 class RequestController extends Controller
 {
@@ -159,6 +160,34 @@ class RequestController extends Controller
         } catch (Exception $exception) {
             return back()->with('error', 'Lỗi');
         }
+    }
+
+    public function provideLicenseKeyForm($user_id, $device_id)
+    {
+        $devices = $this->requestService->findDevice($device_id);
+        $softwares = $this->requestService->listSoftwareAvailable();
+        $users = $this->requestService->findUserId($user_id);
+
+        return view('request.provideLicenseKeyForm', compact('devices', 'softwares', 'users'));
+    }
+
+    public function provideLicenseKey($user_id, $device_id, SendLicenseRequest $request)
+    {
+        dd(1);
+        $result = $this->requestService->provideLicenseKey($user_id, $device_id, $request);
+
+        // try {
+        //     $result = $this->requestService->provideLicenseKey($user_id, $device_id, $request);
+        //     dd($result);
+        //     if ($result){
+        //         return redirect()->route('request.listRequestLicenseKey')->with('success', 'Gửi License Key thành công.');
+        //     } else {
+        //         return back()->with('error', 'Gửi License Key thành công.');
+        //     }
+        // } catch (Exception $exception) {
+        //     dd($exception);
+        //     return back()->with('error', 'Lỗi');
+        // }
     }
 
     public function formDelivered($user_id)

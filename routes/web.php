@@ -105,6 +105,10 @@ Route::prefix('request')->group(function(){
     Route::get('/refuse/{id}', [RequestController::class, 'refuseRequest'])->name('request.refuseRequest');
     Route::get('/provide/{id}', [RequestController::class, 'provideDeviceForm'])->name('request.provideDeviceForm');
     Route::post('/provide', [RequestController::class, 'provideDevice'])->name('request.provideDevice');
+
+    Route::get('/provide-licensekey/{user_id}/{device_id}', [RequestController::class, 'provideLicenseKeyForm'])->name('request.provideLicenseKeyForm');
+    Route::post('/provide-licensekey', [RequestController::class, 'provideLicenseKey'])->name('request.provideLicenseKey');
+
     // Route::put('/provide/{id}', [RequestController::class, 'provideDeviceConfirm'])->name('request.provideDeviceConfirm');
     Route::put('/recall/department{id}/user{id}', [RequestController::class, 'recallDevice'])->name('request.recallDevice');
     Route::get('/delivered/{user_id}', [RequestController::class, 'formDelivered'])->name('request.formDelivered');

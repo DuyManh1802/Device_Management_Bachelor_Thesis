@@ -24,10 +24,10 @@ class Software extends Model
         'image'
     ];
 
-    public function devices()
-    {
-        return $this->hasManyThrough(Device::class, DeviceSoftware::class);
-    }
+    // public function devices()
+    // {
+    //     return $this->hasManyThrough(Device::class, DeviceSoftware::class);
+    // }
 
     public function device_softwares()
     {

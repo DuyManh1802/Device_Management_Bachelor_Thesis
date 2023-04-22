@@ -85,10 +85,10 @@ class Device extends Model
         return $this->hasOneThrough(UsageCount::class, UseHistory::class);
     }
 
-    public function softwares()
-    {
-        return $this->hasManyThrough(Software::class, DeviceSoftware::class);
-    }
+    // public function softwares()
+    // {
+    //     return $this->hasManyThrough(Software::class, DeviceSoftware::class);
+    // }
 
     public function device_softwares()
     {

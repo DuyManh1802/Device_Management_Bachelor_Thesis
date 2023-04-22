@@ -16,7 +16,6 @@ class AddColumnLicenseKeyUsageCount extends Migration
         Schema::table('softwares', function (Blueprint $table) {
             $table->string('license_key')->after('version');
             $table->integer('usage_count')->after('license_key');
-            $table->dropConstrainedForeignId('device_id');
         });
     }
 

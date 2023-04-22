@@ -131,8 +131,7 @@
                                     </select>
                                 </ul>
                                 <input type="text" class="form-control" aria-label="Text input with dropdown button"
-                                    name="selected_devices" id="selected_devices"
-                                    value="{{ old('selected_devices') }}" />
+                                    name="selected_devices" id="selected_devices" />
                             </div>
                         </div>
                     </div>
@@ -169,7 +168,7 @@
     }
 </script> --}}
 
-<script>
+{{-- <script>
     $('form').on('submit', function(e) {
         e.preventDefault();
         var deviceIds = $('#exampleFormControlSelect1').val();
@@ -177,7 +176,7 @@
         $(this).unbind('submit').submit();
     });
 
-</script>
+</script> --}}
 
 <script>
     var selectedDevices = [];
@@ -200,7 +199,7 @@
         }).join(", ");
 
         var selectedDevicesId = selectedDevices.map(function(device) {
-            return device.id;
+            return Number(device.id);
         });
 
         $('#selected_devices').val(selectedDevicesText);

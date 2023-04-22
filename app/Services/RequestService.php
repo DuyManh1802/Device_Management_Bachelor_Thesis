@@ -7,6 +7,10 @@
     use App\Models\Request as RequestModel;
     use Exception;
     use App\Models\Device;
+    use App\Models\Software;
+    use App\Models\User;
+    use App\Models\DeviceSoftware;
+    use App\Events\SendLecenseKey;
 
     class RequestService
     {
@@ -131,6 +135,47 @@
 
             return $request_data;
         }
+
+
+       public function provideLicenseKey($user_id, $device_id, Request $request)
+       {
+           dd(1);
+           try {
+               dd(1);
+                DB::beginTransaction();
+                $user = User::where('id', $user_id)->value('id');
+                dd($user);
+                $software_ids = $request->input('software_id');
+                $data = [];
+                foreach($software_ids as $software_id) {
+                    $data = [
+                        'device_id' => (int)$device_id,
+                        'software_id' => (int)$software_id,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ];
+
+                    $software = Software::find($software_id);
+                    $usage_count = $software->usage_count;
+                    $software->update([
+                        'usage_count' => $usage_count - 1
+                    ]);
+                }
+
+                DeviceSoftware::insert($data);
+
+                event(new SendLecenseKey($user));
+                DB::commit();
+            } catch (Exception $exception){
+                dd($exception);
+                DB::rollBack();
+            }
+       }
+
+       public function listSoftwareAvailable()
+       {
+            return Software::where('usage_count', '>', 0)->get();
+       }
 
         public function allDepartment()
         {

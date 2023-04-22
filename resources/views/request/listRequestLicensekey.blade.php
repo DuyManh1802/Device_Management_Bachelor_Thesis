@@ -84,7 +84,8 @@
                                     @endif
 
                                     @if($req->status == 1 && $req->result == 1)
-                                    <a class="dropdown-item" href="#" onclick="return confirmAction();"><i
+                                    <a class="dropdown-item"
+                                        href="{{ route('request.provideLicenseKeyForm', ['user_id' => $req->user_id, 'device_id' => $req->device_id]) }}"><i
                                             class="far fa-times-circle me-1"></i>
                                         Gửi license key</a>
                                     @endif
