@@ -2,7 +2,8 @@
 @section('content')
 
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Thiết bị /</span> Danh sách thiết bị đang hỏng</h4>
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Thiết bị /</span> Danh sách thiết bị đã sửa chữa /
+        bảo hành</h4>
     @if (session('success'))
     <div class="text-center" role="alert">
         <h4 class="alert alert-success">{{ session('success') }}</h4>
@@ -31,9 +32,10 @@
                         <th>Cấu hình</th>
                         <th>Tình trạng</th>
                         <th>Giá nhập</th>
-                        <th>MFG Bảo hành</th>
-                        <th>EXP Bảo hành</th>
                         <th>Thời hạn BH còn (ngày)</th>
+                        <th>Số lần bảo hành</th>
+                        <th>Số lần sửa chữa</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -61,22 +63,33 @@
                         </td>
                         <td>{{ $device->purchase_price }}</td>
                         @foreach ($device->warranties as $warranty)
-                        <td>{{ $warranty->start }}</td>
-                        <td>{{ $warranty->end }}</td>
+
                         <td>
                             @php
                             $dateWarranty = (Carbon\Carbon::now())->diffInDays(Carbon\Carbon::parse($warranty->end),
                             false);
-                            @endphp {{ $dateWarranty > 0 ? $dateWarranty : 'Đã hết hạn' }}</td>
+                            @endphp {{ $dateWarranty > 0 ? $dateWarranty : 'Đã hết hạn' }}
+                        </td>
+
+                        <td>{{ $warranty->warranty_count }}</td>
+                        @endforeach
+                        <td>
+                            @foreach ($device->repairs as $repair)
+                            {{ $repair->repair_count }}
+                            @endforeach
+                        </td>
                         <td>
 
-                            @endforeach
                             <div class="dropdown">
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
                                     data-bs-toggle="dropdown">
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <div class="dropdown-menu">
+                                    <a class="dropdown-item"
+                                        href="{{ route('device.detailDeviceWarrantiedOrRepaired', $device->id) }}"><i
+                                            class="far fa-eye me-1"></i> Xem chi
+                                        tiết</a>
                                     @if($dateWarranty > 0)
                                     @if($device->condition === 3)
 
@@ -105,9 +118,10 @@
                                         xong</a>
                                     @endif
 
+                                    @endif
                                 </div>
-                                @endif
                             </div>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>

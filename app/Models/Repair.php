@@ -20,9 +20,9 @@ class Repair extends Model
         'device_id'
     ];
 
-    public function repairDetail()
+    public function repairDetails()
     {
-        return $this->hasOne(RepairDetail::class);
+        return $this->hasMany(RepairDetail::class);
     }
 
     public function typeRepairs()

@@ -9,8 +9,9 @@ use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SoftwareController;
 use App\Http\Controllers\RequestController;
-use App\Models\Request;
-
+use App\Http\Controllers\WarrantyController;
+use App\Http\Controllers\RepairController;
+use App\Http\Controllers\Api\HomeController as HomeApiController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,29 +24,25 @@ use App\Models\Request;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/get-devices-info', [HomeApiController::class, 'getDevicesInfo'])->name('getDevicesInfo');
+Route::get('/get-requests-info', [HomeApiController::class, 'getRequestsInfo'])->name('getRequestsInfo');
 
-Route::prefix('department')->group(function(){
+Route::prefix('departments')->group(function(){
     Route::get('/', [DepartmentController::class, 'index'])->name('department.index');
     Route::get('create', [DepartmentController::class, 'create'])->name('department.create');
     Route::post('store', [DepartmentController::class, 'store'])->name('department.store');
     Route::get('edit/{id}', [DepartmentController::class, 'edit'])->name('department.edit');
     Route::put('update/{id}', [DepartmentController::class, 'update'])->name('department.update');
     Route::get('delete/{id}', [DepartmentController::class, 'delete'])->name('department.delete');
-    // Route::get('list', [DepartmentController::class, 'listDepartment'])->name('admin.department.listDepartment');
-    // Route::get('add-device-department', [DepartmentController::class, 'formAddDevice'])->name('department.formAddDevice');
-    // Route::post('add-device-department', [DepartmentController::class, 'addDevice'])->name('department.get.post.device');
-    // Route::get('delete-device-department/{id}/{deparment}', [DepartmentController::class, 'deleteDevice'])->name('department.deleteDevice');
-    // Route::get('update-status-device/{id}/{department}', [DepartmentController::class, 'updateStatusDevice'])->name('department.updateStatusDevice');
-    // Route::get('/{id}', [DepartmentController::class, 'show'])->name('admin.department.show');
 });
 
-Route::prefix('category')->group(function(){
+Route::prefix('categories')->group(function(){
     Route::get('/', [CategoryController::class, 'index'])->name('category.index');
     Route::get('create', [CategoryController::class, 'create'])->name('category.create');
     Route::post('store', [CategoryController::class, 'store'])->name('category.store');
@@ -54,7 +51,7 @@ Route::prefix('category')->group(function(){
     Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
 });
 
-Route::prefix('device')->group(function(){
+Route::prefix('devices')->group(function(){
     Route::get('/', [DeviceController::class, 'index'])->name('device.index');
     Route::get('create', [DeviceController::class, 'create'])->name('device.create');
     Route::post('store', [DeviceController::class, 'store'])->name('device.store');
@@ -65,10 +62,11 @@ Route::prefix('device')->group(function(){
     Route::get('device-repairing', [DeviceController::class, 'listDeviceRepairing'])->name('device.listDeviceRepairing');
     Route::get('device-brokening', [DeviceController::class, 'listDeviceBrokening'])->name('device.listDeviceBrokening');
     Route::get('device-warranting', [DeviceController::class, 'listDeviceWarranting'])->name('device.listDeviceWarranting');
-
+    Route::get('device-warantied-repaired', [DeviceController::class, 'listDeviceWarrantiedOrRepaired'])->name('device.listDeviceWarrantiedOrRepaired');
+    Route::get('device-warantied-repaired/{id}', [DeviceController::class, 'detailDeviceWarrantiedOrRepaired'])->name('device.detailDeviceWarrantiedOrRepaired');
 });
 
-Route::prefix('software')->group(function(){
+Route::prefix('softwares')->group(function(){
     Route::get('/', [SoftwareController::class, 'index'])->name('software.index');
     Route::get('create', [SoftwareController::class, 'create'])->name('software.create');
     Route::post('store', [SoftwareController::class, 'store'])->name('software.store');
@@ -78,7 +76,7 @@ Route::prefix('software')->group(function(){
     Route::get('software-device', [SoftwareController::class, 'listSoftwareByDevice'])->name('software.listSoftwareByDevice');
 });
 
-Route::prefix('user')->group(function(){
+Route::prefix('users')->group(function(){
     Route::get('/', [UserController::class, 'index'])->name('user.index');
     Route::get('create', [UserController::class, 'create'])->name('user.create');
     Route::post('store', [UserController::class, 'store'])->name('user.store');
@@ -87,7 +85,7 @@ Route::prefix('user')->group(function(){
     Route::get('delete/{id}', [UserController::class, 'delete'])->name('user.delete');
 });
 
-Route::prefix('request')->group(function(){
+Route::prefix('requests')->group(function(){
     Route::get('/borrow-device', [RequestController::class, 'showBorrowForm'])->name('request.showBorrowForm');
     Route::post('/send-borrow-request', [RequestController::class, 'sendBorrorRequest'])->name('request.sendBorrowRequest');
     Route::get('/borrow-licensekey/{device_id}', [RequestController::class, 'showBorrowFormLicensekey'])->name('request.showBorrowFormLicensekey');
@@ -110,10 +108,23 @@ Route::prefix('request')->group(function(){
     Route::post('/provide-licensekey', [RequestController::class, 'provideLicenseKey'])->name('request.provideLicenseKey');
 
     // Route::put('/provide/{id}', [RequestController::class, 'provideDeviceConfirm'])->name('request.provideDeviceConfirm');
-    Route::put('/recall/department{id}/user{id}', [RequestController::class, 'recallDevice'])->name('request.recallDevice');
+    // Route::put('/recall/department{id}/user{id}', [RequestController::class, 'recallDevice'])->name('request.recallDevice');
     Route::get('/delivered/{user_id}', [RequestController::class, 'formDelivered'])->name('request.formDelivered');
     Route::post('/delivered/{user_id}', [RequestController::class, 'delivered'])->name('request.delivered');
     Route::get('list-device-borrow', [RequestController::class, 'listDeviceBorrow'])->name('request.listDeviceBorrow');
     Route::get('list-device-borrowed', [RequestController::class, 'listDeviceBorrowed'])->name('request.listDeviceBorrowed');
     Route::get('list-device-available', [RequestController::class, 'listDeviceAvailabale'])->name('request.listDeviceAvailabale');
+});
+
+Route::prefix('repairs')->group(function(){
+    Route::get('device/{device_id}', [RepairController::class, 'repairDevice'])->name('repair.repairDevice');
+    Route::get('device/repaired/{device_id}', [RepairController::class, 'repairDeviceForm'])->name('repair.repairDeviceForm');
+    Route::post('device/repaired/{id}', [RepairController::class, 'repairDeviced'])->name('repair.repairDeviced');
+
+});
+
+Route::prefix('warranties')->group(function(){
+    Route::get('device/{device_id}', [WarrantyController::class, 'warrantyDevice'])->name('warranty.warrantyDevice');
+    Route::get('device/warrantied/{device_id}', [WarrantyController::class, 'warrantyDeviceForm'])->name('warranty.warrantyDeviceForm');
+    Route::post('device/warrantied/{id}', [WarrantyController::class, 'warrantyDeviced'])->name('warranty.warrantyDeviced');
 });

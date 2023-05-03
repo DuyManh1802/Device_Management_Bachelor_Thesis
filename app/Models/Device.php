@@ -65,24 +65,14 @@ class Device extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function repairDetail()
+    public function repairDetails()
     {
-        return $this->hasOneThrough(RepairDetail::class, Repair::class);
-    }
-
-    public function warrantyDetail()
-    {
-        return $this->hasOneThrough(WarrantyDetail::class, Warranty::class);
+        return $this->hasManyThrough(RepairDetail::class, Repair::class);
     }
 
     public function warranties()
     {
         return $this->hasMany(Warranty::class);
-    }
-
-    public function usageCount()
-    {
-        return $this->hasOneThrough(UsageCount::class, UseHistory::class);
     }
 
     // public function softwares()
@@ -93,5 +83,15 @@ class Device extends Model
     public function device_softwares()
     {
         return $this->hasMany(DeviceSoftware::class);
+    }
+
+    public function warrantyDetails()
+    {
+        return $this->hasManyThrough(WarrantyDetail::class, Warranty::class);
+    }
+
+    public function typeRepairs()
+    {
+        return $this->hasManyThrough(TypeRepair::class, Repair::class);
     }
 }

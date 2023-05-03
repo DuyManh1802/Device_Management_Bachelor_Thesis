@@ -19,8 +19,8 @@ class DeviceController extends Controller
         $this->deviceService = new DeviceService();
     }
 
-    //status: 0 đang hỏng, 1: bình thường
-    //condition: 0: đang sử dụng, 1: đang rảnh
+    //condition: 0 đang hỏng, 1: bình thường, 2: dang sua chua, 3: dang bao hanh, 4 da thanh ly
+    //status: 0: đang sử dụng, 1: đang rảnh
 
     public function index()
     {
@@ -127,5 +127,20 @@ class DeviceController extends Controller
         $softwares = $this->deviceService->listSoftwareByDevice($device_id);
 
         return view('software.listSoftwareByDevice', compact('softwares'));
+    }
+
+    public function listDeviceWarrantiedOrRepaired()
+    {
+        $devices = $this->deviceService->listDeviceWarrantiedOrRepaired();
+
+        return view('device.listDeviceWarrantiedOrRepaired', compact('devices'));
+    }
+
+    public function detailDeviceWarrantiedOrRepaired($id)
+    {
+        $deviceWarrantied = $this->deviceService->detailDeviceWarrantied($id);
+        $deviceRepaired = $this->deviceService->detailDeviceRepaired($id);
+
+        return view('device.detailDeviceWarrantiedOrRepaired', compact('deviceWarrantied', 'deviceRepaired'));
     }
 }

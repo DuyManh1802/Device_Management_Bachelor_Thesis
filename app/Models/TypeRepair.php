@@ -21,4 +21,9 @@ class TypeRepair extends Model
     {
         return $this->belongsTo(Repair::class);
     }
+
+    public function device()
+    {
+        return $this->hasOneThrough(Repair::class, Device::class);
+    }
 }

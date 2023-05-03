@@ -114,12 +114,6 @@ $categories = App\Models\category::all();
                     </a>
                 </li>
 
-                <li class="menu-item">
-                    <a href="{{ route('request.showBorrowForm') }}" class="menu-link">
-                        <div data-i18n="Without navbar">Mượn thiết bị</div>
-                    </a>
-                </li>
-
             </ul>
         </li>
 
@@ -214,7 +208,7 @@ $categories = App\Models\category::all();
                 </li>
 
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="{{ route('device.listDeviceWarrantiedOrRepaired') }}" class="menu-link">
                         <div data-i18n="Container">Thiết bị đã sửa chữa / bảo hành</div>
                     </a>
                 </li>

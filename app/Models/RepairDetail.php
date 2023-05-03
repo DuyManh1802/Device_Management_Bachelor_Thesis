@@ -15,11 +15,17 @@ class RepairDetail extends Model
     protected $fillable = ['content',
         'cost',
         'result',
+        'content',
         'repair_id'
     ];
 
     public function repair()
     {
         return $this->belongsTo(Repair::class);
+    }
+
+    public function device()
+    {
+        return $this->hasOneThrough(Device::class, Repair::class);
     }
 }

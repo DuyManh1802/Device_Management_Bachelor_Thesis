@@ -6,11 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Device;
 use App\Models\WarrantyDetail;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Warranty extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $table = 'warranties';
 
@@ -27,9 +26,9 @@ class Warranty extends Model
         return $this->belongsTo(Device::class);
     }
 
-    public function warrantyDetail()
+    public function warrantyDetails()
     {
-        return $this->hasOne(WarrantyDetail::class);
+        return $this->hasMany(WarrantyDetail::class);
     }
 
 }

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class WarrantyDetail extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $table = 'warranty_details';
     protected $fillable = [
@@ -21,5 +21,10 @@ class WarrantyDetail extends Model
     public function waranty()
     {
         return $this->belongsTo(Warranty::class);
+    }
+
+    public function device()
+    {
+        return $this->hasOneThrough(Device::class, Warranty::class);
     }
 }
