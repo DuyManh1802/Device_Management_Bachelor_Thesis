@@ -7,6 +7,8 @@
     use Illuminate\Support\Str;
     use Illuminate\Support\Facades\DB;
     use Exception;
+    use Carbon\Carbon;
+    use App\Models\Warranty;
 
     class DeviceService
     {
@@ -52,7 +54,12 @@
                 $device->warranties()->create([
                     'type' => $req->type,
                     'start' => $req->start,
-                    'end' => $req->end
+                    'end' => $req->end,
+                    'warranty_count' => 0
+                ]);
+
+                $device->repairs()->create([
+                    'repair_count' => 0
                 ]);
 
                 DB::commit();
@@ -91,7 +98,7 @@
                     'category_id' => $request->category_id,
                     'name' => $request->name,
                     'configuration' => $request->configuration,
-                    'image' => $request->image,
+                    'image' => $image,
                     'color' => $request->color,
                 ]);
 
@@ -126,5 +133,56 @@
 
         //     return $devices;
         // }
+
+        public function listDeviceRepairing()
+        {
+            return Device::where('condition', 2)->get();
+        }
+
+        public function listDeviceBrokening()
+        {
+            return Device::with('warranties')->whereIn('condition', [0, 2, 3])->get();
+        }
+
+        public function listDeviceWarranting()
+        {
+            return Device::where('condition', 3)->get();
+        }
+
+        public function listSoftwareByDevice($device_id)
+        {
+            return Device::with('softwares')->paginate(10);
+        }
+
+        public function listDeviceWarrantyStocking()
+        {
+            return Device::with(['warranties' => function($query) {
+                $query->where('start_date', '<=', Carbon::now())
+                      ->where('end_date', '>=', Carbon::now());
+            }])->get();
+        }
+
+        public function listDeviceWarrantiedOrRepaired()
+        {
+            return Device::with(['warranties', 'repairs'])->whereHas('warranties', function ($query) {
+                $query->where('warranty_count', '>', 0);
+            })
+            ->orWhereHas('repairs', function ($query) {
+                $query->where('repair_count', '>', 0);
+            })
+            ->get();
+        }
+
+        public function detailDeviceWarrantied($id)
+        {
+            return Device::with(['warranties', 'warrantyDetails'])->whereHas('warranties', function ($query) {
+                $query->where('warranty_count', '>', 0);})->find($id);
+        }
+
+        public function detailDeviceRepaired($id)
+        {
+            return Device::with(['repairs', 'repairDetails', 'typeRepairs'])->whereHas('repairs', function ($query) {
+                $query->where('repair_count', '>', 0);})->find($id);
+        }
     }
 ?>

@@ -19,6 +19,9 @@ class DeviceController extends Controller
         $this->deviceService = new DeviceService();
     }
 
+    //condition: 0 đang hỏng, 1: bình thường, 2: dang sua chua, 3: dang bao hanh, 4 da thanh ly
+    //status: 0: đang sử dụng, 1: đang rảnh
+
     public function index()
     {
         try {
@@ -96,5 +99,48 @@ class DeviceController extends Controller
         $devices = $category->devices()->paginate(10);
 
         return view('device.list', compact('devices'));
+    }
+
+    public function listDeviceRepairing()
+    {
+        $devices = $this->deviceService->listDeviceRepairing();
+
+        return view('device.listDeviceRepairing', compact('devices'));
+    }
+
+    public function listDeviceBrokening()
+    {
+        $devices = $this->deviceService->listDeviceBrokening();
+
+        return view('device.listDeviceBrokening', compact('devices'));
+    }
+
+    public function listDeviceWarranting()
+    {
+        $devices = $this->deviceService->listDeviceWarranting();
+
+        return view('device.listDeviceWarranting', compact('devices'));
+    }
+
+    public function listSoftwareByDevice($device_id)
+    {
+        $softwares = $this->deviceService->listSoftwareByDevice($device_id);
+
+        return view('software.listSoftwareByDevice', compact('softwares'));
+    }
+
+    public function listDeviceWarrantiedOrRepaired()
+    {
+        $devices = $this->deviceService->listDeviceWarrantiedOrRepaired();
+
+        return view('device.listDeviceWarrantiedOrRepaired', compact('devices'));
+    }
+
+    public function detailDeviceWarrantiedOrRepaired($id)
+    {
+        $deviceWarrantied = $this->deviceService->detailDeviceWarrantied($id);
+        $deviceRepaired = $this->deviceService->detailDeviceRepaired($id);
+
+        return view('device.detailDeviceWarrantiedOrRepaired', compact('deviceWarrantied', 'deviceRepaired'));
     }
 }

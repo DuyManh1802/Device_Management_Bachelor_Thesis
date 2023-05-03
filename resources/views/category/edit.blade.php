@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Danh mục /</span> Sửa thông tin danh mục</h4>
     <div class="card">
-        <h5 class="card-header">Sửa thông tin danh mục</h5>
         <form action="{{ route('category.update', $categories->id) }}" method="POST">
             @csrf
             @method('PUT')

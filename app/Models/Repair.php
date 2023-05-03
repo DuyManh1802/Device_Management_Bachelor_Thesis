@@ -7,20 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\RepairDetail;
 use App\Models\TypeRepair;
 use App\Models\Device;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Repair extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'repairs';
 
-    protected $fillable = ['repair_count',
+    protected $fillable = [
+        'repair_count',
         'device_id'
     ];
 
-    public function repairDetail()
+    public function repairDetails()
     {
-        return $this->hasOne(RepairDetail::class);
+        return $this->hasMany(RepairDetail::class);
     }
 
     public function typeRepairs()

@@ -25,9 +25,10 @@ class CreateSoftwareRequest extends FormRequest
     {
         return [
             'id' => 'integer',
-            'device_id' => 'required|integer|exists:devices,id',
             'name' => 'required|string',
             'version' => 'required|string',
+            'license_key' => 'required|string',
+            'usage_count' => 'required|integer|min:1',
             'start' => 'required|date',
             'end' => 'required|date',
             'license_price' => 'required',

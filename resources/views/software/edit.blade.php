@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Phần mềm /</span> Sửa thông tin phần mềm</h4>
     <div class="card">
-        <h5 class="card-header">Thêm mới thiết bị</h5>
-        <form method="POST" action="{{ route('software.update', $softwares->id) }}">
+        <form method="POST" action="{{ route('software.update', $softwares->id) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="card-body">

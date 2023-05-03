@@ -8,18 +8,23 @@ use App\Models\Device;
 use App\Models\UseHistory;
 use App\Models\User;
 use App\Models\Department;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Request extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'requests';
-    protected $fillable = ['status',
-        'description',
+    protected $fillable = [
+        'status',
         'result',
         'user_id',
         'device_id',
-        'department_id'
+        'department_id',
+        'type',
+        'start_date',
+        'note',
+        'confirm'
     ];
 
     public function device()
@@ -29,12 +34,12 @@ class Request extends Model
 
     public function department()
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(Department::class, 'department_id', 'id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function useHistory()

@@ -26,9 +26,9 @@ class Warranty extends Model
         return $this->belongsTo(Device::class);
     }
 
-    public function warrantyDetail()
+    public function warrantyDetails()
     {
-        return $this->hasOne(WarrantyDetail::class);
+        return $this->hasMany(WarrantyDetail::class);
     }
 
 }

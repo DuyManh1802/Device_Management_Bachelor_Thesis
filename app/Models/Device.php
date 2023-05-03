@@ -16,6 +16,7 @@ use App\Models\WarrantyDetail;
 use App\Models\Warranty;
 use App\Models\UsageCount;
 use App\Models\Software;
+use App\Models\DeviceSoftware;
 
 class Device extends Model
 {
@@ -30,12 +31,10 @@ class Device extends Model
         'color',
         'configuration',
         'category_id',
-        'purchase_price'
+        'purchase_price',
+        'condition'
     ];
 
-    public function imageUrl(){
-        return 'public/image/device/' .$this->image;
-    }
     public function repairs()
     {
         return $this->hasMany(Repair::class);
@@ -66,14 +65,9 @@ class Device extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function repairDetail()
+    public function repairDetails()
     {
-        return $this->hasOneThrough(RepairDetail::class, Repair::class);
-    }
-
-    public function warrantyDetail()
-    {
-        return $this->hasOneThrough(WarrantyDetail::class, Warranty::class);
+        return $this->hasManyThrough(RepairDetail::class, Repair::class);
     }
 
     public function warranties()
@@ -81,13 +75,23 @@ class Device extends Model
         return $this->hasMany(Warranty::class);
     }
 
-    public function usageCount()
+    // public function softwares()
+    // {
+    //     return $this->hasManyThrough(Software::class, DeviceSoftware::class);
+    // }
+
+    public function device_softwares()
     {
-        return $this->hasOneThrough(UsageCount::class, UseHistory::class);
+        return $this->hasMany(DeviceSoftware::class);
     }
 
-    public function softwares()
+    public function warrantyDetails()
     {
-        return $this->hasMany(Software::class);
+        return $this->hasManyThrough(WarrantyDetail::class, Warranty::class);
+    }
+
+    public function typeRepairs()
+    {
+        return $this->hasManyThrough(TypeRepair::class, Repair::class);
     }
 }

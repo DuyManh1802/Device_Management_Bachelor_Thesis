@@ -1,13 +1,15 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Phòng ban /</span> Sửa thông tin phòng ban</h4>
+
     @if (session('error'))
     <div class="text-center" role="alert">
         <h4 class="alert alert-danger">{{ session('error') }}</h4>
     </div>
     @endif
     <div class="card">
-        <h5 class="card-header">Sửa thông tin phòng ban</h5>
+
         <form action="{{ route('department.update', $departments->id) }}" method="POST">
             @csrf
             @method('PUT')

@@ -214,7 +214,7 @@ class Menu {
             // eslint-disable-next-line no-unused-expressions
             this._onOpened && this._onOpened(this, item, toggleLink, Menu._findMenu(item))
           } else {
-            item.classList.add('open')
+            item.classList.add('open ')
             // eslint-disable-next-line no-unused-expressions
             this._onOpened && this._onOpened(this, item, toggleLink, Menu._findMenu(item))
             if (this._accordion) this._closeOther(item, closeChildren)

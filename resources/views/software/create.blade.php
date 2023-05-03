@@ -1,32 +1,12 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Phần mềm /</span> Thêm phần mềm</h4>
     <div class="card">
-        <h5 class="card-header">Thêm mới phần mềm</h5>
         <form method="POST" action="{{ route('software.store') }}" enctype="multipart/form-data">
             @csrf
             <div class=" card-body">
                 <div>
-                    <div class="row mb-3">
-                        <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">{{ __('Thiết bị')
-                            }}</label>
-                        <div class="col-sm-10">
-                            <div class="input-group input-group-merge">
-                                <select name="device_id" class="form-select" id="exampleFormControlSelect1"
-                                    aria-label="Default select example">
-                                    @foreach ($devices as $device)
-                                    <option value="{{ $device->id }}" checked>{{
-                                        $device->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('device_id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 form-label" for="basic-icon-default-phone">{{ __('Tên phần mềm')
@@ -69,13 +49,51 @@
                             }}</label>
                         <div class="col-sm-10">
                             <div class="input-group input-group-merge">
-                                <textarea type="text" id="basic-icon-default-phone"
+                                <input type="text" id="basic-icon-default-phone"
                                     class="form-control phone-mask @error('version') is-invalid @enderror"
                                     placeholder="version" aria-label="version"
                                     aria-describedby="basic-icon-default-phone2" name="version"
-                                    value="{{ old('version') }}" required autocomplete="version">
-                                </textarea>
+                                    value="{{ old('version') }}" required autocomplete="version" />
+
                                 @error('version')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 form-label" for="basic-icon-default-phone">{{ __('License key')
+                            }}</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <input type="text" id="basic-icon-default-phone"
+                                    class="form-control phone-mask @error('license_key') is-invalid @enderror"
+                                    placeholder="license_key" aria-label="license_key"
+                                    aria-describedby="basic-icon-default-phone2" name="license_key"
+                                    value="{{ old('license_key') }}" required autocomplete="license_key" />
+                                @error('license_key')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 form-label" for="basic-icon-default-phone">{{ __('Lượt dùng')
+                            }}</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <input type="text" id="basic-icon-default-phone"
+                                    class="form-control phone-mask @error('usage_count') is-invalid @enderror"
+                                    placeholder="usage_count" aria-label="usage_count"
+                                    aria-describedby="basic-icon-default-phone2" name="usage_count"
+                                    value="{{ old('usage_count') }}" required autocomplete="usage_count" />
+                                @error('usage_count')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -140,7 +158,7 @@
                     </div>
 
                 </div>
-                <button type="submit" class="btn btn-primary">Thêm</button>
+                <button type="submit" class="btn btn-outline-primary">Thêm</button>
             </div>
         </form>
     </div>

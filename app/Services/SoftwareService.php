@@ -34,8 +34,9 @@
             return Software::create([
                 'name' => $request->name,
                 'image' => $image,
-                'device_id' => $request->device_id,
                 'version' => $request->version,
+                'license_key' => $request->license_key,
+                'usage_count' => $request->usage_count,
                 'start' => $request->start,
                 'end' => $request->end,
                 'license_price' => $request->license_price

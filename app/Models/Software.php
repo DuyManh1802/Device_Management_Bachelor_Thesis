@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Device;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\DeviceSoftware;
 
 class Software extends Model
 {
@@ -16,13 +18,19 @@ class Software extends Model
         'version',
         'start',
         'end',
-        'device_id',
         'license_price',
+        'license_key',
+        'usage_count',
         'image'
     ];
 
-    public function device()
+    // public function devices()
+    // {
+    //     return $this->hasManyThrough(Device::class, DeviceSoftware::class);
+    // }
+
+    public function device_softwares()
     {
-        return $this->belongsTo(Device::class);
+        return $this->hasMany(DeviceSoftware::class);
     }
 }

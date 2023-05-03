@@ -12,12 +12,18 @@ class TypeRepair extends Model
 
     protected $table = 'type_repairs';
 
-    protected $fillable = ['type',
+    protected $fillable = [
+        'type',
         'repair_id'
     ];
 
     public function repair()
     {
         return $this->belongsTo(Repair::class);
+    }
+
+    public function device()
+    {
+        return $this->hasOneThrough(Repair::class, Device::class);
     }
 }

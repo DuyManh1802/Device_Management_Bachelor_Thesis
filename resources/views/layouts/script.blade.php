@@ -31,3 +31,41 @@
         event.preventDefault();
     }
 </script>
+
+<script>
+    function sendRequest() {
+        if(!confirm("Bạn có chắc chắn muốn gửi yêu cầu này ?"))
+        event.preventDefault();
+    }
+</script>
+
+<script>
+    function confirmAction() {
+        if(!confirm("Bạn có chắc chắn muốn thực hiện hành động này ?"))
+        event.preventDefault();
+    }
+</script>
+
+<script>
+    const menuItems = document.querySelectorAll('#menuItem');
+    let activeMenuItemIndex = localStorage.getItem('activeMenuItemIndex');
+
+    if (activeMenuItemIndex !== null) {
+        menuItems[activeMenuItemIndex].classList.add('active');
+    }
+
+    menuItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+            // Xóa class active của menu item trước đó (nếu có)
+            const currentActiveItem = document.querySelector('#menuItem.active');
+            if (currentActiveItem) {
+                currentActiveItem.classList.remove('active');
+            }
+            // Thêm class active vào menu item được click
+            item.classList.add('active');
+
+            // Lưu trạng thái của menu item được chọn vào local storage
+            localStorage.setItem('activeMenuItemIndex', index);
+        });
+    });
+</script>
