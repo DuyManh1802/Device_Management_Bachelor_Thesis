@@ -29,12 +29,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/get-devices-info', [HomeApiController::class, 'getDevicesInfo'])->name('getDevicesInfo');
-Route::get('/get-requests-info', [HomeApiController::class, 'getRequestsInfo'])->name('getRequestsInfo');
-Route::get('/get-requests-by-day', [HomeApiController::class, 'getRequestByDay'])->name('getRequestByDay');
+Route::get('/home', [HomeController::class, 'index'])->middleware('login')->name('home');
+Route::get('/get-devices-info', [HomeApiController::class, 'getDevicesInfo'])->middleware('login')->name('getDevicesInfo');
+Route::get('/get-requests-info', [HomeApiController::class, 'getRequestsInfo'])->middleware('login')->name('getRequestsInfo');
+Route::get('/get-requests-by-day', [HomeApiController::class, 'getRequestByDay'])->middleware('login')->name('getRequestByDay');
 
-Route::prefix('departments')->group(function(){
+Route::prefix('departments')->middleware('login')->group(function(){
     Route::get('/', [DepartmentController::class, 'index'])->name('department.index');
     Route::get('create', [DepartmentController::class, 'create'])->name('department.create');
     Route::post('store', [DepartmentController::class, 'store'])->name('department.store');
@@ -43,7 +43,7 @@ Route::prefix('departments')->group(function(){
     Route::get('delete/{id}', [DepartmentController::class, 'delete'])->name('department.delete');
 });
 
-Route::prefix('categories')->group(function(){
+Route::prefix('categories')->middleware('login')->group(function(){
     Route::get('/', [CategoryController::class, 'index'])->name('category.index');
     Route::get('create', [CategoryController::class, 'create'])->name('category.create');
     Route::post('store', [CategoryController::class, 'store'])->name('category.store');
@@ -52,7 +52,7 @@ Route::prefix('categories')->group(function(){
     Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
 });
 
-Route::prefix('devices')->group(function(){
+Route::prefix('devices')->middleware('login')->group(function(){
     Route::get('/', [DeviceController::class, 'index'])->name('device.index');
     Route::get('create', [DeviceController::class, 'create'])->name('device.create');
     Route::post('store', [DeviceController::class, 'store'])->name('device.store');
@@ -67,7 +67,7 @@ Route::prefix('devices')->group(function(){
     Route::get('device-warantied-repaired/{id}', [DeviceController::class, 'detailDeviceWarrantiedOrRepaired'])->name('device.detailDeviceWarrantiedOrRepaired');
 });
 
-Route::prefix('softwares')->group(function(){
+Route::prefix('softwares')->middleware('login')->group(function(){
     Route::get('/', [SoftwareController::class, 'index'])->name('software.index');
     Route::get('create', [SoftwareController::class, 'create'])->name('software.create');
     Route::post('store', [SoftwareController::class, 'store'])->name('software.store');
@@ -77,7 +77,7 @@ Route::prefix('softwares')->group(function(){
     Route::get('software-device', [SoftwareController::class, 'listSoftwareByDevice'])->name('software.listSoftwareByDevice');
 });
 
-Route::prefix('users')->group(function(){
+Route::prefix('users')->middleware('login')->group(function(){
     Route::get('/', [UserController::class, 'index'])->name('user.index');
     Route::get('create', [UserController::class, 'create'])->name('user.create');
     Route::post('store', [UserController::class, 'store'])->name('user.store');
@@ -91,7 +91,7 @@ Route::prefix('users')->group(function(){
 
 });
 
-Route::prefix('requests')->group(function(){
+Route::prefix('requests')->middleware('login')->group(function(){
     Route::get('/borrow-device', [RequestController::class, 'showBorrowForm'])->name('request.showBorrowForm');
     Route::post('/send-borrow-request', [RequestController::class, 'sendBorrorRequest'])->name('request.sendBorrowRequest');
     Route::get('/borrow-licensekey/{device_id}', [RequestController::class, 'showBorrowFormLicensekey'])->name('request.showBorrowFormLicensekey');
@@ -122,14 +122,14 @@ Route::prefix('requests')->group(function(){
     Route::get('list-device-available', [RequestController::class, 'listDeviceAvailabale'])->name('request.listDeviceAvailabale');
 });
 
-Route::prefix('repairs')->group(function(){
+Route::prefix('repairs')->middleware('login')->group(function(){
     Route::get('device/{device_id}', [RepairController::class, 'repairDevice'])->name('repair.repairDevice');
     Route::get('device/repaired/{device_id}', [RepairController::class, 'repairDeviceForm'])->name('repair.repairDeviceForm');
     Route::post('device/repaired/{id}', [RepairController::class, 'repairDeviced'])->name('repair.repairDeviced');
 
 });
 
-Route::prefix('warranties')->group(function(){
+Route::prefix('warranties')->middleware('login')->group(function(){
     Route::get('device/{device_id}', [WarrantyController::class, 'warrantyDevice'])->name('warranty.warrantyDevice');
     Route::get('device/warrantied/{device_id}', [WarrantyController::class, 'warrantyDeviceForm'])->name('warranty.warrantyDeviceForm');
     Route::post('device/warrantied/{id}', [WarrantyController::class, 'warrantyDeviced'])->name('warranty.warrantyDeviced');
