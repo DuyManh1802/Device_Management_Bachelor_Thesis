@@ -22,7 +22,8 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="/template/assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                        <img src="{{ asset('image/user/' . Auth::user()->image) }}" alt
+                            class="w-px-40 h-auto rounded-circle" />
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -31,7 +32,7 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
-                                        <img src="/template/assets/img/avatars/1.png" alt
+                                        <img src="{{ asset('image/user/' . Auth::user()->image) }}" alt
                                             class="w-px-40 h-auto rounded-circle" />
                                     </div>
                                 </div>
@@ -56,15 +57,15 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="{{ route('user.profile', Auth::user()->id) }}">
                             <i class="bx bx-user me-2"></i>
                             <span class="align-middle">Thông tin cá nhân</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="{{ route('user.changePasswordForm', Auth::user()->id) }}">
                             <i class="bx bx-cog me-2"></i>
-                            <span class="align-middle">Cài đặt</span>
+                            <span class="align-middle">Đổi mật khẩu</span>
                         </a>
                     </li>
                     <li>

@@ -81,6 +81,31 @@
             ]);
         }
 
+        public function updateProfile(Request $request, $id)
+        {
+            $image = $request->image;
+            if ($request->hasFile('image')){
+                $file = $request->file('image');
+                $name_file = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+
+                if (strcasecmp($extension, 'jpg') || strcasecmp($extension, 'png') || strcasecmp($extension, 'jepg')){
+                    $image = Str::random(5) . '_' . $name_file;
+                    while (file_exists('image/user/' .$image)){
+                        $image = Str::random(5) . '_' . $name_file;
+                    }
+                    $file->move('image/user', $image);
+                }
+            }
+
+            return User::find($id)->update([
+                'name' => $request->name,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'image' => $image
+            ]);
+        }
+
         public function deleteUser($id)
         {
             return User::find($id)->delete();

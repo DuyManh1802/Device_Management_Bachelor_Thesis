@@ -32,6 +32,7 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/get-devices-info', [HomeApiController::class, 'getDevicesInfo'])->name('getDevicesInfo');
 Route::get('/get-requests-info', [HomeApiController::class, 'getRequestsInfo'])->name('getRequestsInfo');
+Route::get('/get-requests-by-day', [HomeApiController::class, 'getRequestByDay'])->name('getRequestByDay');
 
 Route::prefix('departments')->group(function(){
     Route::get('/', [DepartmentController::class, 'index'])->name('department.index');
@@ -83,6 +84,11 @@ Route::prefix('users')->group(function(){
     Route::get('edit/{id}', [UserController::class, 'edit'])->name('user.edit');
     Route::put('update/{id}', [UserController::class, 'update'])->name('user.update');
     Route::get('delete/{id}', [UserController::class, 'delete'])->name('user.delete');
+    Route::get('profile/{id}', [UserController::class, 'profile'])->name('user.profile');
+    Route::put('profile/{id}', [UserController::class, 'updateProfile'])->name('user.updateProfile');
+    Route::get('change-password/{id}', [UserController::class, 'changePasswordForm'])->name('user.changePasswordForm');
+    Route::put('change-password/{id}', [UserController::class, 'changePassword'])->name('user.changePassword');
+
 });
 
 Route::prefix('requests')->group(function(){

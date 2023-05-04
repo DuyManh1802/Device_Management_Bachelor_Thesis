@@ -7,6 +7,7 @@ use Exception;
 use App\Services\UserService;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\EditUserRequest;;
+use App\Http\Requests\UpdateProfileRequest;
 
 class UserController extends Controller
 {
@@ -86,5 +87,34 @@ class UserController extends Controller
         } catch (Exception $exception) {
             return back()->with('error', 'Lỗi');
         }
+    }
+
+    public function profile($id)
+    {
+        $user = $this->userService->findId($id);
+
+        return view('user.profile', compact('user'));
+    }
+
+    public function updateProfile(UpdateProfileRequest $request, $id)
+    {
+        try {
+            $result = $this->userService->updateProfile($request, $id);
+
+            if ($result){
+                return redirect()->route('home')->with('success', 'Sửa thông tin cá nhân thành công.');
+            } else {
+                return back()->with('error', 'Sửa thông tin cá nhân k thành công.');
+            }
+        } catch (Exception $exception) {
+            return back()->with('error', 'Lỗi');
+        }
+    }
+
+    public function changePasswordForm($id)
+    {
+        $user = $this->userService->findId($id);
+
+        return view('user.changePassword', compact('user'));
     }
 }

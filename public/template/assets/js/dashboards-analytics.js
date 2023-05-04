@@ -276,10 +276,13 @@
 
   // Growth Chart - Radial Bar Chart
   // --------------------------------------------------------------------
+  fetch('http://127.0.0.1:8000/get-requests-info')
+  .then(response => response.json())
+  .then(data => {
   const growthChartEl = document.querySelector('#growthChart'),
     growthChartOptions = {
-      series: [78],
-      labels: ['Growth'],
+      series: [((data.result.processed_requests /data.result.total_requests) * 100).toFixed(2)],
+      labels: ['Đã xử lý'],
       chart: {
         height: 240,
         type: 'radialBar'
@@ -354,7 +357,7 @@
     const growthChart = new ApexCharts(growthChartEl, growthChartOptions);
     growthChart.render();
   }
-
+  })
   // Profit Report Line Chart
   // --------------------------------------------------------------------
   const profileReportChartEl = document.querySelector('#profileReportChart'),
@@ -420,6 +423,9 @@
 
   // Order Statistics Chart
   // --------------------------------------------------------------------
+  fetch('http://127.0.0.1:8000/get-devices-info')
+  .then(response => response.json())
+  .then(data => {
   const chartOrderStatistics = document.querySelector('#orderStatisticsChart'),
     orderChartConfig = {
       chart: {
@@ -428,8 +434,8 @@
         type: 'donut'
       },
       labels: ['Đang sửa chữa', 'Đang hỏng', 'Đang bảo hành', 'Bình thường'],
-      series: [85, 15, 50, 50],
-      colors: [config.colors.primary, config.colors.secondary, config.colors.info, config.colors.success],
+      series: [data.result.repairing_count, data.result.damaged_count, data.result.warranty_count, data.result.normal_count],
+      colors: [config.colors.primary, config.colors.warning, config.colors.info, config.colors.success],
       stroke: {
         width: 5,
         colors: cardColor
@@ -462,7 +468,7 @@
                 color: headingColor,
                 offsetY: -15,
                 formatter: function (val) {
-                  return parseInt(val) + '%';
+                  return ((val/data.result.devices_count)*100).toFixed(2) + '%';
                 }
               },
               name: {
@@ -473,9 +479,9 @@
                 show: true,
                 fontSize: '0.8125rem',
                 color: axisColor,
-                label: 'Weekly',
+                label: 'Bình thường',
                 formatter: function (w) {
-                  return '38%';
+                  return ((data.result.normal_count / data.result.devices_count)*100).toFixed(2) + '%';
                 }
               }
             }
@@ -483,18 +489,96 @@
         }
       }
     };
+    if (typeof chartOrderStatistics !== undefined && chartOrderStatistics !== null) {
+        const statisticsChart = new ApexCharts(chartOrderStatistics, orderChartConfig);
+        statisticsChart.render();
+    }
+})
+
+  // Request Statistics Chart
+  // --------------------------------------------------------------------
+fetch('http://127.0.0.1:8000/get-requests-info')
+.then(response => response.json())
+.then(data => {
+const chartOrderStatistics = document.querySelector('#requestStatisticsChart'),
+  orderChartConfig = {
+    chart: {
+      height: 165,
+      width: 130,
+      type: 'donut'
+    },
+    labels: ['Muợn thiết bị', 'Trả thiết bị', 'Báo hỏng', 'Cấp license key'],
+    series: [data.result.borrow_requests, data.result.return_requests, data.result.broken_requests, data.result.license_requests],
+    colors: [config.colors.success, config.colors.info, config.colors.warning, config.colors.primary],
+    stroke: {
+      width: 5,
+      colors: cardColor
+    },
+    dataLabels: {
+      enabled: false,
+      formatter: function (val, opt) {
+        return parseInt(val) + '%';
+      }
+    },
+    legend: {
+      show: false
+    },
+    grid: {
+      padding: {
+        top: 0,
+        bottom: 0,
+        right: 15
+      }
+    },
+    plotOptions: {
+      pie: {
+        donut: {
+          size: '75%',
+          labels: {
+            show: true,
+            value: {
+              fontSize: '1.5rem',
+              fontFamily: 'Public Sans',
+              color: headingColor,
+              offsetY: -15,
+              formatter: function (val) {
+                return ((val/data.result.total_requests)*100).toFixed(2) + '%';
+              }
+            },
+            name: {
+              offsetY: 20,
+              fontFamily: 'Public Sans'
+            },
+            total: {
+              show: true,
+              fontSize: '0.8125rem',
+              color: axisColor,
+              label: 'Mượn thiết bị',
+              formatter: function (w) {
+                return ((data.result.borrow_requests / data.result.total_requests)*100).toFixed(2) + '%';
+              }
+            }
+          }
+        }
+      }
+    }
+  };
   if (typeof chartOrderStatistics !== undefined && chartOrderStatistics !== null) {
-    const statisticsChart = new ApexCharts(chartOrderStatistics, orderChartConfig);
-    statisticsChart.render();
+      const statisticsChart = new ApexCharts(chartOrderStatistics, orderChartConfig);
+      statisticsChart.render();
   }
+})
 
   // Income Chart - Area chart
   // --------------------------------------------------------------------
+  fetch('http://127.0.0.1:8000/get-requests-by-day')
+.then(response => response.json())
+.then(data => {
   const incomeChartEl = document.querySelector('#incomeChart'),
     incomeChartConfig = {
       series: [
         {
-          data: [24, 21, 30, 22, 42, 26, 35, 29]
+          data: [0, data.result.request_mon, data.result.request_tue, data.result.request_wed, data.result.request_thu, data.result.request_fri, data.result.request_sat, data.result.request_sun]
         }
       ],
       chart: {
@@ -558,7 +642,7 @@
         }
       },
       xaxis: {
-        categories: ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        categories: ['', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         axisBorder: {
           show: false
         },
@@ -577,7 +661,7 @@
         labels: {
           show: false
         },
-        min: 10,
+        min: 0,
         max: 50,
         tickAmount: 4
       }
@@ -586,7 +670,7 @@
     const incomeChart = new ApexCharts(incomeChartEl, incomeChartConfig);
     incomeChart.render();
   }
-
+})
   // Expenses Mini Chart - Radial Chart
   // --------------------------------------------------------------------
   const weeklyExpensesEl = document.querySelector('#expensesOfWeek'),

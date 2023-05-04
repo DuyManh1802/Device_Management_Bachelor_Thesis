@@ -2,6 +2,8 @@
     namespace App\Services;
     use App\Models\Device;
     use App\Models\Request;
+    use Illuminate\Support\Facades\DB;
+    use Carbon\Carbon;
 
     class HomeService
     {
@@ -49,7 +51,6 @@
 
          public function getRequestsInfo()
          {
-            // Lấy tổng số request và số request.status = 0 và 1
             $total_requests = Request::with('user')->whereHas('user', function($query){
                 $query->where('role', 0);
             })->count();
@@ -59,11 +60,68 @@
             $processed_requests = Request::with('user')->whereHas('user', function($query){
                 $query->where('role', 0);
             })->where('status', 1)->count();
+            $borrow_requests = Request::with('user')->whereHas('user', function($query){
+                $query->where('role', 0);
+            })->where('type', 1)->count();
+            $return_requests = Request::with('user')->whereHas('user', function($query){
+                $query->where('role', 0);
+            })->where('type', 2)->count();
+            $broken_requests = Request::with('user')->whereHas('user', function($query){
+                $query->where('role', 0);
+            })->where('type', 2)->count();
+            $license_requests = Request::with('user')->whereHas('user', function($query){
+                $query->where('role', 0);
+            })->where('type', 3)->count();
 
             return [
                 'total_requests' => $total_requests,
                 'pending_requests' => $pending_requests,
-                'processed_requests' => $processed_requests
+                'processed_requests' => $processed_requests,
+                'borrow_requests' => $borrow_requests,
+                'return_requests' => $return_requests,
+                'broken_requests' => $broken_requests,
+                'license_requests' => $license_requests
+            ];
+         }
+
+         public function getRequestByDay()
+         {
+            $request_mon = Request::Monday()->with('user')->whereHas('user', function($query){
+                $query->where('role', 0);
+            })->count();
+
+            $request_tue = Request::Tuesday()->with('user')->whereHas('user', function($query){
+                $query->where('role', 0);
+            })->count();
+
+            $request_wed = Request::Wednesday()->with('user')->whereHas('user', function($query){
+                $query->where('role', 0);
+            })->count();
+
+            $request_thu = Request::Thursday()->with('user')->whereHas('user', function($query){
+                $query->where('role', 0);
+            })->count();
+
+            $request_fri = Request::Friday()->with('user')->whereHas('user', function($query){
+                $query->where('role', 0);
+            })->count();
+
+            $request_sat = Request::Saturday()->with('user')->whereHas('user', function($query){
+                $query->where('role', 0);
+            })->count();
+
+            $request_sun = Request::Sunday()->with('user')->whereHas('user', function($query){
+                $query->where('role', 0);
+            })->count();
+
+            return [
+                'request_mon' => $request_mon,
+                'request_tue' => $request_tue,
+                'request_wed' => $request_wed,
+                'request_thu' => $request_thu,
+                'request_fri' => $request_fri,
+                'request_sat' => $request_sat,
+                'request_sun' => $request_sun
             ];
          }
     }

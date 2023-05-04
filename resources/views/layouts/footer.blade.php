@@ -7,13 +7,20 @@
             </script>
             , made with ❤️ by
             <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">Lê Duy Mạnh</a>
-            <a href="https://www.facebook.com/duymanh1802" class="footer-link fw-bolder">
-                <img src="template/assets/img/icons/brands/facebook.png" alt="facebook" class="me-2" height="20" />
-            </a>
-            <a href="https://github.com/DuyManh1802/Device_Management_Bachelor_Thesis" class="footer-link fw-bolder">
-                <img src="template/assets/img/icons/brands/github.png" alt="github" class="me-2" height="20" />
-            </a>
+
         </div>
 
+        <div>
+            <a href="https://www.facebook.com/duymanh1802" target="_blank" class="footer-link me-4">
+                <i class="fab fa-facebook" style="color: #044ac3;"></i>
+                Facebook
+            </a>
+
+            <a href="https://github.com/DuyManh1802/Device_Management_Bachelor_Thesis" target="_blank"
+                class="footer-link me-4">
+                <i class="fab fa-github" style="color: #0f151f;"></i>
+                Github
+            </a>
+        </div>
     </div>
 </footer>
