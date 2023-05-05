@@ -94,4 +94,9 @@ class Device extends Model
     {
         return $this->hasManyThrough(TypeRepair::class, Repair::class);
     }
+
+    public function softwares()
+    {
+        return $this->belongsToMany(Software::class, 'device_softwares', 'device_id', 'software_id');
+    }
 }

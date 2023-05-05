@@ -137,19 +137,18 @@
         }
 
 
-       public function provideLicenseKey($user_id, $device_id, Request $request)
+       public function provideLicenseKey(Request $request)
        {
-           dd(1);
            try {
-               dd(1);
                 DB::beginTransaction();
-                $user = User::where('id', $user_id)->value('id');
-                dd($user);
-                $software_ids = $request->input('software_id');
+                $user = $this->findUserId((int)$request->user_id);
+
+                $software_ids = $request->software_id;
                 $data = [];
+                $software_info = [];
                 foreach($software_ids as $software_id) {
-                    $data = [
-                        'device_id' => (int)$device_id,
+                    $data[] = [
+                        'device_id' => (int)$request->device_id,
                         'software_id' => (int)$software_id,
                         'created_at' => now(),
                         'updated_at' => now()
@@ -157,18 +156,26 @@
 
                     $software = Software::find($software_id);
                     $usage_count = $software->usage_count;
+                    $software_info[] = [
+                        'name' => $software->name,
+                        'version' => $software->version,
+                        'license_key' => $software->license_key,
+                    ];
                     $software->update([
                         'usage_count' => $usage_count - 1
                     ]);
                 }
-
                 DeviceSoftware::insert($data);
-
+                $user->software_info = $software_info;
                 event(new SendLecenseKey($user));
                 DB::commit();
+
+                return true;
             } catch (Exception $exception){
                 dd($exception);
                 DB::rollBack();
+
+                return false;
             }
        }
 
@@ -215,12 +222,12 @@
 
         public function findUserId($user_id)
         {
-            return RequestModel::where('user_id', $user_id)->get();
+            return User::find((int)$user_id);
         }
 
         public function findDevice($device_id)
         {
-            return Device::where('id', $device_id)->get();
+            return Device::find((int)$device_id);
         }
 
         public function delivered(Request $request, $user_id)

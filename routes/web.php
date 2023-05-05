@@ -71,6 +71,8 @@ Route::prefix('devices')->middleware('login')->group(function(){
     Route::get('device-warranting', [DeviceController::class, 'listDeviceWarranting'])->name('device.listDeviceWarranting');
     Route::get('device-warantied-repaired', [DeviceController::class, 'listDeviceWarrantiedOrRepaired'])->name('device.listDeviceWarrantiedOrRepaired');
     Route::get('device-warantied-repaired/{id}', [DeviceController::class, 'detailDeviceWarrantiedOrRepaired'])->name('device.detailDeviceWarrantiedOrRepaired');
+    Route::get('softwares/{device_id}', [DeviceController::class, 'listSoftwareUsage'])->name('device.listSoftwareUsage');
+
 });
 
 Route::prefix('softwares')->middleware('login')->group(function(){
@@ -80,7 +82,7 @@ Route::prefix('softwares')->middleware('login')->group(function(){
     Route::get('edit/{id}', [SoftwareController::class, 'edit'])->name('software.edit');
     Route::put('update/{id}', [SoftwareController::class, 'update'])->name('software.update');
     Route::get('delete/{id}', [SoftwareController::class, 'delete'])->name('software.delete');
-    Route::get('software-device', [SoftwareController::class, 'listSoftwareByDevice'])->name('software.listSoftwareByDevice');
+    Route::get('devices/{software_id}', [SoftwareController::class, 'listDeviceUsage'])->name('software.listDeviceUsage');
     Route::get('/expire', [SoftwareController::class, 'listSoftwareExpire'])->name('software.listSoftwareExpire');
     Route::get('/out-of-usage', [SoftwareController::class, 'listSoftwareOutOfUsage'])->name('software.listSoftwareOutOfUsage');
 

@@ -25,7 +25,8 @@ class SendLicenseRequest extends FormRequest
     {
         return [
             'device_id' => 'integer',
-            'software_id' => 'integer',
+            'software_id' => 'required',
+            'user_id' => 'integer',
         ];
     }
 }

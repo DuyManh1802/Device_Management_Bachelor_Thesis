@@ -234,12 +234,12 @@ $categories = App\Models\category::all();
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="{{ route('software.listSoftwareExpire') }}" class="menu-link">
                         <div data-i18n="Container">Phần mềm sắp hết hạn</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="{{ route('software.listSoftwareOutOfUsage') }}" class="menu-link">
                         <div data-i18n="Container">Phần mềm đã hết lượt dùng license key</div>
                     </a>
                 </li>
@@ -281,7 +281,7 @@ $categories = App\Models\category::all();
         </div>
         <div id="menuItem" class="menu-item">
             <a href="{{ route('request.listDeviceBorrow') }}" class="menu-link">
-                <i class="menu-icon fas fa-stream"></i>
+                <i class="menu-icon fas fa-laptop-code"></i>
                 <div data-i18n="Without navbar">Thiết bị đang mượn</div>
             </a>
         </div>

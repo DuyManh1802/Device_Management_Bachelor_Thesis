@@ -171,23 +171,20 @@ class RequestController extends Controller
         return view('request.provideLicenseKeyForm', compact('devices', 'softwares', 'users'));
     }
 
-    public function provideLicenseKey($user_id, $device_id, SendLicenseRequest $request)
+    public function provideLicenseKey(SendLicenseRequest $request)
     {
-        dd(1);
-        $result = $this->requestService->provideLicenseKey($user_id, $device_id, $request);
 
-        // try {
-        //     $result = $this->requestService->provideLicenseKey($user_id, $device_id, $request);
-        //     dd($result);
-        //     if ($result){
-        //         return redirect()->route('request.listRequestLicenseKey')->with('success', 'Gửi License Key thành công.');
-        //     } else {
-        //         return back()->with('error', 'Gửi License Key thành công.');
-        //     }
-        // } catch (Exception $exception) {
-        //     dd($exception);
-        //     return back()->with('error', 'Lỗi');
-        // }
+        try {
+            $result = $this->requestService->provideLicenseKey($request);
+            if ($result){
+                return redirect()->route('request.listRequestLicenseKey')->with('success', 'Gửi License Key thành công.');
+            } else {
+                return back()->with('error', 'Gửi License Key thành công.');
+            }
+        } catch (Exception $exception) {
+            dd($exception);
+            return back()->with('error', 'Lỗi');
+        }
     }
 
     public function formDelivered($user_id)
@@ -246,7 +243,7 @@ class RequestController extends Controller
             $result = $this->requestService->sendBorrorRequestLicensekey($request, $device_id);
 
             if ($result){
-                return back()->with('success', 'Gửi yêu cầu thành công.');
+                return redirect()->route('home')->with('success', 'Gửi yêu cầu thành công.');
             } else {
                 return back()->with('error', 'Xác nhận k thành công.');
             }

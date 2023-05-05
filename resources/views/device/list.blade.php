@@ -71,6 +71,10 @@
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <div class="dropdown-menu">
+                                    <a class="dropdown-item"
+                                        href="{{ route('device.listSoftwareUsage', $device->id) }}">
+                                        <i class="fab fa-app-store-ios" style="color: #73b856;"></i> Phần mềm được
+                                        cấp</a>
                                     <a class="dropdown-item" href="{{ route('device.edit', $device->id) }}"><i
                                             class="bx bx-edit-alt me-1"></i> Sửa</a>
                                     <a class="dropdown-item" href="{{ route('device.delete', $device->id) }}"

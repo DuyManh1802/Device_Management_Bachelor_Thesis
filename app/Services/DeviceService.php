@@ -151,7 +151,9 @@
 
         public function listSoftwareByDevice($device_id)
         {
-            return Device::with('softwares')->paginate(10);
+            $id = (int)$device_id;
+
+            return Device::find($id)->softwares()->paginate(10);
         }
 
         public function listDeviceWarrantyStocking()

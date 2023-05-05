@@ -6,6 +6,7 @@
     use Illuminate\Http\Request;
     use Exception;
     use Illuminate\Support\Str;
+    use Carbon\Carbon;
 
     class SoftwareService
     {
@@ -84,12 +85,19 @@
 
         public function listSoftwareExpire()
         {
-
+            return Software::where('end', '<=', Carbon::now()->subDays(7))->paginate(10);
         }
 
         public function listSoftwareOutOfUsage()
         {
+            return Software::where('usage_count', '<=', 3)->paginate(10);
+        }
 
+        public function listDeviceUsage($software_id)
+        {
+            $id = (int)$software_id;
+
+            return Software::find($id)->devices()->paginate(10);
         }
     }
 ?>
