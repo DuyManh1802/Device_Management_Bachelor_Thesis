@@ -12,6 +12,7 @@ use App\Http\Controllers\RequestController;
 use App\Http\Controllers\WarrantyController;
 use App\Http\Controllers\RepairController;
 use App\Http\Controllers\Api\HomeController as HomeApiController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,6 +29,11 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
+Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
 Route::get('/home', [HomeController::class, 'index'])->middleware('login')->name('home');
 Route::get('/get-devices-info', [HomeApiController::class, 'getDevicesInfo'])->middleware('login')->name('getDevicesInfo');
@@ -75,6 +81,9 @@ Route::prefix('softwares')->middleware('login')->group(function(){
     Route::put('update/{id}', [SoftwareController::class, 'update'])->name('software.update');
     Route::get('delete/{id}', [SoftwareController::class, 'delete'])->name('software.delete');
     Route::get('software-device', [SoftwareController::class, 'listSoftwareByDevice'])->name('software.listSoftwareByDevice');
+    Route::get('/expire', [SoftwareController::class, 'listSoftwareExpire'])->name('software.listSoftwareExpire');
+    Route::get('/out-of-usage', [SoftwareController::class, 'listSoftwareOutOfUsage'])->name('software.listSoftwareOutOfUsage');
+
 });
 
 Route::prefix('users')->middleware('login')->group(function(){

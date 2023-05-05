@@ -209,7 +209,7 @@
                                     <label class="form-label" for="password">{{
                                         __('Password') }}</label>
                                     @if (Route::has('password.request'))
-                                    <a href="{{ route('password.request') }}">
+                                    <a href="{{ route('forget.password.get') }}">
 
                                         <small>{{ __('Forgot Your Password?') }}</small>
                                     </a>

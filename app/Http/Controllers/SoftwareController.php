@@ -81,4 +81,14 @@ class SoftwareController extends Controller
             return back()->with('error', 'Lỗi');
         }
     }
+
+    public function listSoftwareExpire()
+    {
+
+    }
+
+    public function listSoftwareOutOfUsage()
+    {
+
+    }
 }

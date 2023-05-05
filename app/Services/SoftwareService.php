@@ -81,5 +81,15 @@
         {
             return Device::all();
         }
+
+        public function listSoftwareExpire()
+        {
+
+        }
+
+        public function listSoftwareOutOfUsage()
+        {
+
+        }
     }
 ?>

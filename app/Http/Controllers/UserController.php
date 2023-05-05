@@ -8,6 +8,7 @@ use App\Services\UserService;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\EditUserRequest;;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Requests\ChangePasswordRequest;
 
 class UserController extends Controller
 {
@@ -116,5 +117,20 @@ class UserController extends Controller
         $user = $this->userService->findId($id);
 
         return view('user.changePassword', compact('user'));
+    }
+
+    public function changePassword(ChangePasswordRequest $request, $id)
+    {
+        try {
+            $result = $this->userService->changePassword($request, $id);
+
+            if ($result){
+                return redirect()->route('home')->with('success', 'Đổi mật khẩu thành công.');
+            } else {
+                return back()->with('error', 'Đổi mật khẩu k thành công.');
+            }
+        } catch (Exception $exception) {
+            return back()->with('error', 'Lỗi');
+        }
     }
 }

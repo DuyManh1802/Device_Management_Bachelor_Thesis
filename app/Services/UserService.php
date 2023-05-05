@@ -11,6 +11,7 @@
     use App\Events\CreatedUser;
     use App\Models\Department;
     use Illuminate\Support\Str;
+    use Illuminate\Support\Facades\Auth;
 
     class UserService
     {
@@ -104,6 +105,20 @@
                 'phone' => $request->phone,
                 'image' => $image
             ]);
+        }
+
+        public function changePassword(Request $request, $id)
+        {
+            $user = $this->findId($id);
+            if (Hash::check($request->old_password, $user->password)){
+                $user->update([
+                    'password' => Hash::make($request->new_password)
+                ]);
+
+                return true;
+            } else {
+                return false;
+            }
         }
 
         public function deleteUser($id)
