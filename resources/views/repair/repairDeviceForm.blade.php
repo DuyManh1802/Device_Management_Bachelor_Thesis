@@ -18,8 +18,7 @@
                                 <input type="text" id="basic-icon-default-phone"
                                     class="form-control phone-mask @error('name') is-invalid @enderror"
                                     placeholder="name" aria-label="name" aria-describedby="basic-icon-default-phone2"
-                                    name="" value="{{ $repairs->device->name }}" required autocomplete="name"
-                                    readonly />
+                                    value="{{ $repairs->device->name }}" required autocomplete="name" readonly />
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -57,7 +56,7 @@
                                 <input type="text" id="basic-icon-default-phone"
                                     class="form-control phone-mask @error('configuration') is-invalid @enderror"
                                     placeholder="configuration" aria-label="configuration"
-                                    aria-describedby="basic-icon-default-phone2" name=""
+                                    aria-describedby="basic-icon-default-phone2"
                                     value="{{ $repairs->device->configuration }}" required autocomplete="configuration"
                                     readonly>
 

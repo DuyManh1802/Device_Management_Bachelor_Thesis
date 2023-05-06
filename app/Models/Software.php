@@ -25,7 +25,7 @@ class Software extends Model
 
     public function devices()
     {
-        return $this->belongsToMany(Device::class, 'device_softwares', 'device_id', 'software_id');
+        return $this->belongsToMany(Device::class, 'device_softwares', 'software_id', 'device_id');
     }
 
     public function device_softwares()

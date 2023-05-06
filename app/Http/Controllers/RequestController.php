@@ -153,7 +153,7 @@ class RequestController extends Controller
             $result = $this->requestService->provideDevice($request);
 
             if ($result){
-                return back()->with('success', 'Cấp thiết bị thành công.');
+                return redirect()->route('request.listRequest')->with('success', 'Cấp thiết bị thành công.');
             } else {
                 return back()->with('error', 'Cấp thiết bị k thành công.');
             }
@@ -257,5 +257,26 @@ class RequestController extends Controller
         $requests = $this->requestService->listRequestByUser();
 
         return view('request.listRequestByUser', compact('requests'));
+    }
+
+    public function adminProvideDeviceForm()
+    {
+        $departments = $this->requestService->allDepartment();
+        $users = $this->requestService->allUser();
+        $devices = $this->requestService->listDeviceAvailable();
+
+        return view('request.adminProvideDeviceForm', compact('devices', 'departments', 'users'));
+    }
+
+    public function recallDeviceForm()
+    {
+        $users = $this->requestService->allUser();
+
+        return view('request.recallDevice', compact('users', 'devices'));
+    }
+
+    public function recallDevice()
+    {
+
     }
 }

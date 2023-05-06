@@ -32,7 +32,7 @@
             try {
                 DB::beginTransaction();
                 $repair = Repair::find($id);
-                $repair->repairDetail()->create([
+                $repair->repairDetails()->create([
                     'result' => $request->result,
                     'content' => $request->content,
                     'cost' => $cost

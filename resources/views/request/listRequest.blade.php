@@ -19,17 +19,17 @@
     @endif
     <div class="card">
         <div class="d-flex justify-content-end p-3">
-            <a href="{{ route('request.listRequestBorrow') }}" class="m-1">
+            <a href="{{ route('request.adminProvideDeviceForm') }}" class="m-1">
                 <button type="button" class="btn btn-outline-primary">Cấp thiết bị</button>
             </a>
 
-            <a href="" class="m-1">
+            {{-- <a href="" class="m-1">
                 <button type="button" class="btn btn-outline-primary">Gửi licence key</button>
             </a>
 
-            <a href="" class="m-1">
+            <a href="{{ route('request.recallDeviceForm') }}" class="m-1">
                 <button type="button" class="btn btn-outline-primary">Thu hồi thiết bị</button>
-            </a>
+            </a> --}}
         </div>
         <div class="table-responsive ">
             <table class="table table-hover table-striped">

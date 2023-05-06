@@ -80,6 +80,11 @@
                                     <a class="dropdown-item" href="{{ route('device.delete', $device->id) }}"
                                         onclick="return myFunction();"><i class="bx bx-trash me-1"></i>
                                         Xóa</a>
+                                    @if ($device->status === 1)
+                                    <a class="dropdown-item" href="{{ route('device.liquidationForm', $device->id) }}">
+                                        <i class="fas fa-dollar-sign" style="color: #2f5dac;"></i>
+                                        Thanh lý</a>
+                                    @endif
                                 </div>
                             </div>
                         </td>

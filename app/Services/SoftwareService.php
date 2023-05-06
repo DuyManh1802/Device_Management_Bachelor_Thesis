@@ -97,7 +97,10 @@
         {
             $id = (int)$software_id;
 
-            return Software::find($id)->devices()->paginate(10);
+            $software = Software::with('devices')->find($id);
+            $devices = $software->devices()->paginate(10);
+
+            return $devices;
         }
     }
 ?>

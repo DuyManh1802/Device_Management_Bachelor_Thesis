@@ -189,6 +189,11 @@
             return Department::all();
         }
 
+        public function allUser()
+        {
+            return User::all();
+        }
+
         public function listRequestBorrow()
         {
             return RequestModel::with(['department', 'user', 'device'])->where('type', 1)->whereHas('user', function($query){
@@ -308,5 +313,6 @@
                 $query->where('role', 0);
             })->paginate(10);
         }
+
     }
 ?>

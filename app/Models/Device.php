@@ -14,9 +14,9 @@ use App\Models\RepairDetail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\WarrantyDetail;
 use App\Models\Warranty;
-use App\Models\UsageCount;
 use App\Models\Software;
 use App\Models\DeviceSoftware;
+use App\Models\Liquidation;
 
 class Device extends Model
 {
@@ -98,5 +98,10 @@ class Device extends Model
     public function softwares()
     {
         return $this->belongsToMany(Software::class, 'device_softwares', 'device_id', 'software_id');
+    }
+
+    public function liquidation()
+    {
+        return $this->hasOne(Liquidation::class);
     }
 }

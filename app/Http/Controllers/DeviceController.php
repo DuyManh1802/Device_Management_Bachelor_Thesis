@@ -9,6 +9,7 @@ use App\Http\Requests\CreateDeviceRequest;
 use App\Http\Requests\EditDeviceRequest;
 use App\Http\Requests\CreateWarrantyRequest;
 use App\Models\Category;
+use App\Http\Requests\LiquidationRequest;
 
 class DeviceController extends Controller
 {
@@ -142,5 +143,34 @@ class DeviceController extends Controller
         $deviceRepaired = $this->deviceService->detailDeviceRepaired($id);
 
         return view('device.detailDeviceWarrantiedOrRepaired', compact('deviceWarrantied', 'deviceRepaired'));
+    }
+
+    public function liquidationForm($id)
+    {
+        $devices = $this->deviceService->findId($id);
+
+        return view('device.liquidationForm', compact('devices'));
+    }
+
+    public function liquidation(LiquidationRequest $request, $id)
+    {
+        try {
+            $result = $this->deviceService->liquidation($request, $id);
+
+            if ($result){
+                return redirect()->route('device.index')->with('success', ' thành công.');
+            } else {
+                return back()->with('error', 'k thành công.');
+            }
+        } catch (Exception $exception) {
+            return back()->with('error', 'Lỗi');
+        }
+    }
+
+    public function listDeviceLiquidated()
+    {
+        $devices = $this->deviceService->listDeviceLiquidated();
+
+        return view('device.listDeviceLiquidationed', compact('devices'));
     }
 }

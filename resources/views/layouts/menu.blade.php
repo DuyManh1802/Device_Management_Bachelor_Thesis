@@ -214,7 +214,7 @@ $categories = App\Models\category::all();
                 </li>
 
                 <li class="menu-item">
-                    <a href="#" class="menu-link">
+                    <a href="{{ route('device.listDeviceLiquidated') }}" class="menu-link">
                         <div data-i18n="Container">Thiết bị đã thanh lý</div>
                     </a>
                 </li>

@@ -126,7 +126,7 @@
                             </div>
                             <div id="incomeChart"></div>
                             <div class="d-flex justify-content-center mt-3">
-                                <h5 class="m-0 me-2">Số lượng yêu cầu gần nhất</h5>
+                                <h5 class="m-0 me-2">Số lượng yêu cầu các ngày gần nhất</h5>
                             </div>
                         </div>
                     </div>

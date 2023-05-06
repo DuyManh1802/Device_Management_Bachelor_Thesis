@@ -65,6 +65,9 @@ Route::prefix('devices')->middleware('login')->group(function(){
     Route::get('edit/{id}', [DeviceController::class, 'edit'])->name('device.edit');
     Route::put('update/{id}', [DeviceController::class, 'update'])->name('device.update');
     Route::get('delete/{id}', [DeviceController::class, 'delete'])->name('device.delete');
+    Route::get('liquidation/{id}', [DeviceController::class, 'liquidationForm'])->name('device.liquidationForm');
+    Route::get('liquidated', [DeviceController::class, 'listDeviceLiquidated'])->name('device.listDeviceLiquidated');
+    Route::post('liquidation/{id}', [DeviceController::class, 'liquidation'])->name('device.liquidation');
     Route::get('/category/{category}', [DeviceController::class, 'showByCategory'])->name('device.showByCategory');
     Route::get('device-repairing', [DeviceController::class, 'listDeviceRepairing'])->name('device.listDeviceRepairing');
     Route::get('device-brokening', [DeviceController::class, 'listDeviceBrokening'])->name('device.listDeviceBrokening');
@@ -120,12 +123,14 @@ Route::prefix('requests')->middleware('login')->group(function(){
     Route::get('/refuse/{id}', [RequestController::class, 'refuseRequest'])->name('request.refuseRequest');
     Route::get('/provide/{id}', [RequestController::class, 'provideDeviceForm'])->name('request.provideDeviceForm');
     Route::post('/provide', [RequestController::class, 'provideDevice'])->name('request.provideDevice');
+    Route::get('/provide-device', [RequestController::class, 'adminProvideDeviceForm'])->name('request.adminProvideDeviceForm');
 
     Route::get('/provide-licensekey/{user_id}/{device_id}', [RequestController::class, 'provideLicenseKeyForm'])->name('request.provideLicenseKeyForm');
     Route::post('/provide-licensekey', [RequestController::class, 'provideLicenseKey'])->name('request.provideLicenseKey');
 
     // Route::put('/provide/{id}', [RequestController::class, 'provideDeviceConfirm'])->name('request.provideDeviceConfirm');
-    // Route::put('/recall/department{id}/user{id}', [RequestController::class, 'recallDevice'])->name('request.recallDevice');
+    Route::get('/recall-device', [RequestController::class, 'recallDeviceForm'])->name('request.recallDeviceForm');
+    Route::post('/recall-device', [RequestController::class, 'recallDevice'])->name('request.recallDevice');
     Route::get('/delivered/{user_id}', [RequestController::class, 'formDelivered'])->name('request.formDelivered');
     Route::post('/delivered/{user_id}', [RequestController::class, 'delivered'])->name('request.delivered');
     Route::get('list-device-borrow', [RequestController::class, 'listDeviceBorrow'])->name('request.listDeviceBorrow');

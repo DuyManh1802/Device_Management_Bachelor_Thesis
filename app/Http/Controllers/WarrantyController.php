@@ -42,7 +42,7 @@ class WarrantyController extends Controller
         try {
             $result = $this->warrantyService->warrantyDeviced($id, $request);
             if ($result){
-                return redirect()->view('device.listDeviceBrokening')->with('success', 'thành công.');
+                return redirect()->route('device.listDeviceBrokening')->with('success', 'thành công.');
             } else {
                 return back()->with('error', 'k thành công.');
             }

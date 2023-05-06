@@ -152,8 +152,10 @@
         public function listSoftwareByDevice($device_id)
         {
             $id = (int)$device_id;
+            $device = Device::with('softwares')->find($id);
+            $softwares = $device->softwares()->paginate(10);
 
-            return Device::find($id)->softwares()->paginate(10);
+            return $softwares;
         }
 
         public function listDeviceWarrantyStocking()
@@ -185,6 +187,44 @@
         {
             return Device::with(['repairs', 'repairDetails', 'typeRepairs'])->whereHas('repairs', function ($query) {
                 $query->where('repair_count', '>', 0);})->find($id);
+        }
+
+        public function liquidation(Request $request, $id)
+        {
+            try {
+                DB::beginTransaction();
+                $device = Device::with('warranties')->where('id', $id)->first();
+                $device->liquidation()->create([
+                    'price' => $request->price,
+                    'note' => $request->note
+                ]);
+
+                $warranty = $device->warranties()->first();
+                $endWarranty = $warranty->end;
+                if ($device->status == 1 && Carbon::parse($endWarranty) < Carbon::now()) {
+                    $device->delete();
+                    DB::commit();
+
+                    return true;
+                } else {
+                    DB::rollBack();
+
+                    return false;
+                }
+
+            } catch (Exception $ex){
+                DB::rollBack();
+
+                return false;
+            }
+        }
+
+        public function listDeviceLiquidated()
+        {
+            return Device::onlyTrashed()
+            ->whereHas('liquidation')
+            ->with('liquidation')
+            ->paginate(10);
         }
     }
 ?>
