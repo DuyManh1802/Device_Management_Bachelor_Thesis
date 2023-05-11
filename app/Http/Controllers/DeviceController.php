@@ -139,10 +139,11 @@ class DeviceController extends Controller
 
     public function detailDeviceWarrantiedOrRepaired($id)
     {
+        $device = $this->deviceService->deviceWarrantiedOrRepairedById($id);
         $deviceWarrantied = $this->deviceService->detailDeviceWarrantied($id);
         $deviceRepaired = $this->deviceService->detailDeviceRepaired($id);
 
-        return view('device.detailDeviceWarrantiedOrRepaired', compact('deviceWarrantied', 'deviceRepaired'));
+        return view('device.detailDeviceWarrantiedOrRepaired', compact('deviceWarrantied', 'deviceRepaired', 'device'));
     }
 
     public function liquidationForm($id)
@@ -172,5 +173,20 @@ class DeviceController extends Controller
         $devices = $this->deviceService->listDeviceLiquidated();
 
         return view('device.listDeviceLiquidationed', compact('devices'));
+    }
+
+    public function updateAvailable($id)
+    {
+        try {
+            $result = $this->deviceService->updateAvailable( $id);
+
+            if ($result){
+                return redirect()->route('device.index')->with('success', 'Cập nhật thành công.');
+            } else {
+                return back()->with('error', 'Cập nhật k thành công.');
+            }
+        } catch (Exception $exception) {
+            return back()->with('error', 'Lỗi');
+        }
     }
 }

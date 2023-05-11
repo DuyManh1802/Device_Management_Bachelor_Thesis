@@ -131,9 +131,13 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-outline-primary">Xác nhận</button>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-outline-primary">Thêm</button>
+                
             </div>
         </form>
     </div>

@@ -11,6 +11,7 @@
     use App\Models\User;
     use App\Models\DeviceSoftware;
     use App\Events\SendLecenseKey;
+    use App\Models\UseHistory;
 
     class RequestService
     {
@@ -113,7 +114,7 @@
                 foreach ($device_ids as $device_id) {
                     $request_data[] = [
                         'department_id' => (int)$department_id,
-                        'user_id' => (int)$user_id,
+                        'user_id' => $user_id,
                         'device_id' => (int)$device_id,
                         'status' => 1,
                         'type' => 4,
@@ -201,6 +202,11 @@
             })->paginate(10);
         }
 
+        public function listAdminProvideDevice()
+        {
+            return RequestModel::with(['department', 'user', 'device'])->where('type', 4)->paginate(10);
+        }
+
         public function listRequestReturn()
         {
             return RequestModel::with(['department', 'user', 'device'])->where('type', 0)->whereHas('user', function($query){
@@ -222,7 +228,7 @@
 
         public function findIdRequest($id)
         {
-            return RequestModel::find($id);
+            return RequestModel::find((int)$id);
         }
 
         public function findUserId($user_id)
@@ -235,31 +241,50 @@
             return Device::find((int)$device_id);
         }
 
-        public function delivered(Request $request, $user_id)
+        public function delivered(Request $request, $id)
         {
             try {
                 DB::beginTransaction();
-                $requests = RequestModel::where('user_id', $user_id)->where('type', 4)->get();
+                $req = $this->findIdRequest($id);
 
-                foreach ($requests as $req) {
-                    RequestModel::where('confirm', $req->confirm)->update([
+                    $req->update([
                         'confirm' => 1,
                     ]);
                     $req->device()->update([
                         'status' => 0
                     ]);
                     $req->useHistory()->create([
+                        'device_id' => (int)$request->device_id,
                         'status' => 1,
                         'borrowed_date' => $request->borrowed_date,
                         'return_date' => $request->return_date
                     ]);
-                }
                 DB::commit();
             } catch (Exception $exception){
                 DB::rollBack();
             }
 
-            return $requests;
+            return $req;
+        }
+
+        public function returned(Request $request, $id)
+        {
+            try {
+                DB::beginTransaction();
+                $req = $this->findIdRequest($id);
+
+                    $req->update([
+                        'confirm' => 2
+                    ]);
+
+                    Device::where('id', $request->device_id)->update(['status' => 1]);
+                    UseHistory::where('device_id', (int)$request->device_id)->update(['status' => 0]);
+                DB::commit();
+            } catch (Exception $exception){
+                DB::rollBack();
+            }
+
+            return $req;
         }
 
         public function listDeviceBorrow()

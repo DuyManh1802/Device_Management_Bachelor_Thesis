@@ -77,8 +77,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="row justify-content-end">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-outline-primary" onclick="return confirmAction();">Cập
+                            nhật</button>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Cập nhật</button>
         </form>
     </div>
 </div>

@@ -123,7 +123,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Sửa</button>
+                <button type="submit" class="btn btn-primary" onclick="return confirmAction();">Sửa</button>
             </form>
 
         </div>

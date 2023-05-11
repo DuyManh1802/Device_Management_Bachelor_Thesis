@@ -36,11 +36,11 @@ Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showRese
 Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
 Route::get('/home', [HomeController::class, 'index'])->middleware('login')->name('home');
-Route::get('/get-devices-info', [HomeApiController::class, 'getDevicesInfo'])->middleware('login')->name('getDevicesInfo');
-Route::get('/get-requests-info', [HomeApiController::class, 'getRequestsInfo'])->middleware('login')->name('getRequestsInfo');
-Route::get('/get-requests-by-day', [HomeApiController::class, 'getRequestByDay'])->middleware('login')->name('getRequestByDay');
+Route::get('/get-devices-info', [HomeApiController::class, 'getDevicesInfo'])->middleware('login', 'can:isAdmin')->name('getDevicesInfo');
+Route::get('/get-requests-info', [HomeApiController::class, 'getRequestsInfo'])->middleware('login', 'can:isAdmin')->name('getRequestsInfo');
+Route::get('/get-requests-by-day', [HomeApiController::class, 'getRequestByDay'])->middleware('login', 'can:isAdmin')->name('getRequestByDay');
 
-Route::prefix('departments')->middleware('login')->group(function(){
+Route::prefix('departments')->middleware('login', 'can:isSuperAdmin')->group(function(){
     Route::get('/', [DepartmentController::class, 'index'])->name('department.index');
     Route::get('create', [DepartmentController::class, 'create'])->name('department.create');
     Route::post('store', [DepartmentController::class, 'store'])->name('department.store');
@@ -49,7 +49,7 @@ Route::prefix('departments')->middleware('login')->group(function(){
     Route::get('delete/{id}', [DepartmentController::class, 'delete'])->name('department.delete');
 });
 
-Route::prefix('categories')->middleware('login')->group(function(){
+Route::prefix('categories')->middleware('login', 'can:isAdmin')->group(function(){
     Route::get('/', [CategoryController::class, 'index'])->name('category.index');
     Route::get('create', [CategoryController::class, 'create'])->name('category.create');
     Route::post('store', [CategoryController::class, 'store'])->name('category.store');
@@ -58,7 +58,7 @@ Route::prefix('categories')->middleware('login')->group(function(){
     Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
 });
 
-Route::prefix('devices')->middleware('login')->group(function(){
+Route::prefix('devices')->middleware('login', 'can:isAdmin')->group(function(){
     Route::get('/', [DeviceController::class, 'index'])->name('device.index');
     Route::get('create', [DeviceController::class, 'create'])->name('device.create');
     Route::post('store', [DeviceController::class, 'store'])->name('device.store');
@@ -75,10 +75,11 @@ Route::prefix('devices')->middleware('login')->group(function(){
     Route::get('device-warantied-repaired', [DeviceController::class, 'listDeviceWarrantiedOrRepaired'])->name('device.listDeviceWarrantiedOrRepaired');
     Route::get('device-warantied-repaired/{id}', [DeviceController::class, 'detailDeviceWarrantiedOrRepaired'])->name('device.detailDeviceWarrantiedOrRepaired');
     Route::get('softwares/{device_id}', [DeviceController::class, 'listSoftwareUsage'])->name('device.listSoftwareUsage');
+    Route::get('/update-available/{id}', [DeviceController::class, 'updateAvailable'])->name('device.updateAvailable');
 
 });
 
-Route::prefix('softwares')->middleware('login')->group(function(){
+Route::prefix('softwares')->middleware('login', 'can:isAdmin')->group(function(){
     Route::get('/', [SoftwareController::class, 'index'])->name('software.index');
     Route::get('create', [SoftwareController::class, 'create'])->name('software.create');
     Route::post('store', [SoftwareController::class, 'store'])->name('software.store');
@@ -91,7 +92,7 @@ Route::prefix('softwares')->middleware('login')->group(function(){
 
 });
 
-Route::prefix('users')->middleware('login')->group(function(){
+Route::prefix('users')->middleware('login', 'can:isSuperAdmin')->group(function(){
     Route::get('/', [UserController::class, 'index'])->name('user.index');
     Route::get('create', [UserController::class, 'create'])->name('user.create');
     Route::post('store', [UserController::class, 'store'])->name('user.store');
@@ -113,39 +114,43 @@ Route::prefix('requests')->middleware('login')->group(function(){
     Route::get('/return-device/{id}', [RequestController::class, 'sendReturnRequest'])->name('request.sendReturnRequest');
     Route::get('/report-device-broken/{id}', [RequestController::class, 'reportDeviceBroken'])->name('request.reportDeviceBroken');
 
-    Route::get('/list-request', [RequestController::class, 'listRequest'])->name('request.listRequest');
-    Route::get('/list-request-borrow', [RequestController::class, 'listRequestBorrow'])->name('request.listRequestBorrow');
-    Route::get('/list-request-return', [RequestController::class, 'listRequestReturn'])->name('request.listRequestReturn');
-    Route::get('/list-request-broken', [RequestController::class, 'listRequestBroken'])->name('request.listRequestBroken');
-    Route::get('/list-request-user', [RequestController::class, 'listRequestByUser'])->name('request.listRequestByUser');
-    Route::get('/list-request-license-key', [RequestController::class, 'listRequestLicenseKey'])->name('request.listRequestLicenseKey');
-    Route::get('/approve/{id}', [RequestController::class, 'approveRequest'])->name('request.approveRequest');
-    Route::get('/refuse/{id}', [RequestController::class, 'refuseRequest'])->name('request.refuseRequest');
-    Route::get('/provide/{id}', [RequestController::class, 'provideDeviceForm'])->name('request.provideDeviceForm');
-    Route::post('/provide', [RequestController::class, 'provideDevice'])->name('request.provideDevice');
-    Route::get('/provide-device', [RequestController::class, 'adminProvideDeviceForm'])->name('request.adminProvideDeviceForm');
+    Route::get('/generate-pdf', [RequestController::class, 'generateListRequestPDF'])->middleware('login')->name('generatePDF');
+    Route::get('/list-request', [RequestController::class, 'listRequest'])->middleware('can:isAdmin')->name('request.listRequest');
+    Route::get('/list-request-borrow', [RequestController::class, 'listRequestBorrow'])->middleware('can:isAdmin')->name('request.listRequestBorrow');
+    Route::get('/list-request-provide', [RequestController::class, 'listAdminProvideDevice'])->middleware('can:isAdmin')->name('request.listAdminProvideDevice');
+    Route::get('/list-request-return', [RequestController::class, 'listRequestReturn'])->middleware('can:isAdmin')->name('request.listRequestReturn');
+    Route::get('/list-request-broken', [RequestController::class, 'listRequestBroken'])->middleware('can:isAdmin')->name('request.listRequestBroken');
+    Route::get('/list-request-user', [RequestController::class, 'listRequestByUser'])->middleware('can:isAdmin')->name('request.listRequestByUser');
+    Route::get('/list-request-license-key', [RequestController::class, 'listRequestLicenseKey'])->middleware('can:isAdmin')->name('request.listRequestLicenseKey');
+    Route::get('/approve/{id}', [RequestController::class, 'approveRequest'])->middleware('can:isAdmin')->name('request.approveRequest');
+    Route::get('/refuse/{id}', [RequestController::class, 'refuseRequest'])->middleware('can:isAdmin')->name('request.refuseRequest');
+    Route::get('/provide/{id}', [RequestController::class, 'provideDeviceForm'])->middleware('can:isAdmin')->name('request.provideDeviceForm');
+    Route::post('/provide', [RequestController::class, 'provideDevice'])->middleware('can:isAdmin')->name('request.provideDevice');
+    Route::get('/provide-device', [RequestController::class, 'adminProvideDeviceForm'])->middleware('can:isAdmin')->name('request.adminProvideDeviceForm');
 
-    Route::get('/provide-licensekey/{user_id}/{device_id}', [RequestController::class, 'provideLicenseKeyForm'])->name('request.provideLicenseKeyForm');
-    Route::post('/provide-licensekey', [RequestController::class, 'provideLicenseKey'])->name('request.provideLicenseKey');
+    Route::get('/provide-licensekey/{user_id}/{device_id}', [RequestController::class, 'provideLicenseKeyForm'])->middleware('can:isAdmin')->name('request.provideLicenseKeyForm');
+    Route::post('/provide-licensekey', [RequestController::class, 'provideLicenseKey'])->middleware('can:isAdmin')->name('request.provideLicenseKey');
 
-    // Route::put('/provide/{id}', [RequestController::class, 'provideDeviceConfirm'])->name('request.provideDeviceConfirm');
-    Route::get('/recall-device', [RequestController::class, 'recallDeviceForm'])->name('request.recallDeviceForm');
-    Route::post('/recall-device', [RequestController::class, 'recallDevice'])->name('request.recallDevice');
-    Route::get('/delivered/{user_id}', [RequestController::class, 'formDelivered'])->name('request.formDelivered');
-    Route::post('/delivered/{user_id}', [RequestController::class, 'delivered'])->name('request.delivered');
+    Route::get('/recall-device', [RequestController::class, 'recallDeviceForm'])->middleware('can:isAdmin')->name('request.recallDeviceForm');
+    Route::post('/recall-device', [RequestController::class, 'recallDevice'])->middleware('can:isAdmin')->name('request.recallDevice');
+    Route::get('/delivered/{id}', [RequestController::class, 'formDelivered'])->middleware('can:isAdmin')->name('request.formDelivered');
+    Route::post('/delivered/{id}', [RequestController::class, 'delivered'])->middleware('can:isAdmin')->name('request.delivered');
+
+    Route::get('/returned/{id}', [RequestController::class, 'formReturned'])->middleware('can:isAdmin')->name('request.formReturned');
+    Route::post('/returned/{id}', [RequestController::class, 'returned'])->middleware('can:isAdmin')->name('request.returned');
     Route::get('list-device-borrow', [RequestController::class, 'listDeviceBorrow'])->name('request.listDeviceBorrow');
-    Route::get('list-device-borrowed', [RequestController::class, 'listDeviceBorrowed'])->name('request.listDeviceBorrowed');
-    Route::get('list-device-available', [RequestController::class, 'listDeviceAvailabale'])->name('request.listDeviceAvailabale');
+    Route::get('list-device-borrowed', [RequestController::class, 'listDeviceBorrowed'])->middleware('can:isAdmin')->name('request.listDeviceBorrowed');
+    Route::get('list-device-available', [RequestController::class, 'listDeviceAvailabale'])->middleware('can:isAdmin')->name('request.listDeviceAvailabale');
 });
 
-Route::prefix('repairs')->middleware('login')->group(function(){
+Route::prefix('repairs')->middleware('login', 'can:isAdmin')->group(function(){
     Route::get('device/{device_id}', [RepairController::class, 'repairDevice'])->name('repair.repairDevice');
     Route::get('device/repaired/{device_id}', [RepairController::class, 'repairDeviceForm'])->name('repair.repairDeviceForm');
     Route::post('device/repaired/{id}', [RepairController::class, 'repairDeviced'])->name('repair.repairDeviced');
 
 });
 
-Route::prefix('warranties')->middleware('login')->group(function(){
+Route::prefix('warranties')->middleware('login', 'can:isAdmin')->group(function(){
     Route::get('device/{device_id}', [WarrantyController::class, 'warrantyDevice'])->name('warranty.warrantyDevice');
     Route::get('device/warrantied/{device_id}', [WarrantyController::class, 'warrantyDeviceForm'])->name('warranty.warrantyDeviceForm');
     Route::post('device/warrantied/{id}', [WarrantyController::class, 'warrantyDeviced'])->name('warranty.warrantyDeviced');

@@ -36,7 +36,7 @@
                     @foreach ( $requests as $key => $req )
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td>{{ $req->department->name }}</td>
+                        <td>{{ $req->department->name ?? '' }}</td>
                         <td><strong>{{ $req->user->name }}</strong></td>
                         <td>
                             @if ($req->type == 0)

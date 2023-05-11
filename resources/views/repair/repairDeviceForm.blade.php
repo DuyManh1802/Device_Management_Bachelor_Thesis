@@ -168,7 +168,8 @@
                     </div>
 
                 </div>
-                <button type="submit" class="btn btn-outline-primary">Xác nhận</button>
+                <button type="submit" class="btn btn-outline-primary" onclick="return confirmAction();">Xác
+                    nhận</button>
             </div>
         </form>
     </div>

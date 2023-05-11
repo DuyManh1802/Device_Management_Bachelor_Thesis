@@ -53,6 +53,7 @@
                             <div class="input-group input-group-merge">
                                 <button class="btn btn-outline-primary dropdown-toggle" type="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">Chọn Phần mềm</button>
+                                @if($softwares->count() > 0)
                                 <ul class="dropdown-menu">
                                     <select name="software_id[]" class="form-select" id="exampleFormControlSelect2"
                                         style="width: 300px" aria-label="Default select example"
@@ -68,6 +69,13 @@
                                 </ul>
                                 <input type="text" class="form-control" aria-label="Text input with dropdown button"
                                     name="selected_softwares" id="selected_softwares" />
+                                @else
+                                <input type="text" id="basic-icon-default-phone"
+                                    class="form-control phone-mask @error('department_id') is-invalid @enderror"
+                                    placeholder="department_id" aria-label="department_id"
+                                    aria-describedby="basic-icon-default-phone2" name=""
+                                    value="Không có phần mềm nào còn luợt sử dụng license key" readonly />
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -79,7 +87,8 @@
 
                     <div class="row justify-content-end">
                         <div class="col-sm-10">
-                            <button type="submit" class="btn btn-outline-primary">Cấp</button>
+                            <button type="submit" class="btn btn-outline-primary"
+                                onclick="return confirmAction();">Cấp</button>
                         </div>
                     </div>
                 </div>

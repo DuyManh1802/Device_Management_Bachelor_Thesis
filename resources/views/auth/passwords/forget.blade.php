@@ -131,7 +131,7 @@
                       </g>
                     </svg>
                   </span>
-                  <span class="app-brand-text demo text-body fw-bolder">Sneat</span>
+                  <span class="app-brand-text demo text-body fw-bolder">manh</span>
                 </a>
               </div>
               <!-- /Logo -->
@@ -143,12 +143,17 @@
                   <label for="email" class="form-label">Email</label>
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control @error('email') is-invalid @enderror"
                     id="email"
                     name="email"
                     placeholder="Enter your email"
                     autofocus
                   />
+                  @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                 </div>
                 <button class="btn btn-primary d-grid w-100">Send Reset Link</button>
               </form>

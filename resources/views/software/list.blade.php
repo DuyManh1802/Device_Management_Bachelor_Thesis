@@ -38,7 +38,7 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td><strong>{{ $software->name }}</strong></td>
-                        <td><img src="{{ asset('image/software' . $software->image) }}" alt="" width="40px"
+                        <td><img src="{{ asset('image/software/' . $software->image) }}" alt="" width="40px"
                                 height="40px"></td>
                         <td>{{ $software->version }}
                         </td>

@@ -1,6 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
+
+@if(Auth::user()->role == 0)
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="card mb-4">
+        <div class="d-flex align-items-center">
+            <div class="col-sm-7 d-flex justify-content-center">
+                <div class="card-header">
+                    <h4 class="card-title text-primary">Hello {{ Auth::user()->name }}! 🎉</h4>
+                </div>
+            </div>
+            <div class="col-sm-5 text-center text-sm-left">
+                <div class="card-body pb-0 px-0 px-md-4">
+                    <img src="template/assets/img/illustrations/man-with-laptop-light.png" height="140"
+                        alt="View Badge User" data-app-dark-img="illustrations/man-with-laptop-dark.png"
+                        data-app-light-img="illustrations/man-with-laptop-light.png" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@else
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row">
         <div class="col-md-6 col-12 mb-md-0 mb-4">
@@ -173,4 +194,5 @@
     }
 });
 </script>
+@endif
 @endsection

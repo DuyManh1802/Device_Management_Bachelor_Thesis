@@ -62,7 +62,8 @@
 
                     <div class="row justify-content-end">
                         <div class="col-sm-10">
-                            <button type="submit" class="btn btn-primary">Thay đổi</button>
+                            <button type="submit" class="btn btn-primary" onclick="return confirmAction();">Thay
+                                đổi</button>
                         </div>
                     </div>
                 </form>

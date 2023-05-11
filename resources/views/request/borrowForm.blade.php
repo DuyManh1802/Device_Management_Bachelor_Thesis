@@ -3,6 +3,21 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Yêu cầu /</span> Gửi yêu cầu mượn thiết bị</h4>
     <div class="col-xxl">
+        @if (session('success'))
+        <div class="text-center" role="alert">
+            <h4 class="alert alert-success">{{ session('success') }}</h4>
+        </div>
+        @endif
+        @if (session('error'))
+        <div class="text-center" role="alert">
+            <h4 class="alert alert-danger">{{ session('error') }}</h4>
+        </div>
+        @endif
+        @if (session('alert'))
+        <div class="text-center" role="alert">
+            <h4 class="alert alert-danger">{{ session('alert') }}</h4>
+        </div>
+        @endif
         <div class="card mb-4">
 
             <form action="{{ route('request.sendBorrowRequest') }}" method="POST">

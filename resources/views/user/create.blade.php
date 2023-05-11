@@ -166,7 +166,8 @@
                     </div>
                     <div class="row justify-content-end">
                         <div class="col-sm-10">
-                            <button type="submit" class="btn btn-outline-primary">Thêm mới</button>
+                            <button type="submit" class="btn btn-outline-primary" onclick="return confirmAction();">Thêm
+                                mới</button>
                         </div>
                     </div>
                 </div>

@@ -177,11 +177,23 @@
             ->get();
         }
 
+        public function deviceWarrantiedOrRepairedById($id)
+        {
+            return Device::with(['warranties', 'repairs'])->whereHas('warranties', function ($query) {
+                $query->where('warranty_count', '>', 0);
+            })
+            ->orWhereHas('repairs', function ($query) {
+                $query->where('repair_count', '>', 0);
+            })
+            ->find($id);
+        }
+
         public function detailDeviceWarrantied($id)
         {
             return Device::with(['warranties', 'warrantyDetails'])->whereHas('warranties', function ($query) {
                 $query->where('warranty_count', '>', 0);})->find($id);
         }
+
 
         public function detailDeviceRepaired($id)
         {
@@ -193,15 +205,16 @@
         {
             try {
                 DB::beginTransaction();
-                $device = Device::with('warranties')->where('id', $id)->first();
+                $device = Device::with(['warranties', 'repairs'])->where('id', $id)->first();
                 $device->liquidation()->create([
                     'price' => $request->price,
                     'note' => $request->note
                 ]);
 
                 $warranty = $device->warranties()->first();
+                $repair = $device->repairs()->first();
                 $endWarranty = $warranty->end;
-                if ($device->status == 1 && Carbon::parse($endWarranty) < Carbon::now()) {
+                if ($device->status == 1 && Carbon::parse($endWarranty) < Carbon::now() && $repair->repair_count > 0) {
                     $device->delete();
                     DB::commit();
 
@@ -225,6 +238,11 @@
             ->whereHas('liquidation')
             ->with('liquidation')
             ->paginate(10);
+        }
+
+        public function updateAvailable($id)
+        {
+            return Device::where('id', (int)$id)->update(['status' => 1]);
         }
     }
 ?>

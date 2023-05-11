@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"> Thông tin cá nhân</h4>
     <div class="card mb-4">
-        <h4 class="fw-bold py-3 mb-4"> Thông tin cá nhân</h4>
         <!-- Account -->
         <form id="formAccountSettings" action="{{ route('user.updateProfile', Auth::user()->id) }}" method="POST"
             enctype="multipart/form-data">
@@ -55,7 +55,7 @@
 
                 </div>
                 <div class="mt-2">
-                    <button type="submit" class="btn btn-primary me-2">Lưu</button>
+                    <button type="submit" class="btn btn-outline-primary me-2">Cập nhật</button>
                 </div>
             </div>
             <!-- /Account -->

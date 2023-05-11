@@ -48,7 +48,7 @@ $categories = App\Models\category::all();
                     </g>
                 </svg>
             </span>
-            <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span>
+            <span class="app-brand-text demo menu-text fw-bolder ms-2">Manh</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -153,6 +153,11 @@ $categories = App\Models\category::all();
                 <li class="menu-item">
                     <a href="{{route('request.listRequestBorrow')}}" class="menu-link">
                         <div data-i18n="Container">Yêu cầu mượn thiết bị</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{route('request.listAdminProvideDevice')}}" class="menu-link">
+                        <div data-i18n="Container">Admin cấp thiết bị</div>
                     </a>
                 </li>
                 <li class="menu-item">
