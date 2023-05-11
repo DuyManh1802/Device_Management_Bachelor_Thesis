@@ -81,4 +81,25 @@ class SoftwareController extends Controller
             return back()->with('error', 'Lỗi');
         }
     }
+
+    public function listSoftwareExpire()
+    {
+        $softwares = $this->softwareService->listSoftwareExpire();
+
+        return view('software.list', compact('softwares'));
+    }
+
+    public function listSoftwareOutOfUsage()
+    {
+        $softwares = $this->softwareService->listSoftwareOutOfUsage();
+
+        return view('software.list', compact('softwares'));
+    }
+
+    public function listDeviceUsage($software_id)
+    {
+        $devices = $this->softwareService->listDeviceUsage($software_id);
+
+        return view('device.list', compact('devices'));
+    }
 }

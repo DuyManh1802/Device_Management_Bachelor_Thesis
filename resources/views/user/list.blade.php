@@ -38,7 +38,7 @@
                         <td>{{ $key + 1 }}</td>
                         <td><strong>{{ $user->name }}</strong></td>
                         <td>{{ $user->email }}</td>
-                        <td><img src="{{ $user->image }}" alt=""></td>
+                        <td><img src="{{ asset('image/user' . $user->image) }}" alt=""></td>
                         <td>{{ $user->phone }}</td>
                         <td>{{ $user->address }}</td>
                         <td>

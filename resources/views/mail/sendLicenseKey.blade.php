@@ -7,7 +7,34 @@
     <title>LDM send License Key</title>
 </head>
 <body>
-    hello
+    <div class="card">
+        <p>There are license key:</p><br>
+        <div class="table-responsive text-wrap">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên phần mềm</th>
+                        <th>Phiên bản</th>
+                        <th>Licence key</th>
+
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @foreach ( $user->software_info as $key => $software )
+                    <tr>
+                        <td>{{ $key + 1 }}</td>
+                        <td><strong>{{ $software['name'] }}</strong></td>
+
+                        <td>{{ $software['version'] }}</td>
+                        <td>{{ $software['license_key'] }}</td>
+
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 </body>
 </html>

@@ -9,6 +9,7 @@ use App\Http\Requests\CreateDeviceRequest;
 use App\Http\Requests\EditDeviceRequest;
 use App\Http\Requests\CreateWarrantyRequest;
 use App\Models\Category;
+use App\Http\Requests\LiquidationRequest;
 
 class DeviceController extends Controller
 {
@@ -122,11 +123,11 @@ class DeviceController extends Controller
         return view('device.listDeviceWarranting', compact('devices'));
     }
 
-    public function listSoftwareByDevice($device_id)
+    public function listSoftwareUsage($device_id)
     {
         $softwares = $this->deviceService->listSoftwareByDevice($device_id);
 
-        return view('software.listSoftwareByDevice', compact('softwares'));
+        return view('software.list', compact('softwares'));
     }
 
     public function listDeviceWarrantiedOrRepaired()
@@ -138,9 +139,54 @@ class DeviceController extends Controller
 
     public function detailDeviceWarrantiedOrRepaired($id)
     {
+        $device = $this->deviceService->deviceWarrantiedOrRepairedById($id);
         $deviceWarrantied = $this->deviceService->detailDeviceWarrantied($id);
         $deviceRepaired = $this->deviceService->detailDeviceRepaired($id);
 
-        return view('device.detailDeviceWarrantiedOrRepaired', compact('deviceWarrantied', 'deviceRepaired'));
+        return view('device.detailDeviceWarrantiedOrRepaired', compact('deviceWarrantied', 'deviceRepaired', 'device'));
+    }
+
+    public function liquidationForm($id)
+    {
+        $devices = $this->deviceService->findId($id);
+
+        return view('device.liquidationForm', compact('devices'));
+    }
+
+    public function liquidation(LiquidationRequest $request, $id)
+    {
+        try {
+            $result = $this->deviceService->liquidation($request, $id);
+
+            if ($result){
+                return redirect()->route('device.index')->with('success', ' thành công.');
+            } else {
+                return back()->with('error', 'k thành công.');
+            }
+        } catch (Exception $exception) {
+            return back()->with('error', 'Lỗi');
+        }
+    }
+
+    public function listDeviceLiquidated()
+    {
+        $devices = $this->deviceService->listDeviceLiquidated();
+
+        return view('device.listDeviceLiquidationed', compact('devices'));
+    }
+
+    public function updateAvailable($id)
+    {
+        try {
+            $result = $this->deviceService->updateAvailable( $id);
+
+            if ($result){
+                return redirect()->route('device.index')->with('success', 'Cập nhật thành công.');
+            } else {
+                return back()->with('error', 'Cập nhật k thành công.');
+            }
+        } catch (Exception $exception) {
+            return back()->with('error', 'Lỗi');
+        }
     }
 }

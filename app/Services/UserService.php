@@ -11,6 +11,7 @@
     use App\Events\CreatedUser;
     use App\Models\Department;
     use Illuminate\Support\Str;
+    use Illuminate\Support\Facades\Auth;
 
     class UserService
     {
@@ -79,6 +80,45 @@
                 'role' => $request->role,
                 'image' => $image
             ]);
+        }
+
+        public function updateProfile(Request $request, $id)
+        {
+            $image = $request->image;
+            if ($request->hasFile('image')){
+                $file = $request->file('image');
+                $name_file = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+
+                if (strcasecmp($extension, 'jpg') || strcasecmp($extension, 'png') || strcasecmp($extension, 'jepg')){
+                    $image = Str::random(5) . '_' . $name_file;
+                    while (file_exists('image/user/' .$image)){
+                        $image = Str::random(5) . '_' . $name_file;
+                    }
+                    $file->move('image/user', $image);
+                }
+            }
+
+            return User::find($id)->update([
+                'name' => $request->name,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'image' => $image
+            ]);
+        }
+
+        public function changePassword(Request $request, $id)
+        {
+            $user = $this->findId($id);
+            if (Hash::check($request->old_password, $user->password)){
+                $user->update([
+                    'password' => Hash::make($request->new_password)
+                ]);
+
+                return true;
+            } else {
+                return false;
+            }
         }
 
         public function deleteUser($id)

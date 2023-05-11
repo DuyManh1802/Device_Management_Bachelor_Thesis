@@ -151,7 +151,11 @@
 
         public function listSoftwareByDevice($device_id)
         {
-            return Device::with('softwares')->paginate(10);
+            $id = (int)$device_id;
+            $device = Device::with('softwares')->find($id);
+            $softwares = $device->softwares()->paginate(10);
+
+            return $softwares;
         }
 
         public function listDeviceWarrantyStocking()
@@ -173,16 +177,72 @@
             ->get();
         }
 
+        public function deviceWarrantiedOrRepairedById($id)
+        {
+            return Device::with(['warranties', 'repairs'])->whereHas('warranties', function ($query) {
+                $query->where('warranty_count', '>', 0);
+            })
+            ->orWhereHas('repairs', function ($query) {
+                $query->where('repair_count', '>', 0);
+            })
+            ->find($id);
+        }
+
         public function detailDeviceWarrantied($id)
         {
             return Device::with(['warranties', 'warrantyDetails'])->whereHas('warranties', function ($query) {
                 $query->where('warranty_count', '>', 0);})->find($id);
         }
 
+
         public function detailDeviceRepaired($id)
         {
             return Device::with(['repairs', 'repairDetails', 'typeRepairs'])->whereHas('repairs', function ($query) {
                 $query->where('repair_count', '>', 0);})->find($id);
+        }
+
+        public function liquidation(Request $request, $id)
+        {
+            try {
+                DB::beginTransaction();
+                $device = Device::with(['warranties', 'repairs'])->where('id', $id)->first();
+                $device->liquidation()->create([
+                    'price' => $request->price,
+                    'note' => $request->note
+                ]);
+
+                $warranty = $device->warranties()->first();
+                $repair = $device->repairs()->first();
+                $endWarranty = $warranty->end;
+                if ($device->status == 1 && Carbon::parse($endWarranty) < Carbon::now() && $repair->repair_count > 0) {
+                    $device->delete();
+                    DB::commit();
+
+                    return true;
+                } else {
+                    DB::rollBack();
+
+                    return false;
+                }
+
+            } catch (Exception $ex){
+                DB::rollBack();
+
+                return false;
+            }
+        }
+
+        public function listDeviceLiquidated()
+        {
+            return Device::onlyTrashed()
+            ->whereHas('liquidation')
+            ->with('liquidation')
+            ->paginate(10);
+        }
+
+        public function updateAvailable($id)
+        {
+            return Device::where('id', (int)$id)->update(['status' => 1]);
         }
     }
 ?>

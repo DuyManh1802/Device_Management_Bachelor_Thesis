@@ -117,11 +117,14 @@
                             <div class="input-group input-group-merge">
                                 <button class="btn btn-outline-primary dropdown-toggle" type="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">Chọn thiết bị</button>
+                                @if($devices->count() > 0)
                                 <ul class="dropdown-menu">
                                     <select name="device_id[]" class="form-select" id="exampleFormControlSelect1"
                                         style="width: 300px" aria-label="Default select example"
                                         onchange="updateSelectedDevices()" multiple>
+
                                         @foreach ($devices as $device)
+
                                         <li class="dropdown-item">
                                             <option value="{{ $device->id }}" onclick="updateSelectedDevices(this)"
                                                 style="height: 40px" class="d-flex align-items-center">{{
@@ -130,14 +133,22 @@
                                         @endforeach
                                     </select>
                                 </ul>
+
                                 <input type="text" class="form-control" aria-label="Text input with dropdown button"
                                     name="selected_devices" id="selected_devices" />
+                                @else
+                                <input type="text" id="basic-icon-default-phone"
+                                    class="form-control phone-mask @error('department_id') is-invalid @enderror"
+                                    placeholder="department_id" aria-label="department_id"
+                                    aria-describedby="basic-icon-default-phone2" name=""
+                                    value="Không có thiết bị nào có sẵn" readonly />
+                                @endif
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <button type="submit" class="btn btn-outline-primary">Cấp</button>
+                <button type="submit" class="btn btn-outline-primary" onclick="return confirmAction();">Cấp</button>
             </div>
         </form>
     </div>

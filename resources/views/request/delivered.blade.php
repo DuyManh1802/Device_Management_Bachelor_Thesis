@@ -1,16 +1,11 @@
 @extends('layouts.app')
 @section('content')
-@php
-foreach ($users as $user) {
-$user_id = $user->user_id;
-}
 
-@endphp
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Yêu cầu /</span> Xác nhận
         đã lấy thiết bị</h4>
     <div class="card">
-        <form method="POST" action="{{ route('request.delivered', $user->user_id) }}">
+        <form method="POST" action="{{ route('request.delivered', $requests->id) }}">
             @csrf
 
             <div class="card-body">
@@ -53,7 +48,10 @@ $user_id = $user->user_id;
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-outline-primary">Xác nhận</button>
+                <input type="hidden" name="device_id" value="{{ $requests->device_id }}" required
+                    autocomplete="return_date" />
+                <button type="submit" class="btn btn-outline-primary" onclick="return confirmAction();">Xác
+                    nhận</button>
             </div>
         </form>
 

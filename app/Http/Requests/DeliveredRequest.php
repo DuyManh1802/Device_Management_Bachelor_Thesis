@@ -29,6 +29,8 @@ class DeliveredRequest extends FormRequest
             'status' => 'integer',
             'borrowed_date' => 'required|date',
             'return_date' => 'date',
+            'device_id' => 'integer'
+
         ];
     }
 }

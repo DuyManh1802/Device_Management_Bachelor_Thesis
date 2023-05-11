@@ -11,6 +11,7 @@
     use App\Models\User;
     use App\Models\DeviceSoftware;
     use App\Events\SendLecenseKey;
+    use App\Models\UseHistory;
 
     class RequestService
     {
@@ -113,7 +114,7 @@
                 foreach ($device_ids as $device_id) {
                     $request_data[] = [
                         'department_id' => (int)$department_id,
-                        'user_id' => (int)$user_id,
+                        'user_id' => $user_id,
                         'device_id' => (int)$device_id,
                         'status' => 1,
                         'type' => 4,
@@ -137,19 +138,18 @@
         }
 
 
-       public function provideLicenseKey($user_id, $device_id, Request $request)
+       public function provideLicenseKey(Request $request)
        {
-           dd(1);
            try {
-               dd(1);
                 DB::beginTransaction();
-                $user = User::where('id', $user_id)->value('id');
-                dd($user);
-                $software_ids = $request->input('software_id');
+                $user = $this->findUserId((int)$request->user_id);
+
+                $software_ids = $request->software_id;
                 $data = [];
+                $software_info = [];
                 foreach($software_ids as $software_id) {
-                    $data = [
-                        'device_id' => (int)$device_id,
+                    $data[] = [
+                        'device_id' => (int)$request->device_id,
                         'software_id' => (int)$software_id,
                         'created_at' => now(),
                         'updated_at' => now()
@@ -157,18 +157,26 @@
 
                     $software = Software::find($software_id);
                     $usage_count = $software->usage_count;
+                    $software_info[] = [
+                        'name' => $software->name,
+                        'version' => $software->version,
+                        'license_key' => $software->license_key,
+                    ];
                     $software->update([
                         'usage_count' => $usage_count - 1
                     ]);
                 }
-
                 DeviceSoftware::insert($data);
-
+                $user->software_info = $software_info;
                 event(new SendLecenseKey($user));
                 DB::commit();
+
+                return true;
             } catch (Exception $exception){
                 dd($exception);
                 DB::rollBack();
+
+                return false;
             }
        }
 
@@ -182,11 +190,21 @@
             return Department::all();
         }
 
+        public function allUser()
+        {
+            return User::all();
+        }
+
         public function listRequestBorrow()
         {
             return RequestModel::with(['department', 'user', 'device'])->where('type', 1)->whereHas('user', function($query){
                 $query->where('role', 0);
             })->paginate(10);
+        }
+
+        public function listAdminProvideDevice()
+        {
+            return RequestModel::with(['department', 'user', 'device'])->where('type', 4)->paginate(10);
         }
 
         public function listRequestReturn()
@@ -210,44 +228,63 @@
 
         public function findIdRequest($id)
         {
-            return RequestModel::find($id);
+            return RequestModel::find((int)$id);
         }
 
         public function findUserId($user_id)
         {
-            return RequestModel::where('user_id', $user_id)->get();
+            return User::find((int)$user_id);
         }
 
         public function findDevice($device_id)
         {
-            return Device::where('id', $device_id)->get();
+            return Device::find((int)$device_id);
         }
 
-        public function delivered(Request $request, $user_id)
+        public function delivered(Request $request, $id)
         {
             try {
                 DB::beginTransaction();
-                $requests = RequestModel::where('user_id', $user_id)->where('type', 4)->get();
+                $req = $this->findIdRequest($id);
 
-                foreach ($requests as $req) {
-                    RequestModel::where('confirm', $req->confirm)->update([
+                    $req->update([
                         'confirm' => 1,
                     ]);
                     $req->device()->update([
                         'status' => 0
                     ]);
                     $req->useHistory()->create([
+                        'device_id' => (int)$request->device_id,
                         'status' => 1,
                         'borrowed_date' => $request->borrowed_date,
                         'return_date' => $request->return_date
                     ]);
-                }
                 DB::commit();
             } catch (Exception $exception){
                 DB::rollBack();
             }
 
-            return $requests;
+            return $req;
+        }
+
+        public function returned(Request $request, $id)
+        {
+            try {
+                DB::beginTransaction();
+                $req = $this->findIdRequest($id);
+
+                    $req->update([
+                        'confirm' => 2
+                    ]);
+
+                    Device::where('id', $request->device_id)->update(['status' => 1]);
+                    UseHistory::where('device_id', (int)$request->device_id)->update(['status' => 0]);
+                DB::commit();
+            } catch (Exception $exception){
+                DB::rollBack();
+            }
+
+            return $req;
         }
 
         public function listDeviceBorrow()
@@ -301,5 +338,6 @@
                 $query->where('role', 0);
             })->paginate(10);
         }
+
     }
 ?>

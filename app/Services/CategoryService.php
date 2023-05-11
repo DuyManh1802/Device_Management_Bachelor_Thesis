@@ -3,6 +3,7 @@
 
     use App\Models\Category;
     use Illuminate\Http\Request;
+    use App\Models\Device;
 
     class CategoryService
     {
@@ -32,6 +33,8 @@
 
         public function deleteCategory($id)
         {
+            Device::where('category_id', (int)$id)->update(['category_id' => null]);
+
             return Category::find($id)->delete();
         }
     }

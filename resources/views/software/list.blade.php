@@ -18,7 +18,7 @@
     </div>
     @endif
     <div class="card">
-        <div class="table-responsive text-nowrap">
+        <div class="table-responsive text-wrap">
             <table class="table table-hover table-striped">
                 <thead>
                     <tr>
@@ -26,6 +26,8 @@
                         <th>Tên phần mềm</th>
                         <th>Ảnh</th>
                         <th>Phiên bản</th>
+                        <th>Licence key</th>
+                        <th>Lượt dùng</th>
                         <th>Ngày bắt đầu</th>
                         <th>Ngày hết hạn</th>
                         <th>Giá bản quyền</th>
@@ -36,10 +38,12 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td><strong>{{ $software->name }}</strong></td>
-                        <td><img src="{{ asset('image/software' . $software->image) }}" alt="" width="40px"
+                        <td><img src="{{ asset('image/software/' . $software->image) }}" alt="" width="40px"
                                 height="40px"></td>
                         <td>{{ $software->version }}
                         </td>
+                        <td>{{ $software->license_key }}</td>
+                        <td>{{ $software->usage_count }}</td>
                         <td>{{ $software->start }}</td>
                         <td>{{ $software->end }}</td>
                         <td>{{ $software->license_price }}</td>
@@ -50,6 +54,9 @@
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <div class="dropdown-menu">
+                                    <a class="dropdown-item"
+                                        href="{{ route('software.listDeviceUsage', $software->id) }}"><i
+                                            class="fas fa-laptop"></i> Thiết bị sử dụng</a>
                                     <a class="dropdown-item" href="{{ route('software.edit', $software->id) }}"><i
                                             class="bx bx-edit-alt me-1"></i> Sửa</a>
                                     <a class="dropdown-item" href="{{ route('software.delete', $software->id) }}"

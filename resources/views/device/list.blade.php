@@ -37,7 +37,7 @@
                     @foreach ( $devices as $key => $device )
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td>{{ $device->category->name }}</td>
+                        <td>{{ $device->category->name ?? ''}}</td>
                         <td><strong>{{ $device->name }}</strong></td>
                         <td><img src="{{ asset('image/device/' . $device->image) }}" alt="" width="40px" height="40px">
                         </td>
@@ -71,11 +71,29 @@
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{{ route('device.edit', $device->id) }}"><i
-                                            class="bx bx-edit-alt me-1"></i> Sửa</a>
+                                    <a class="dropdown-item"
+                                        href="{{ route('device.listSoftwareUsage', $device->id) }}">
+                                        <i class="fab fa-app-store-ios" style="color: #73b856;"></i> Phần mềm được
+                                        cấp</a>
+                                    <a class="dropdown-item" href="{{ route('device.edit', $device->id) }}">
+                                        <i class="bx bx-edit-alt me-1" style="color: #2f5dac;"></i> Sửa</a>
                                     <a class="dropdown-item" href="{{ route('device.delete', $device->id) }}"
-                                        onclick="return myFunction();"><i class="bx bx-trash me-1"></i>
+                                        onclick="return myFunction();"><i class="bx bx-trash me-1"
+                                            style="color: #2f5dac;"></i>
                                         Xóa</a>
+                                    @if ($device->status === 1)
+                                    <a class="dropdown-item" href="{{ route('device.liquidationForm', $device->id) }}">
+                                        <i class="fas fa-dollar-sign" style="color: #2f5dac;"></i>
+                                        Thanh lý</a>
+
+                                    @endif
+                                    @if($device->status == 0)
+                                    <a class="dropdown-item" href="{{ route('device.updateAvailable', $device->id) }}"
+                                        onclick="return confirmAction();">
+                                        <i class="bx bx-edit-alt me-1" style="color: #2f5dac;"></i>
+                                        Cập nhật có sẵn</a>
+                                    @endif
+
                                 </div>
                             </div>
                         </td>

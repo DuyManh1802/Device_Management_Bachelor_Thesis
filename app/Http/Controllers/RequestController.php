@@ -9,7 +9,8 @@ use App\Http\Requests\ConfirmProvideRequest;
 use App\Http\Requests\DeliveredRequest;
 use App\Http\Requests\sendBorrorRequestLicensekeyRequest;
 use App\Http\Requests\SendLicenseRequest;
-
+use PDF;
+use App\Http\Requests\ReturnedRequest;
 class RequestController extends Controller
 {
     private $requestService;
@@ -82,11 +83,32 @@ class RequestController extends Controller
         return view('request.listRequest', compact('requests'));
     }
 
+    public function generateListRequestPDF()
+    {
+        $requests = $this->requestService->listRequest();
+
+        $data = [
+            'requests' => $requests
+        ];
+
+        $pdf = PDF::loadView('pdf.listRequest', $data)->setOptions(['defaultFont' => 'Times New Roman']);
+
+        // download PDF file with download method
+        return $pdf->download('pdf_file.pdf');
+    }
+
     public function listRequestBorrow()
     {
         $requests = $this->requestService->listRequestBorrow();
 
         return view('request.listUserBorrow', compact('requests'));
+    }
+
+    public function listAdminProvideDevice()
+    {
+        $requests = $this->requestService->listAdminProvideDevice();
+
+        return view('request.listAdminProvideDevice', compact('requests'));
     }
 
     public function listRequestReturn()
@@ -153,7 +175,7 @@ class RequestController extends Controller
             $result = $this->requestService->provideDevice($request);
 
             if ($result){
-                return back()->with('success', 'Cấp thiết bị thành công.');
+                return redirect()->route('request.listRequestBorrow')->with('success', 'Cấp thiết bị thành công.');
             } else {
                 return back()->with('error', 'Cấp thiết bị k thành công.');
             }
@@ -171,30 +193,27 @@ class RequestController extends Controller
         return view('request.provideLicenseKeyForm', compact('devices', 'softwares', 'users'));
     }
 
-    public function provideLicenseKey($user_id, $device_id, SendLicenseRequest $request)
+    public function provideLicenseKey(SendLicenseRequest $request)
     {
-        dd(1);
-        $result = $this->requestService->provideLicenseKey($user_id, $device_id, $request);
 
-        // try {
-        //     $result = $this->requestService->provideLicenseKey($user_id, $device_id, $request);
-        //     dd($result);
-        //     if ($result){
-        //         return redirect()->route('request.listRequestLicenseKey')->with('success', 'Gửi License Key thành công.');
-        //     } else {
-        //         return back()->with('error', 'Gửi License Key thành công.');
-        //     }
-        // } catch (Exception $exception) {
-        //     dd($exception);
-        //     return back()->with('error', 'Lỗi');
-        // }
+        try {
+            $result = $this->requestService->provideLicenseKey($request);
+            if ($result){
+                return redirect()->route('request.listRequestLicenseKey')->with('success', 'Gửi License Key thành công.');
+            } else {
+                return back()->with('error', 'Gửi License Key thành công.');
+            }
+        } catch (Exception $exception) {
+            dd($exception);
+            return back()->with('error', 'Lỗi');
+        }
     }
 
-    public function formDelivered($user_id)
+    public function formDelivered($id)
     {
-        $users = $this->requestService->findUserId($user_id);
+        $requests = $this->requestService->findIdRequest($id);
 
-        return view('request.delivered', compact('users'));
+        return view('request.delivered', compact('requests'));
     }
 
     public function delivered(DeliveredRequest $request, $user_id)
@@ -204,6 +223,28 @@ class RequestController extends Controller
 
             if ($result){
                 return redirect()->route('request.listRequestBorrow')->with('success', 'Xác nhận thành công.');
+            } else {
+                return back()->with('error', 'Xác nhận k thành công.');
+            }
+        } catch (Exception $exception) {
+            return back()->with('error', 'Lỗi');
+        }
+    }
+
+    public function formReturned($id)
+    {
+        $requests = $this->requestService->findIdRequest($id);
+
+        return view('request.returned', compact('requests'));
+    }
+
+    public function returned(ReturnedRequest $request, $id)
+    {
+        try {
+            $result = $this->requestService->returned($request, $id);
+
+            if ($result){
+                return redirect()->route('request.listRequestReturn')->with('success', 'Xác nhận thành công.');
             } else {
                 return back()->with('error', 'Xác nhận k thành công.');
             }
@@ -246,7 +287,7 @@ class RequestController extends Controller
             $result = $this->requestService->sendBorrorRequestLicensekey($request, $device_id);
 
             if ($result){
-                return back()->with('success', 'Gửi yêu cầu thành công.');
+                return redirect()->route('home')->with('success', 'Gửi yêu cầu thành công.');
             } else {
                 return back()->with('error', 'Xác nhận k thành công.');
             }
@@ -260,5 +301,26 @@ class RequestController extends Controller
         $requests = $this->requestService->listRequestByUser();
 
         return view('request.listRequestByUser', compact('requests'));
+    }
+
+    public function adminProvideDeviceForm()
+    {
+        $departments = $this->requestService->allDepartment();
+        $users = $this->requestService->allUser();
+        $devices = $this->requestService->listDeviceAvailable();
+
+        return view('request.adminProvideDeviceForm', compact('devices', 'departments', 'users'));
+    }
+
+    public function recallDeviceForm()
+    {
+        $users = $this->requestService->allUser();
+
+        return view('request.recallDevice', compact('users', 'devices'));
+    }
+
+    public function recallDevice()
+    {
+
     }
 }

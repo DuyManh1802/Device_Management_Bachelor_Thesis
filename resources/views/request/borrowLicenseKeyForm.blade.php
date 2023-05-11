@@ -1,39 +1,32 @@
 @extends('layouts.app')
 @section('content')
-@php
-foreach ($devices as $device) {
-$device_id = $device->device_id;
-}
 
-@endphp
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Yêu cầu /</span> Gửi yêu cầu cấp license key</h4>
 
     <div class="col-xxl">
         <div class="card mb-4">
-            <form action="{{ route('request.sendBorrowRequestLicensekey', $device->id) }}" method="POST">
+            <form action="{{ route('request.sendBorrowRequestLicensekey', $devices->id) }}" method="POST">
                 @csrf
                 <div class="card-body">
-                    {{-- <div class="row mb-3">
-                        <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">{{ __('Phòng ban')
+                    <div class="row mb-3">
+                        <label class="col-sm-2 form-label" for="basic-icon-default-phone">{{ __('Tên thiết bị')
                             }}</label>
                         <div class="col-sm-10">
                             <div class="input-group input-group-merge">
-                                <select name="department_id" class="form-select" id="exampleFormControlSelect1"
-                                    aria-label="Default select example">
-                                    @foreach ($departments as $department)
-                                    <option value="{{ $department->id }}" checked>{{
-                                        $department->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('department_id')
+
+                                <input type="text" id="basic-icon-default-phone"
+                                    class="form-control phone-mask @error('') is-invalid @enderror" placeholder=""
+                                    aria-label="" aria-describedby="basic-icon-default-phone2" name=""
+                                    value="{{ $devices->name }}" readonly />
+                                @error('')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 form-label" for="basic-icon-default-phone">{{ __('Kiểu yêu cầu')

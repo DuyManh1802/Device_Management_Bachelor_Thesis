@@ -58,19 +58,20 @@
                         </td>
                         <td>{{ $device->purchase_price }}</td>
                         <td>
-                            {{-- <div class="dropdown">
+                            <div class="dropdown">
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
                                     data-bs-toggle="dropdown">
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{{ route('device.edit', $device->id) }}"><i
-                                            class="bx bx-edit-alt me-1"></i> Sửa</a>
-                                    <a class="dropdown-item" href="{{ route('device.delete', $device->id) }}"
-                                        onclick="return myFunction();"><i class="bx bx-trash me-1"></i>
-                                        Xóa</a>
+                                    @if($device->condition === 3)
+
+                                    <a class="dropdown-item"
+                                        href="{{ route('warranty.warrantyDeviceForm', $device->id) }}"><i
+                                            class="bx bx-edit-alt me-1"></i> Đã BH xong</a>
+                                    @endif
                                 </div>
-                            </div> --}}
+                            </div>
                         </td>
                     </tr>
                     @endforeach

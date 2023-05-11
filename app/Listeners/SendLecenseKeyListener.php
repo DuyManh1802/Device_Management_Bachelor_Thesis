@@ -7,7 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 use App\Events\SendLecenseKey;
 
-class SendLecenseKeyListener implements ShouldQueue
+class SendLecenseKeyListener
 {
     /**
      * Create the event listener.
@@ -28,9 +28,9 @@ class SendLecenseKeyListener implements ShouldQueue
     public function handle(SendLecenseKey $event)
     {
         $user = $event->user;
-        Mail::send('user.welcome', ['user' => $user], function ($message) use ($user) {
+        Mail::send('mail.sendLicenseKey', ['user' => $user], function ($message) use ($user) {
             $message->from(ENV('MAIL_FROM_ADDRESS'), ENV('MAIL_FROM_NAME'));
-            $message->subject('Welcome ' . $user->name . '!');
+            $message->subject('Hello ' . $user->name . '!');
             $message->to($user->email);
         });
     }

@@ -28,7 +28,8 @@ class sendBorrorRequestLicensekeyRequest extends FormRequest
             'user_id' => 'integer|exists:users,id',
             'type' => 'required|integer',
             'note' => 'required|string',
-            'start_date' => 'required'
+            'start_date' => 'required',
+            'device_id' => 'integer'
         ];
     }
 }

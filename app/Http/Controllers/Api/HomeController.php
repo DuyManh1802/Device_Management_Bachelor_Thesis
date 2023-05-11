@@ -34,4 +34,14 @@ class HomeController extends Controller
             'result' => $requests
         ));
     }
+
+    public function getRequestByDay()
+    {
+        $requests = $this->homeService->getRequestByDay();
+
+        return response()->json(array(
+            'code'  => 200,
+            'result' => $requests
+        ));
+    }
 }

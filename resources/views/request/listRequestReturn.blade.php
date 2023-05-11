@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Yêu cầu /</span> Danh sách yêu cầu mượn thiết bị
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Yêu cầu /</span> Danh sách yêu cầu trả thiết bị
     </h4>
     @if (session('success'))
     <div class="text-center" role="alert">
@@ -24,18 +24,18 @@
                 <thead>
                     <tr>
                         <th>STT</th>
-                        <th>Phòng</th>
                         <th>Người gửi</th>
                         <th>Thể loại</th>
                         <th>Trạng thái</th>
                         <th>Kết quả</th>
+                        <th>Đã trả</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
                     @foreach ( $requests as $key => $req )
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td>{{ $req->department->name }}</td>
                         <td><strong>{{ $req->user->name }}</strong></td>
                         <td>
                             @if ($req->type == 0)
@@ -69,15 +69,22 @@
                             <span class="badge bg-label-warning me-1">Chưa xử lý</span>
                             @endif
                         </td>
-                        </td>
+                        @if($req->type == 4 || $req->type == 0)
+
                         <td>@if ($req->confirm === 0)
                             <span class="badge bg-label-warning me-1">Chưa lấy</span>
                             @elseif ($req->confirm === 1)
                             <span class="badge bg-label-success me-1">Đã lấy</span>
+                            @elseif ($req->confirm === 2)
+                            <span class="badge bg-label-success me-1">Đã trả</span>
                             @else
                             <span class="badge bg-label-warning me-1">Không xác định</span>
                             @endif
                         </td>
+                        @else
+                        <td></td>
+                        @endif
+
                         <td>
                             @if ($req->result == 1)
 
@@ -87,7 +94,7 @@
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <div class="dropdown-menu">
-                                    @if($req->status == 0)
+                                    @if($req->status != 1)
                                     <a class="dropdown-item" href="{{ route('request.approveRequest', $req->id) }}"
                                         onclick="return confirmAction();"><i class="fas fa-check-double me-1"></i>
                                         Đồng ý</a>
@@ -96,14 +103,11 @@
                                         Từ chối</a>
                                     @endif
 
-                                    @if($req->status == 1 || $req->result == 1)
                                     @if ($req->result == 1 && $req->status == 1 && $req->type == 0)
-                                    <a class="dropdown-item"
-                                        href="{{ route('request.formDelivered', $req->user_id) }}"><i
+                                    <a class="dropdown-item" href="{{ route('request.formReturned', $req->id) }}"><i
                                             class="far fa-check-circle me-1"></i> Đã trả
                                         thiết
                                         bị</a>
-                                    @endif
                                     @endif
                                 </div>
                             </div>

@@ -31,18 +31,21 @@
                 DB::beginTransaction();
                 $warranty = Warranty::find($id);
 
-                $warranty->warrantyDetail()->create([
+                $warranty->warrantyDetails()->create([
                     'result' => $request->result,
                     'content' => $request->content
                 ]);
 
                 Device::where('id', $device_id)->update(['condition' => 1]);
                 DB::commit();
+
+                return true;
             } catch (Exception $exception){
                 DB::rollBack();
+
+                return false;
             }
 
-            return $warranty;
         }
     }
 ?>

@@ -19,17 +19,20 @@
     @endif
     <div class="card">
         <div class="d-flex justify-content-end p-3">
-            <a href="{{ route('request.listRequestBorrow') }}" class="m-1">
+            <a href="{{ route('request.adminProvideDeviceForm') }}" class="m-1">
                 <button type="button" class="btn btn-outline-primary">Cấp thiết bị</button>
             </a>
 
-            <a href="" class="m-1">
+            <a href="{{ URL::to('/requests/generate-pdf')}}" class="m-1">
+                <button type="button" class="btn btn-outline-primary">Xuất PDF</button>
+            </a>
+            {{-- <a href="" class="m-1">
                 <button type="button" class="btn btn-outline-primary">Gửi licence key</button>
             </a>
 
-            <a href="" class="m-1">
+            <a href="{{ route('request.recallDeviceForm') }}" class="m-1">
                 <button type="button" class="btn btn-outline-primary">Thu hồi thiết bị</button>
-            </a>
+            </a> --}}
         </div>
         <div class="table-responsive ">
             <table class="table table-hover table-striped">
@@ -43,13 +46,14 @@
                         <th>Ngày gửi yêu cầu</th>
                         <th>Trạng thái</th>
                         <th>Kết quả</th>
+                        <th>Đã lấy</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
                     @foreach ( $requests as $key => $req )
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td>{{ $req->department->name }}</td>
+                        <td>{{ $req->department->name ?? '' }}</td>
                         <td><strong>{{ $req->user->name }}</strong></td>
                         <td>
                             @if ($req->type == 0)
@@ -84,7 +88,21 @@
                             <span class="badge bg-label-warning me-1">Chưa xử lý</span>
                             @endif
                         </td>
+                        @if($req->type == 4 || $req->type == 0)
+
+                        <td>@if ($req->confirm === 0)
+                            <span class="badge bg-label-warning me-1">Chưa lấy</span>
+                            @elseif ($req->confirm === 1)
+                            <span class="badge bg-label-success me-1">Đã lấy</span>
+                            @elseif ($req->confirm === 2)
+                            <span class="badge bg-label-success me-1">Đã trả</span>
+                            @else
+                            <span class="badge bg-label-warning me-1">Không xác định</span>
+                            @endif
                         </td>
+                        @else
+                        <td></td>
+                        @endif
                         <td>
                             <div class="dropdown">
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -101,27 +119,25 @@
                                         Từ chối</a>
                                     @endif
 
-                                    @if($req->status == 1 || $req->result == 1)
-                                    @if ($req->result == 1 && $req->status == 1 && $req->type == 4 || $req->type == 1)
+                                    @if ($req->result == 1 && $req->status == 1 && $req->type == 1)
                                     <a class="dropdown-item"
                                         href="{{ route('request.provideDeviceForm', $req->id) }}"><i
                                             class="fas fa-check-double me-1"></i>
                                         Cấp thiết bị</a>
+                                    @endif
 
-                                    @if($req->confirm == 1)
-                                    <a class="dropdown-item"
-                                        href="{{ route('request.formDelivered', $req->user_id) }}"><i
+                                    @if($req->type === 4)
+                                    <a class="dropdown-item" href="{{ route('request.formDelivered', $req->id) }}"><i
                                             class="far fa-check-circle me-1"></i> Đã lấy
                                         thiết
                                         bị</a>
                                     @endif
-                                    @endif
 
                                     @if ($req->result == 1 && $req->status == 1 && $req->type == 0)
-                                    <a class="dropdown-item" href="#"><i class="far fa-check-circle me-1"></i> Đã trả
+                                    <a class="dropdown-item" href="{{ route('request.formReturned', $req->id) }}"><i
+                                            class="far fa-check-circle me-1"></i> Đã trả
                                         thiết
                                         bị</a>
-                                    @endif
                                     @endif
                                 </div>
                             </div>

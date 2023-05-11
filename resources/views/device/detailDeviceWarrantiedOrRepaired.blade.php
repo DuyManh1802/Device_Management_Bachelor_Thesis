@@ -26,27 +26,27 @@
                             </thead>
                             <tbody class="table-border-bottom-0">
                                 <tr>
-                                    <td><strong>{{ $deviceWarrantied->name }}</strong></td>
-                                    <td><img src="{{ asset('image/device/' . $deviceWarrantied->image) }}" alt=""
-                                            width="40px" height="40px">
+                                    <td><strong>{{ $device->name }}</strong></td>
+                                    <td><img src="{{ asset('image/device/' . $device->image) }}" alt="" width="40px"
+                                            height="40px">
                                     </td>
-                                    <td>{{ $deviceWarrantied->color }}</td>
-                                    <td>{{ $deviceWarrantied->configuration }}</td>
+                                    <td>{{ $device->color }}</td>
+                                    <td>{{ $device->configuration }}</td>
                                     <td>
-                                        @if ($deviceWarrantied->condition === 1)
+                                        @if ($device->condition === 1)
                                         <span class="badge bg-label-success me-1">Bình thường</span>
-                                        @elseif ($deviceWarrantied->condition === 0)
+                                        @elseif ($device->condition === 0)
                                         <span class="badge bg-label-warning me-1">Đang hỏng</span>
-                                        @elseif ($deviceWarrantied->condition === 2)
+                                        @elseif ($device->condition === 2)
                                         <span class="badge bg-label-warning me-1">Đang sửa chữa</span>
-                                        @elseif ($deviceWarrantied->condition === 3)
+                                        @elseif ($device->condition === 3)
                                         <span class="badge bg-label-warning me-1">Đang bảo hành</span>
                                         @else
                                         <span class="badge bg-label-info me-1">Không xác định</span>
                                         @endif
                                     </td>
-                                    <td>{{ $deviceWarrantied->purchase_price }}</td>
-                                    @foreach ($deviceWarrantied->warranties as $warranty)
+                                    <td>{{ $device->purchase_price }}</td>
+                                    @foreach ($device->warranties as $warranty)
 
                                     <td>
                                         @php
@@ -57,7 +57,7 @@
                                     </td>
                                     <td>{{ $warranty->warranty_count }}</td>
                                     @endforeach
-                                    @foreach($deviceWarrantied->repairs as $repair)
+                                    @foreach($device->repairs as $repair)
                                     <td>{{ $repair->repair_count }}</td>
                                     @endforeach
                                 </tr>
@@ -65,8 +65,9 @@
                         </table>
                     </div>
                 </div>
-            </div>
 
+            </div>
+            @if($deviceWarrantied != null)
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Thông tin bảo hành</h5>
@@ -98,6 +99,13 @@
                     </div>
                 </div>
             </div>
+            @else
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Thiết bị này chưa từng bảo hành</h5>
+            </div>
+            @endif
+
+            @if($deviceRepaired != null)
 
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -141,6 +149,11 @@
                     </div>
                 </div>
             </div>
+            @else
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Thiết bị này chưa từng sửa chữa</h5>
+            </div>
+            @endif
         </div>
     </div>
 </div>

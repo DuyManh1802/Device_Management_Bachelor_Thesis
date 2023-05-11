@@ -158,7 +158,7 @@
                     </div>
 
                 </div>
-                <button type="submit" class="btn btn-outline-primary">Thêm</button>
+                <button type="submit" class="btn btn-outline-primary" onclick="return confirmAction();">Thêm</button>
             </div>
         </form>
     </div>

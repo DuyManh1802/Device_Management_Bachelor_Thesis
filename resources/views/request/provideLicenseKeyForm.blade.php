@@ -1,14 +1,5 @@
 @extends('layouts.app')
 @section('content')
-@php
-foreach ($devices as $device) {
-$device_id = $device->id;
-}
-
-foreach ($users as $user) {
-$user_id = $user->user_id;
-}
-@endphp
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Yêu cầu /</span> Cấp license key</h4>
 
@@ -17,7 +8,43 @@ $user_id = $user->user_id;
             <form action="{{ route('request.provideLicenseKey') }}" method="POST">
                 @csrf
                 <div class="card-body">
-
+                    <div class="row mb-3">
+                        <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">{{ __('Người gửi yêu
+                            cầu')
+                            }}</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <input type="text" id="basic-icon-default-phone"
+                                    class="form-control phone-mask @error('user_id') is-invalid @enderror"
+                                    placeholder="user_id" aria-label="user_id"
+                                    aria-describedby="basic-icon-default-phone2" value="{{ $users->name }}" required
+                                    autocomplete="user_id" readonly />
+                                @error('user_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">{{ __('Thiết bị cần cấp')
+                            }}</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <input type="text" id="basic-icon-default-phone"
+                                    class="form-control phone-mask @error('user_id') is-invalid @enderror"
+                                    placeholder="user_id" aria-label="user_id"
+                                    aria-describedby="basic-icon-default-phone2" value="{{ $devices->name }}" required
+                                    autocomplete="user_id" readonly />
+                                @error('user_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
                     <div class="row mb-3">
                         <label for="exampleFormControlSelect2" class="col-sm-2 col-form-label">{{ __('Phần mềm')
                             }}</label>
@@ -26,6 +53,7 @@ $user_id = $user->user_id;
                             <div class="input-group input-group-merge">
                                 <button class="btn btn-outline-primary dropdown-toggle" type="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">Chọn Phần mềm</button>
+                                @if($softwares->count() > 0)
                                 <ul class="dropdown-menu">
                                     <select name="software_id[]" class="form-select" id="exampleFormControlSelect2"
                                         style="width: 300px" aria-label="Default select example"
@@ -41,17 +69,26 @@ $user_id = $user->user_id;
                                 </ul>
                                 <input type="text" class="form-control" aria-label="Text input with dropdown button"
                                     name="selected_softwares" id="selected_softwares" />
+                                @else
+                                <input type="text" id="basic-icon-default-phone"
+                                    class="form-control phone-mask @error('department_id') is-invalid @enderror"
+                                    placeholder="department_id" aria-label="department_id"
+                                    aria-describedby="basic-icon-default-phone2" name=""
+                                    value="Không có phần mềm nào còn luợt sử dụng license key" readonly />
+                                @endif
                             </div>
                         </div>
                     </div>
 
-                    {{-- <input type="hidden" class="form-control" aria-label="Text input with dropdown button"
-                        name="user_id" value="{{ $user_id }}" /> --}}
                     <input type="hidden" class="form-control" aria-label="Text input with dropdown button"
-                        name="device_id" value="{{ $device_id }}" />
+                        name="user_id" value="{{ $users->id }}" />
+                    <input type="hidden" class="form-control" aria-label="Text input with dropdown button"
+                        name="device_id" value="{{ $devices->id }}" />
+
                     <div class="row justify-content-end">
                         <div class="col-sm-10">
-                            <button type="submit" class="btn btn-primary">Cấp</button>
+                            <button type="submit" class="btn btn-outline-primary"
+                                onclick="return confirmAction();">Cấp</button>
                         </div>
                     </div>
                 </div>
@@ -60,7 +97,7 @@ $user_id = $user->user_id;
     </div>
 </div>
 
-{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 {{-- <script>
     $('form').on('submit', function(e) {

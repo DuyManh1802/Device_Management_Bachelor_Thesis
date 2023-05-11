@@ -184,11 +184,26 @@
                                         </g>
                                     </svg>
                                 </span>
-                                <span class="app-brand-text demo text-body fw-bolder">Sneat</span>
+                                <span class="app-brand-text demo text-body fw-bolder">Manh</span>
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-2">Welcome to Sneat! 👋</h4>
+                        @if (session('success'))
+                        <div class="text-center" role="alert">
+                            <h4 class="alert alert-success">{{ session('success') }}</h4>
+                        </div>
+                        @endif
+                        @if (session('error'))
+                        <div class="text-center" role="alert">
+                            <h4 class="alert alert-danger">{{ session('error') }}</h4>
+                        </div>
+                        @endif
+                        @if (session('alert'))
+                        <div class="text-center" role="alert">
+                            <h4 class="alert alert-danger">{{ session('alert') }}</h4>
+                        </div>
+                        @endif
+                        <h4 class="mb-2">Welcome to Website! 👋</h4>
                         <p class="mb-4">Please sign-in to your account</p>
 
                         <form id="formAuthentication" class="mb-3" action="{{ route('login') }}" method="POST">
@@ -209,7 +224,7 @@
                                     <label class="form-label" for="password">{{
                                         __('Password') }}</label>
                                     @if (Route::has('password.request'))
-                                    <a href="{{ route('password.request') }}">
+                                    <a href="{{ route('forget.password.get') }}">
 
                                         <small>{{ __('Forgot Your Password?') }}</small>
                                     </a>
