@@ -1,248 +1,261 @@
 <?php
-    namespace App\Services;
+namespace App\Services;
 
-    use App\Models\Device;
-    use App\Models\Category;
-    use Illuminate\Http\Request;
-    use Illuminate\Support\Str;
-    use Illuminate\Support\Facades\DB;
-    use Exception;
-    use Carbon\Carbon;
-    use App\Models\Warranty;
+use App\Models\Device;
+use App\Models\Category;
+use App\Repositories\Device\DeviceRepositoryInterface;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Exception;
+use Carbon\Carbon;
+use App\Models\Warranty;
 
-    class DeviceService
+class DeviceService
+{
+    protected $deviceRepository;
+
+    public function __construct(DeviceRepositoryInterface $deviceRepository)
     {
-        public function allDevice()
-        {
-            return Device::paginate(10);
-        }
+        $this->deviceRepository = $deviceRepository;
+    }
 
-        public function allCategory()
-        {
-            return Category::all();
-        }
+    public function allDevice()
+    {
+        return $this->deviceRepository->getDevices();
+    }
 
-        public function storeDevice(Request $request, Request $req)
-        {
-            $image = $request->image;
-            if ($request->hasFile('image')){
-                $file = $request->file('image');
-                $name_file = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
+    public function allCategory()
+    {
+        return Category::all();
+    }
 
-                if (strcasecmp($extension, 'jpg') || strcasecmp($extension, 'png') || strcasecmp($extension, 'jepg')){
-                    $image = Str::random(5) ."_". $name_file;
-                    while (file_exists("image/device/" .$image)){
-                        $image = Str::random(5) ."_". $name_file;
-                    }
-                    $file->move('image/device', $image);
+    public function storeDevice(Request $request, Request $req)
+    {
+        $image = $request->image;
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $name_file = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+
+            if (strcasecmp($extension, 'jpg') || strcasecmp($extension, 'png') || strcasecmp($extension, 'jepg')) {
+                $image = Str::random(5) . "_" . $name_file;
+                while (file_exists("image/device/" . $image)) {
+                    $image = Str::random(5) . "_" . $name_file;
                 }
+                $file->move('image/device', $image);
             }
-
-            try {
-                DB::beginTransaction();
-
-                $device = Device::create([
-                    'category_id' => $request->category_id,
-                    'name' => $request->name,
-                    'configuration' => $request->configuration,
-                    'image' => $image,
-                    'color' => $request->color,
-                    'purchase_price' => $request->purchase_price
-                ]);
-
-                $device->warranties()->create([
-                    'type' => $req->type,
-                    'start' => $req->start,
-                    'end' => $req->end,
-                    'warranty_count' => 0
-                ]);
-
-                $device->repairs()->create([
-                    'repair_count' => 0
-                ]);
-
-                DB::commit();
-            } catch (Exception $ex){
-                DB::rollBack();
-            }
-
-            return $device;
         }
 
-        public function findId($id)
-        {
-            return Device::find($id);
+        try {
+            DB::beginTransaction();
+
+            $device = Device::create([
+                'category_id' => $request->category_id,
+                'name' => $request->name,
+                'configuration' => $request->configuration,
+                'image' => $image,
+                'color' => $request->color,
+                'purchase_price' => $request->purchase_price
+            ]);
+
+            $device->warranties()->create([
+                'type' => $req->type,
+                'start' => $req->start,
+                'end' => $req->end,
+                'warranty_count' => 0
+            ]);
+
+            $device->repairs()->create([
+                'repair_count' => 0
+            ]);
+
+            DB::commit();
+        } catch (Exception $ex) {
+            DB::rollBack();
         }
 
-        public function updateDevice(Request $request, $id)
-        {
-            $image = $request->image;
-            if ($request->hasFile('image')){
-                $file = $request->file('image');
-                $name_file = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
+        return $device;
+    }
 
-                if (strcasecmp($extension, 'jpg') || strcasecmp($extension, 'png') || strcasecmp($extension, 'jepg')){
-                    $image = Str::random(5) ."_". $name_file;
-                    while (file_exists("image/device/" .$image)){
-                        $image = Str::random(5) ."_". $name_file;
-                    }
-                    $file->move('image/device', $image);
+    public function findId($id)
+    {
+        return Device::find($id);
+    }
+
+    public function updateDevice(Request $request, $id)
+    {
+        $image = $request->image;
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $name_file = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+
+            if (strcasecmp($extension, 'jpg') || strcasecmp($extension, 'png') || strcasecmp($extension, 'jepg')) {
+                $image = Str::random(5) . "_" . $name_file;
+                while (file_exists("image/device/" . $image)) {
+                    $image = Str::random(5) . "_" . $name_file;
                 }
+                $file->move('image/device', $image);
             }
-
-            try {
-                DB::beginTransaction();
-                $device = Device::find($id)->update([
-                    'category_id' => $request->category_id,
-                    'name' => $request->name,
-                    'configuration' => $request->configuration,
-                    'image' => $image,
-                    'color' => $request->color,
-                ]);
-
-                DB::commit();
-            } catch (Exception $ex){
-                DB::rollBack();
-            }
-
-            return $device;
         }
 
-        public function deleteDevice($id)
-        {
-            try {
-                DB::beginTransaction();
-                $device = Device::find($id);
-                $device->warranties()->delete();
-                $device->delete();
+        try {
+            DB::beginTransaction();
+            $device = Device::find($id)->update([
+                'category_id' => $request->category_id,
+                'name' => $request->name,
+                'configuration' => $request->configuration,
+                'image' => $image,
+                'color' => $request->color,
+            ]);
 
-                DB::commit();
-            } catch (Exception $ex){
-                DB::rollBack();
-            }
-
-            return $device;
+            DB::commit();
+        } catch (Exception $ex) {
+            DB::rollBack();
         }
 
-        // public public function showByCategory()
-        // {
-        //     $category = new Category;
-        //     $devices = $category->devices;
+        return $device;
+    }
 
-        //     return $devices;
-        // }
+    public function deleteDevice($id)
+    {
+        try {
+            DB::beginTransaction();
+            $device = Device::find($id);
+            $device->warranties()->delete();
+            $device->delete();
 
-        public function listDeviceRepairing()
-        {
-            return Device::where('condition', 2)->get();
+            DB::commit();
+        } catch (Exception $ex) {
+            DB::rollBack();
         }
 
-        public function listDeviceBrokening()
-        {
-            return Device::with('warranties')->whereIn('condition', [0, 2, 3])->get();
-        }
+        return $device;
+    }
 
-        public function listDeviceWarranting()
-        {
-            return Device::where('condition', 3)->get();
-        }
+    // public public function showByCategory()
+    // {
+    //     $category = new Category;
+    //     $devices = $category->devices;
 
-        public function listSoftwareByDevice($device_id)
-        {
-            $id = (int)$device_id;
-            $device = Device::with('softwares')->find($id);
-            $softwares = $device->softwares()->paginate(10);
+    //     return $devices;
+    // }
 
-            return $softwares;
-        }
+    public function listDeviceRepairing()
+    {
+        return Device::where('condition', 2)->get();
+    }
 
-        public function listDeviceWarrantyStocking()
-        {
-            return Device::with(['warranties' => function($query) {
+    public function listDeviceBrokening()
+    {
+        return Device::with('warranties')->whereIn('condition', [0, 2, 3])->get();
+    }
+
+    public function listDeviceWarranting()
+    {
+        return Device::where('condition', 3)->get();
+    }
+
+    public function listSoftwareByDevice($device_id)
+    {
+        $id = (int) $device_id;
+        $device = Device::with('softwares')->find($id);
+        $softwares = $device->softwares()->paginate(10);
+
+        return $softwares;
+    }
+
+    public function listDeviceWarrantyStocking()
+    {
+        return Device::with([
+            'warranties' => function ($query) {
                 $query->where('start_date', '<=', Carbon::now())
-                      ->where('end_date', '>=', Carbon::now());
-            }])->get();
-        }
+                    ->where('end_date', '>=', Carbon::now());
+            }
+        ])->get();
+    }
 
-        public function listDeviceWarrantiedOrRepaired()
-        {
-            return Device::with(['warranties', 'repairs'])->whereHas('warranties', function ($query) {
-                $query->where('warranty_count', '>', 0);
-            })
+    public function listDeviceWarrantiedOrRepaired()
+    {
+        return Device::with(['warranties', 'repairs'])->whereHas('warranties', function ($query) {
+            $query->where('warranty_count', '>', 0);
+        })
             ->orWhereHas('repairs', function ($query) {
                 $query->where('repair_count', '>', 0);
             })
             ->get();
-        }
+    }
 
-        public function deviceWarrantiedOrRepairedById($id)
-        {
-            return Device::with(['warranties', 'repairs'])->whereHas('warranties', function ($query) {
-                $query->where('warranty_count', '>', 0);
-            })
+    public function deviceWarrantiedOrRepairedById($id)
+    {
+        return Device::with(['warranties', 'repairs'])->whereHas('warranties', function ($query) {
+            $query->where('warranty_count', '>', 0);
+        })
             ->orWhereHas('repairs', function ($query) {
                 $query->where('repair_count', '>', 0);
             })
             ->find($id);
-        }
+    }
 
-        public function detailDeviceWarrantied($id)
-        {
-            return Device::with(['warranties', 'warrantyDetails'])->whereHas('warranties', function ($query) {
-                $query->where('warranty_count', '>', 0);})->find($id);
-        }
+    public function detailDeviceWarrantied($id)
+    {
+        return Device::with(['warranties', 'warrantyDetails'])->whereHas('warranties', function ($query) {
+            $query->where('warranty_count', '>', 0);
+        })->find($id);
+    }
 
 
-        public function detailDeviceRepaired($id)
-        {
-            return Device::with(['repairs', 'repairDetails', 'typeRepairs'])->whereHas('repairs', function ($query) {
-                $query->where('repair_count', '>', 0);})->find($id);
-        }
+    public function detailDeviceRepaired($id)
+    {
+        return Device::with(['repairs', 'repairDetails', 'typeRepairs'])->whereHas('repairs', function ($query) {
+            $query->where('repair_count', '>', 0);
+        })->find($id);
+    }
 
-        public function liquidation(Request $request, $id)
-        {
-            try {
-                DB::beginTransaction();
-                $device = Device::with(['warranties', 'repairs'])->where('id', $id)->first();
-                $device->liquidation()->create([
-                    'price' => $request->price,
-                    'note' => $request->note
-                ]);
+    public function liquidation(Request $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+            $device = Device::with(['warranties', 'repairs'])->where('id', $id)->first();
+            $device->liquidation()->create([
+                'price' => $request->price,
+                'note' => $request->note
+            ]);
 
-                $warranty = $device->warranties()->first();
-                $repair = $device->repairs()->first();
-                $endWarranty = $warranty->end;
-                if ($device->status == 1 && Carbon::parse($endWarranty) < Carbon::now() && $repair->repair_count > 0) {
-                    $device->delete();
-                    DB::commit();
+            $warranty = $device->warranties()->first();
+            $repair = $device->repairs()->first();
+            $endWarranty = $warranty->end;
+            if ($device->status == 1 && Carbon::parse($endWarranty) < Carbon::now() && $repair->repair_count > 0) {
+                $device->delete();
+                DB::commit();
 
-                    return true;
-                } else {
-                    DB::rollBack();
-
-                    return false;
-                }
-
-            } catch (Exception $ex){
+                return true;
+            } else {
                 DB::rollBack();
 
                 return false;
             }
-        }
 
-        public function listDeviceLiquidated()
-        {
-            return Device::onlyTrashed()
+        } catch (Exception $ex) {
+            DB::rollBack();
+
+            return false;
+        }
+    }
+
+    public function listDeviceLiquidated()
+    {
+        return Device::onlyTrashed()
             ->whereHas('liquidation')
             ->with('liquidation')
             ->paginate(10);
-        }
-
-        public function updateAvailable($id)
-        {
-            return Device::where('id', (int)$id)->update(['status' => 1]);
-        }
     }
+
+    public function updateAvailable($id)
+    {
+        return Device::where('id', (int) $id)->update(['status' => 1]);
+    }
+}
 ?>
+
