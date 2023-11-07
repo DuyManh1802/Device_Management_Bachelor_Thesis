@@ -24,15 +24,21 @@ class Device extends Model
 
     protected $table = 'devices';
     protected $fillable = [
+        'id',
+        'category_id',
         'name',
-        'configuration',
         'image',
-        'status',
         'color',
         'configuration',
-        'category_id',
+        'status',
+        'condition',
         'purchase_price',
-        'condition'
+        'created_at',
+        'updated_at'
+    ];
+
+    protected $hidden = [
+        'deleted_at'
     ];
 
     public function repairs()
